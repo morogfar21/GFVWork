@@ -1,0 +1,194 @@
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Clock_1.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Clock_1.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Clock_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Clock_1.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Clock_1.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Cm3Start.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Cm3Start.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyDmac.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter_cfg.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Cm3Start.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyDmac.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter_cfg.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/CyDmac.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyDmac.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyDmac.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyDmac.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/CyFlash.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/CyLib.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/CySpc.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_1.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_2.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_3.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_4.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_EN.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_LN1.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/Pin_LN2.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2_aliases.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/SPIM.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PVT.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PVT.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/SPIM_INT.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_INT.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PVT.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_INT.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/SPIM_PM.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PM.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PVT.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PM.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/UART_1.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_IntClock.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_IntClock.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/UART_1_BOOT.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_BOOT.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_BOOT.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/UART_1_INT.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_INT.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_INT.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/UART_1_IntClock.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_IntClock.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_IntClock.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_IntClock.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/UART_1_PM.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_PM.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_PM.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/cyPm.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/cy_em_eeprom.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cy_em_eeprom.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cy_em_eeprom.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cy_em_eeprom.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cy_em_eeprom.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/cyfitter_cfg.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter_cfg.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter_cfg.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter_cfg.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/cymetadata.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cymetadata.c 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cymetadata.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/cyutils.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyutils.c 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyutils.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/isr_uart_rx.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/isr_uart_rx.c C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/isr_uart_rx.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/cyapicallbacks.h 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/isr_uart_rx.c : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/isr_uart_rx.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/CortexM3/ARM_GCC_541/Debug/main.o : C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cmsis_armcc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cmsis_gcc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cm3.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cm3_psoc5.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cmFunc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cmInstr.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydisabledsheets.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/project.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Clock_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyDmac.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyFlash.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CyLib.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/CySpc.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_1_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_2_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_3_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_4_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_EN_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN1_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/Pin_LN2_aliases.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/SPIM_PVT.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/UART_1_IntClock.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyPm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cy_em_eeprom.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydevice_trm.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cyfitter_cfg.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cypins.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cytypes.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/isr_uart_rx.h C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/main.c 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cmsis_armcc.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cmsis_gcc.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cm3.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cm3_psoc5.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cmFunc.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/core_cmInstr.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/cydisabledsheets.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/Generated_Source/PSoC5/project.h : 
+
+C:/3.\ semester/GFV/SPI/SPI_Master.cydsn/main.c : 
+

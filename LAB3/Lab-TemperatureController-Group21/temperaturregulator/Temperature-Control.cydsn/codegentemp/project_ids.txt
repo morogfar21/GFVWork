@@ -1,0 +1,5 @@
+C:\3. semester\GFV\temperaturregulator\Temperature-Control.cydsn\Temperature-Control.cyprj|dbc5e269-4886-4ba5-af13-4b47b9ca9f18
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|d2ba742d-fa84-4443-92a7-1a48dbd4083d
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|2c83a626-60c9-4ab0-a563-b884d5875525
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|fea376c9-1a2b-45d8-8d0a-15919881ffad
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|b410ffc4-abf0-4879-8632-b10a2d572ddf

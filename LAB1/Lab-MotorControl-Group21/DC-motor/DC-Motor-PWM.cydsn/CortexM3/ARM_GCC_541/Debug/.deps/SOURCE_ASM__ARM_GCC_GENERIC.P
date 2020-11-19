@@ -1,0 +1,10 @@
+C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/CortexM3/ARM_GCC_541/Debug/CyBootAsmGnu.o : C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+
+C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+
+C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+
+C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+
+C:/Users/cendi/OneDrive/Dokumenter/Marcus\ ting/Skoleting/3.Semester/GFV/LAB1/Lab-MotorControl-Group21/DC-motor/DC-Motor-PWM.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+

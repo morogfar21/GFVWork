@@ -1,0 +1,5 @@
+I denne mappe er der PSoC projekt af øvelsen.
+*Der er en journal for øvelsen.
+*Der er en Matlab-fil, hvor de hentede data fra øvelsen plottes.
+BEMÆRK! Dele af plots er udkommenteret i filen. Udkommenteringen kan fjernes, og den sidste linje med legend-funktionen kan bruges i stedet.
+*Rådata med tekst-filerne, der er captured fra RealTerm indgår også i mappen.

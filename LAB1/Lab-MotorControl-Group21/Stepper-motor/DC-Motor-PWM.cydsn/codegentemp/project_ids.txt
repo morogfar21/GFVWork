@@ -1,0 +1,5 @@
+C:\3. semester\GFV\kode\LAB1-3\DC-Motor-PWM.cydsn\DC-Motor-PWM.cyprj|27faa86c-5afc-41d6-a8bd-0376bc6d0d3a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|bb9d9838-b814-4847-9fa1-82c43cc8221b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|57be2250-4eea-4c3e-befd-2e2623c792f3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|539b62cd-d5aa-4306-99c7-ad747dabce92
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|03b9b3fc-14ac-488b-aa27-6c2cb7c56bf7

@@ -1,0 +1,1776 @@
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_metadata
+  20              		.global	cy_meta_flashprotect
+  21              		.global	cy_meta_wonvl
+  22              		.global	cy_meta_custnvl
+  23              		.global	cy_meta_configecc
+  24              		.section	.cyconfigecc,"a",%progbits
+  25              		.align	2
+  26              		.type	cy_meta_configecc, %object
+  27              		.size	cy_meta_configecc, 1208
+  28              	cy_meta_configecc:
+  29 0000 05       		.byte	5
+  30 0001 52       		.byte	82
+  31 0002 00       		.byte	0
+  32 0003 40       		.byte	64
+  33 0004 01       		.byte	1
+  34 0005 64       		.byte	100
+  35 0006 00       		.byte	0
+  36 0007 40       		.byte	64
+  37 0008 03       		.byte	3
+  38 0009 65       		.byte	101
+  39 000a 00       		.byte	0
+  40 000b 40       		.byte	64
+  41 000c 02       		.byte	2
+  42 000d 05       		.byte	5
+  43 000e 01       		.byte	1
+  44 000f 40       		.byte	64
+  45 0010 53       		.byte	83
+  46 0011 08       		.byte	8
+  47 0012 01       		.byte	1
+  48 0013 40       		.byte	64
+  49 0014 33       		.byte	51
+  50 0015 09       		.byte	9
+  51 0016 01       		.byte	1
+  52 0017 40       		.byte	64
+  53 0018 02       		.byte	2
+  54 0019 0B       		.byte	11
+  55 001a 01       		.byte	1
+  56 001b 40       		.byte	64
+  57 001c 02       		.byte	2
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 2
+
+
+  58 001d 15       		.byte	21
+  59 001e 01       		.byte	1
+  60 001f 40       		.byte	64
+  61 0020 01       		.byte	1
+  62 0021 17       		.byte	23
+  63 0022 01       		.byte	1
+  64 0023 40       		.byte	64
+  65 0024 44       		.byte	68
+  66 0025 18       		.byte	24
+  67 0026 01       		.byte	1
+  68 0027 40       		.byte	64
+  69 0028 42       		.byte	66
+  70 0029 19       		.byte	25
+  71 002a 01       		.byte	1
+  72 002b 40       		.byte	64
+  73 002c 60       		.byte	96
+  74 002d 1A       		.byte	26
+  75 002e 01       		.byte	1
+  76 002f 40       		.byte	64
+  77 0030 4C       		.byte	76
+  78 0031 1B       		.byte	27
+  79 0032 01       		.byte	1
+  80 0033 40       		.byte	64
+  81 0034 02       		.byte	2
+  82 0035 40       		.byte	64
+  83 0036 01       		.byte	1
+  84 0037 40       		.byte	64
+  85 0038 07       		.byte	7
+  86 0039 41       		.byte	65
+  87 003a 01       		.byte	1
+  88 003b 40       		.byte	64
+  89 003c 07       		.byte	7
+  90 003d 42       		.byte	66
+  91 003e 01       		.byte	1
+  92 003f 40       		.byte	64
+  93 0040 04       		.byte	4
+  94 0041 43       		.byte	67
+  95 0042 01       		.byte	1
+  96 0043 40       		.byte	64
+  97 0044 02       		.byte	2
+  98 0045 45       		.byte	69
+  99 0046 01       		.byte	1
+ 100 0047 40       		.byte	64
+ 101 0048 07       		.byte	7
+ 102 0049 46       		.byte	70
+ 103 004a 01       		.byte	1
+ 104 004b 40       		.byte	64
+ 105 004c 05       		.byte	5
+ 106 004d 47       		.byte	71
+ 107 004e 01       		.byte	1
+ 108 004f 40       		.byte	64
+ 109 0050 07       		.byte	7
+ 110 0051 48       		.byte	72
+ 111 0052 01       		.byte	1
+ 112 0053 40       		.byte	64
+ 113 0054 05       		.byte	5
+ 114 0055 49       		.byte	73
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 3
+
+
+ 115 0056 01       		.byte	1
+ 116 0057 40       		.byte	64
+ 117 0058 0D       		.byte	13
+ 118 0059 4C       		.byte	76
+ 119 005a 01       		.byte	1
+ 120 005b 40       		.byte	64
+ 121 005c 0A       		.byte	10
+ 122 005d 4D       		.byte	77
+ 123 005e 01       		.byte	1
+ 124 005f 40       		.byte	64
+ 125 0060 04       		.byte	4
+ 126 0061 50       		.byte	80
+ 127 0062 01       		.byte	1
+ 128 0063 40       		.byte	64
+ 129 0064 02       		.byte	2
+ 130 0065 51       		.byte	81
+ 131 0066 01       		.byte	1
+ 132 0067 40       		.byte	64
+ 133 0068 01       		.byte	1
+ 134 0069 02       		.byte	2
+ 135 006a 04       		.byte	4
+ 136 006b 03       		.byte	3
+ 137 006c 11       		.byte	17
+ 138 006d 02       		.byte	2
+ 139 006e 61       		.byte	97
+ 140 006f 80       		.byte	-128
+ 141 0070 64       		.byte	100
+ 142 0071 40       		.byte	64
+ 143 0072 89       		.byte	-119
+ 144 0073 0D       		.byte	13
+ 145 0074 89       		.byte	-119
+ 146 0075 72       		.byte	114
+ 147 0076 8A       		.byte	-118
+ 148 0077 38       		.byte	56
+ 149 0078 8B       		.byte	-117
+ 150 0079 0F       		.byte	15
+ 151 007a E8       		.byte	-24
+ 152 007b 80       		.byte	-128
+ 153 007c EC       		.byte	-20
+ 154 007d 10       		.byte	16
+ 155 007e 06       		.byte	6
+ 156 007f 02       		.byte	2
+ 157 0080 08       		.byte	8
+ 158 0081 0C       		.byte	12
+ 159 0082 0A       		.byte	10
+ 160 0083 02       		.byte	2
+ 161 0084 16       		.byte	22
+ 162 0085 06       		.byte	6
+ 163 0086 1E       		.byte	30
+ 164 0087 0C       		.byte	12
+ 165 0088 22       		.byte	34
+ 166 0089 0A       		.byte	10
+ 167 008a 2A       		.byte	42
+ 168 008b 04       		.byte	4
+ 169 008c 2C       		.byte	44
+ 170 008d 01       		.byte	1
+ 171 008e 32       		.byte	50
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 4
+
+
+ 172 008f 0E       		.byte	14
+ 173 0090 34       		.byte	52
+ 174 0091 01       		.byte	1
+ 175 0092 3A       		.byte	58
+ 176 0093 88       		.byte	-120
+ 177 0094 3E       		.byte	62
+ 178 0095 10       		.byte	16
+ 179 0096 40       		.byte	64
+ 180 0097 43       		.byte	67
+ 181 0098 41       		.byte	65
+ 182 0099 06       		.byte	6
+ 183 009a 46       		.byte	70
+ 184 009b BC       		.byte	-68
+ 185 009c 47       		.byte	71
+ 186 009d E0       		.byte	-32
+ 187 009e 48       		.byte	72
+ 188 009f 2C       		.byte	44
+ 189 00a0 49       		.byte	73
+ 190 00a1 FF       		.byte	-1
+ 191 00a2 4A       		.byte	74
+ 192 00a3 FF       		.byte	-1
+ 193 00a4 4B       		.byte	75
+ 194 00a5 FF       		.byte	-1
+ 195 00a6 4E       		.byte	78
+ 196 00a7 F0       		.byte	-16
+ 197 00a8 4F       		.byte	79
+ 198 00a9 44       		.byte	68
+ 199 00aa 50       		.byte	80
+ 200 00ab 0C       		.byte	12
+ 201 00ac 58       		.byte	88
+ 202 00ad 04       		.byte	4
+ 203 00ae 5A       		.byte	90
+ 204 00af 04       		.byte	4
+ 205 00b0 5F       		.byte	95
+ 206 00b1 01       		.byte	1
+ 207 00b2 66       		.byte	102
+ 208 00b3 C0       		.byte	-64
+ 209 00b4 6A       		.byte	106
+ 210 00b5 40       		.byte	64
+ 211 00b6 6B       		.byte	107
+ 212 00b7 02       		.byte	2
+ 213 00b8 84       		.byte	-124
+ 214 00b9 02       		.byte	2
+ 215 00ba 85       		.byte	-123
+ 216 00bb 08       		.byte	8
+ 217 00bc 8A       		.byte	-118
+ 218 00bd 04       		.byte	4
+ 219 00be 8B       		.byte	-117
+ 220 00bf 0E       		.byte	14
+ 221 00c0 8C       		.byte	-116
+ 222 00c1 01       		.byte	1
+ 223 00c2 8F       		.byte	-113
+ 224 00c3 01       		.byte	1
+ 225 00c4 90       		.byte	-112
+ 226 00c5 02       		.byte	2
+ 227 00c6 96       		.byte	-106
+ 228 00c7 04       		.byte	4
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 5
+
+
+ 229 00c8 9A       		.byte	-102
+ 230 00c9 08       		.byte	8
+ 231 00ca 9B       		.byte	-101
+ 232 00cb 02       		.byte	2
+ 233 00cc 9C       		.byte	-100
+ 234 00cd 01       		.byte	1
+ 235 00ce A2       		.byte	-94
+ 236 00cf 08       		.byte	8
+ 237 00d0 A6       		.byte	-90
+ 238 00d1 01       		.byte	1
+ 239 00d2 A8       		.byte	-88
+ 240 00d3 02       		.byte	2
+ 241 00d4 AE       		.byte	-82
+ 242 00d5 01       		.byte	1
+ 243 00d6 B0       		.byte	-80
+ 244 00d7 04       		.byte	4
+ 245 00d8 B1       		.byte	-79
+ 246 00d9 08       		.byte	8
+ 247 00da B2       		.byte	-78
+ 248 00db 01       		.byte	1
+ 249 00dc B3       		.byte	-77
+ 250 00dd 04       		.byte	4
+ 251 00de B4       		.byte	-76
+ 252 00df 08       		.byte	8
+ 253 00e0 B5       		.byte	-75
+ 254 00e1 01       		.byte	1
+ 255 00e2 B6       		.byte	-74
+ 256 00e3 02       		.byte	2
+ 257 00e4 B7       		.byte	-73
+ 258 00e5 02       		.byte	2
+ 259 00e6 B8       		.byte	-72
+ 260 00e7 08       		.byte	8
+ 261 00e8 BE       		.byte	-66
+ 262 00e9 11       		.byte	17
+ 263 00ea C0       		.byte	-64
+ 264 00eb 20       		.byte	32
+ 265 00ec C1       		.byte	-63
+ 266 00ed 05       		.byte	5
+ 267 00ee C5       		.byte	-59
+ 268 00ef D0       		.byte	-48
+ 269 00f0 C6       		.byte	-58
+ 270 00f1 12       		.byte	18
+ 271 00f2 C8       		.byte	-56
+ 272 00f3 0E       		.byte	14
+ 273 00f4 C9       		.byte	-55
+ 274 00f5 FF       		.byte	-1
+ 275 00f6 CA       		.byte	-54
+ 276 00f7 FF       		.byte	-1
+ 277 00f8 CB       		.byte	-53
+ 278 00f9 FF       		.byte	-1
+ 279 00fa CD       		.byte	-51
+ 280 00fb A0       		.byte	-96
+ 281 00fc CF       		.byte	-49
+ 282 00fd 04       		.byte	4
+ 283 00fe D0       		.byte	-48
+ 284 00ff 18       		.byte	24
+ 285 0100 D2       		.byte	-46
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 6
+
+
+ 286 0101 80       		.byte	-128
+ 287 0102 D4       		.byte	-44
+ 288 0103 05       		.byte	5
+ 289 0104 D8       		.byte	-40
+ 290 0105 04       		.byte	4
+ 291 0106 D9       		.byte	-39
+ 292 0107 04       		.byte	4
+ 293 0108 DA       		.byte	-38
+ 294 0109 04       		.byte	4
+ 295 010a DB       		.byte	-37
+ 296 010b 04       		.byte	4
+ 297 010c DC       		.byte	-36
+ 298 010d 10       		.byte	16
+ 299 010e DD       		.byte	-35
+ 300 010f 11       		.byte	17
+ 301 0110 DF       		.byte	-33
+ 302 0111 01       		.byte	1
+ 303 0112 E0       		.byte	-32
+ 304 0113 40       		.byte	64
+ 305 0114 E2       		.byte	-30
+ 306 0115 C0       		.byte	-64
+ 307 0116 E4       		.byte	-28
+ 308 0117 40       		.byte	64
+ 309 0118 E5       		.byte	-27
+ 310 0119 40       		.byte	64
+ 311 011a E6       		.byte	-26
+ 312 011b C0       		.byte	-64
+ 313 011c E8       		.byte	-24
+ 314 011d C0       		.byte	-64
+ 315 011e EA       		.byte	-22
+ 316 011f C0       		.byte	-64
+ 317 0120 EC       		.byte	-20
+ 318 0121 C0       		.byte	-64
+ 319 0122 EE       		.byte	-18
+ 320 0123 C0       		.byte	-64
+ 321 0124 00       		.byte	0
+ 322 0125 20       		.byte	32
+ 323 0126 01       		.byte	1
+ 324 0127 04       		.byte	4
+ 325 0128 03       		.byte	3
+ 326 0129 02       		.byte	2
+ 327 012a 05       		.byte	5
+ 328 012b 10       		.byte	16
+ 329 012c 06       		.byte	6
+ 330 012d 10       		.byte	16
+ 331 012e 09       		.byte	9
+ 332 012f 28       		.byte	40
+ 333 0130 0A       		.byte	10
+ 334 0131 41       		.byte	65
+ 335 0132 0D       		.byte	13
+ 336 0133 80       		.byte	-128
+ 337 0134 0E       		.byte	14
+ 338 0135 10       		.byte	16
+ 339 0136 10       		.byte	16
+ 340 0137 81       		.byte	-127
+ 341 0138 11       		.byte	17
+ 342 0139 10       		.byte	16
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 7
+
+
+ 343 013a 12       		.byte	18
+ 344 013b 20       		.byte	32
+ 345 013c 14       		.byte	20
+ 346 013d 02       		.byte	2
+ 347 013e 16       		.byte	22
+ 348 013f 05       		.byte	5
+ 349 0140 17       		.byte	23
+ 350 0141 01       		.byte	1
+ 351 0142 19       		.byte	25
+ 352 0143 88       		.byte	-120
+ 353 0144 1A       		.byte	26
+ 354 0145 08       		.byte	8
+ 355 0146 1B       		.byte	27
+ 356 0147 01       		.byte	1
+ 357 0148 1E       		.byte	30
+ 358 0149 19       		.byte	25
+ 359 014a 1F       		.byte	31
+ 360 014b 08       		.byte	8
+ 361 014c 21       		.byte	33
+ 362 014d 24       		.byte	36
+ 363 014e 23       		.byte	35
+ 364 014f 82       		.byte	-126
+ 365 0150 31       		.byte	49
+ 366 0151 20       		.byte	32
+ 367 0152 32       		.byte	50
+ 368 0153 08       		.byte	8
+ 369 0154 33       		.byte	51
+ 370 0155 08       		.byte	8
+ 371 0156 38       		.byte	56
+ 372 0157 20       		.byte	32
+ 373 0158 39       		.byte	57
+ 374 0159 08       		.byte	8
+ 375 015a 3B       		.byte	59
+ 376 015b 40       		.byte	64
+ 377 015c 41       		.byte	65
+ 378 015d 20       		.byte	32
+ 379 015e 46       		.byte	70
+ 380 015f 10       		.byte	16
+ 381 0160 47       		.byte	71
+ 382 0161 01       		.byte	1
+ 383 0162 49       		.byte	73
+ 384 0163 01       		.byte	1
+ 385 0164 4B       		.byte	75
+ 386 0165 80       		.byte	-128
+ 387 0166 4E       		.byte	78
+ 388 0167 08       		.byte	8
+ 389 0168 50       		.byte	80
+ 390 0169 90       		.byte	-112
+ 391 016a 53       		.byte	83
+ 392 016b 40       		.byte	64
+ 393 016c 56       		.byte	86
+ 394 016d 01       		.byte	1
+ 395 016e 57       		.byte	87
+ 396 016f 50       		.byte	80
+ 397 0170 59       		.byte	89
+ 398 0171 01       		.byte	1
+ 399 0172 5A       		.byte	90
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 8
+
+
+ 400 0173 08       		.byte	8
+ 401 0174 5B       		.byte	91
+ 402 0175 80       		.byte	-128
+ 403 0176 73       		.byte	115
+ 404 0177 40       		.byte	64
+ 405 0178 8B       		.byte	-117
+ 406 0179 02       		.byte	2
+ 407 017a C0       		.byte	-64
+ 408 017b 67       		.byte	103
+ 409 017c C2       		.byte	-62
+ 410 017d AF       		.byte	-81
+ 411 017e C4       		.byte	-60
+ 412 017f DF       		.byte	-33
+ 413 0180 CC       		.byte	-52
+ 414 0181 04       		.byte	4
+ 415 0182 CE       		.byte	-50
+ 416 0183 0E       		.byte	14
+ 417 0184 D0       		.byte	-48
+ 418 0185 C4       		.byte	-60
+ 419 0186 D2       		.byte	-46
+ 420 0187 28       		.byte	40
+ 421 0188 D6       		.byte	-42
+ 422 0189 0B       		.byte	11
+ 423 018a E8       		.byte	-24
+ 424 018b 80       		.byte	-128
+ 425 018c EC       		.byte	-20
+ 426 018d 10       		.byte	16
+ 427 018e E6       		.byte	-26
+ 428 018f 02       		.byte	2
+ 429 0190 EA       		.byte	-22
+ 430 0191 01       		.byte	1
+ 431 0192 E6       		.byte	-26
+ 432 0193 0A       		.byte	10
+ 433 0194 07       		.byte	7
+ 434 0195 01       		.byte	1
+ 435 0196 0A       		.byte	10
+ 436 0197 08       		.byte	8
+ 437 0198 0C       		.byte	12
+ 438 0199 11       		.byte	17
+ 439 019a 0E       		.byte	14
+ 440 019b 06       		.byte	6
+ 441 019c 0F       		.byte	15
+ 442 019d 01       		.byte	1
+ 443 019e 11       		.byte	17
+ 444 019f 01       		.byte	1
+ 445 01a0 18       		.byte	24
+ 446 01a1 0C       		.byte	12
+ 447 01a2 1A       		.byte	26
+ 448 01a3 13       		.byte	19
+ 449 01a4 1E       		.byte	30
+ 450 01a5 0C       		.byte	12
+ 451 01a6 24       		.byte	36
+ 452 01a7 20       		.byte	32
+ 453 01a8 26       		.byte	38
+ 454 01a9 03       		.byte	3
+ 455 01aa 27       		.byte	39
+ 456 01ab 01       		.byte	1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 9
+
+
+ 457 01ac 28       		.byte	40
+ 458 01ad 11       		.byte	17
+ 459 01ae 29       		.byte	41
+ 460 01af 01       		.byte	1
+ 461 01b0 2A       		.byte	42
+ 462 01b1 0E       		.byte	14
+ 463 01b2 31       		.byte	49
+ 464 01b3 01       		.byte	1
+ 465 01b4 34       		.byte	52
+ 466 01b5 0F       		.byte	15
+ 467 01b6 36       		.byte	54
+ 468 01b7 30       		.byte	48
+ 469 01b8 38       		.byte	56
+ 470 01b9 80       		.byte	-128
+ 471 01ba 3A       		.byte	58
+ 472 01bb 20       		.byte	32
+ 473 01bc 3F       		.byte	63
+ 474 01bd 01       		.byte	1
+ 475 01be 58       		.byte	88
+ 476 01bf 04       		.byte	4
+ 477 01c0 59       		.byte	89
+ 478 01c1 04       		.byte	4
+ 479 01c2 5F       		.byte	95
+ 480 01c3 01       		.byte	1
+ 481 01c4 80       		.byte	-128
+ 482 01c5 1F       		.byte	31
+ 483 01c6 81       		.byte	-127
+ 484 01c7 10       		.byte	16
+ 485 01c8 82       		.byte	-126
+ 486 01c9 20       		.byte	32
+ 487 01ca 84       		.byte	-124
+ 488 01cb 1C       		.byte	28
+ 489 01cc 85       		.byte	-123
+ 490 01cd 18       		.byte	24
+ 491 01ce 86       		.byte	-122
+ 492 01cf 23       		.byte	35
+ 493 01d0 88       		.byte	-120
+ 494 01d1 33       		.byte	51
+ 495 01d2 89       		.byte	-119
+ 496 01d3 08       		.byte	8
+ 497 01d4 8A       		.byte	-118
+ 498 01d5 0C       		.byte	12
+ 499 01d6 8D       		.byte	-115
+ 500 01d7 1C       		.byte	28
+ 501 01d8 8E       		.byte	-114
+ 502 01d9 23       		.byte	35
+ 503 01da 8F       		.byte	-113
+ 504 01db E1       		.byte	-31
+ 505 01dc 90       		.byte	-112
+ 506 01dd 03       		.byte	3
+ 507 01de 93       		.byte	-109
+ 508 01df 04       		.byte	4
+ 509 01e0 94       		.byte	-108
+ 510 01e1 01       		.byte	1
+ 511 01e2 95       		.byte	-107
+ 512 01e3 44       		.byte	68
+ 513 01e4 98       		.byte	-104
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 10
+
+
+ 514 01e5 02       		.byte	2
+ 515 01e6 99       		.byte	-103
+ 516 01e7 3C       		.byte	60
+ 517 01e8 9B       		.byte	-101
+ 518 01e9 C2       		.byte	-62
+ 519 01ea 9C       		.byte	-100
+ 520 01eb 3F       		.byte	63
+ 521 01ec 9D       		.byte	-99
+ 522 01ed C0       		.byte	-64
+ 523 01ee A0       		.byte	-96
+ 524 01ef 08       		.byte	8
+ 525 01f0 A1       		.byte	-95
+ 526 01f1 FF       		.byte	-1
+ 527 01f2 A4       		.byte	-92
+ 528 01f3 04       		.byte	4
+ 529 01f4 A5       		.byte	-91
+ 530 01f5 80       		.byte	-128
+ 531 01f6 A8       		.byte	-88
+ 532 01f7 0C       		.byte	12
+ 533 01f8 A9       		.byte	-87
+ 534 01f9 E7       		.byte	-25
+ 535 01fa AB       		.byte	-85
+ 536 01fb 18       		.byte	24
+ 537 01fc AF       		.byte	-81
+ 538 01fd E3       		.byte	-29
+ 539 01fe B0       		.byte	-80
+ 540 01ff 10       		.byte	16
+ 541 0200 B1       		.byte	-79
+ 542 0201 C0       		.byte	-64
+ 543 0202 B3       		.byte	-77
+ 544 0203 38       		.byte	56
+ 545 0204 B4       		.byte	-76
+ 546 0205 0F       		.byte	15
+ 547 0206 B5       		.byte	-75
+ 548 0207 1F       		.byte	31
+ 549 0208 B6       		.byte	-74
+ 550 0209 2C       		.byte	44
+ 551 020a BA       		.byte	-70
+ 552 020b A0       		.byte	-96
+ 553 020c BB       		.byte	-69
+ 554 020d 20       		.byte	32
+ 555 020e BE       		.byte	-66
+ 556 020f 01       		.byte	1
+ 557 0210 D6       		.byte	-42
+ 558 0211 02       		.byte	2
+ 559 0212 D7       		.byte	-41
+ 560 0213 13       		.byte	19
+ 561 0214 D8       		.byte	-40
+ 562 0215 04       		.byte	4
+ 563 0216 D9       		.byte	-39
+ 564 0217 04       		.byte	4
+ 565 0218 DB       		.byte	-37
+ 566 0219 04       		.byte	4
+ 567 021a DF       		.byte	-33
+ 568 021b 01       		.byte	1
+ 569 021c 00       		.byte	0
+ 570 021d 08       		.byte	8
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 11
+
+
+ 571 021e 01       		.byte	1
+ 572 021f A0       		.byte	-96
+ 573 0220 02       		.byte	2
+ 574 0221 40       		.byte	64
+ 575 0222 03       		.byte	3
+ 576 0223 80       		.byte	-128
+ 577 0224 06       		.byte	6
+ 578 0225 04       		.byte	4
+ 579 0226 07       		.byte	7
+ 580 0227 01       		.byte	1
+ 581 0228 08       		.byte	8
+ 582 0229 90       		.byte	-112
+ 583 022a 0A       		.byte	10
+ 584 022b A1       		.byte	-95
+ 585 022c 0D       		.byte	13
+ 586 022d 80       		.byte	-128
+ 587 022e 0E       		.byte	14
+ 588 022f 04       		.byte	4
+ 589 0230 10       		.byte	16
+ 590 0231 A8       		.byte	-88
+ 591 0232 14       		.byte	20
+ 592 0233 04       		.byte	4
+ 593 0234 16       		.byte	22
+ 594 0235 10       		.byte	16
+ 595 0236 18       		.byte	24
+ 596 0237 04       		.byte	4
+ 597 0238 19       		.byte	25
+ 598 0239 21       		.byte	33
+ 599 023a 1B       		.byte	27
+ 600 023b 80       		.byte	-128
+ 601 023c 1D       		.byte	29
+ 602 023d 90       		.byte	-112
+ 603 023e 1E       		.byte	30
+ 604 023f 04       		.byte	4
+ 605 0240 20       		.byte	32
+ 606 0241 28       		.byte	40
+ 607 0242 22       		.byte	34
+ 608 0243 29       		.byte	41
+ 609 0244 24       		.byte	36
+ 610 0245 40       		.byte	64
+ 611 0246 28       		.byte	40
+ 612 0247 90       		.byte	-112
+ 613 0248 29       		.byte	41
+ 614 0249 A0       		.byte	-96
+ 615 024a 2C       		.byte	44
+ 616 024b 04       		.byte	4
+ 617 024c 2F       		.byte	47
+ 618 024d 28       		.byte	40
+ 619 024e 30       		.byte	48
+ 620 024f 40       		.byte	64
+ 621 0250 31       		.byte	49
+ 622 0251 04       		.byte	4
+ 623 0252 32       		.byte	50
+ 624 0253 62       		.byte	98
+ 625 0254 37       		.byte	55
+ 626 0255 01       		.byte	1
+ 627 0256 38       		.byte	56
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 12
+
+
+ 628 0257 28       		.byte	40
+ 629 0258 3A       		.byte	58
+ 630 0259 42       		.byte	66
+ 631 025a 3E       		.byte	62
+ 632 025b 04       		.byte	4
+ 633 025c 3F       		.byte	63
+ 634 025d 80       		.byte	-128
+ 635 025e 59       		.byte	89
+ 636 025f 01       		.byte	1
+ 637 0260 69       		.byte	105
+ 638 0261 14       		.byte	20
+ 639 0262 6A       		.byte	106
+ 640 0263 40       		.byte	64
+ 641 0264 70       		.byte	112
+ 642 0265 BC       		.byte	-68
+ 643 0266 72       		.byte	114
+ 644 0267 02       		.byte	2
+ 645 0268 78       		.byte	120
+ 646 0269 01       		.byte	1
+ 647 026a 7B       		.byte	123
+ 648 026b 80       		.byte	-128
+ 649 026c 8C       		.byte	-116
+ 650 026d 04       		.byte	4
+ 651 026e 8D       		.byte	-115
+ 652 026f 04       		.byte	4
+ 653 0270 8F       		.byte	-113
+ 654 0271 02       		.byte	2
+ 655 0272 92       		.byte	-110
+ 656 0273 01       		.byte	1
+ 657 0274 95       		.byte	-107
+ 658 0275 14       		.byte	20
+ 659 0276 96       		.byte	-106
+ 660 0277 40       		.byte	64
+ 661 0278 98       		.byte	-104
+ 662 0279 02       		.byte	2
+ 663 027a 99       		.byte	-103
+ 664 027b 88       		.byte	-120
+ 665 027c 9C       		.byte	-100
+ 666 027d 01       		.byte	1
+ 667 027e 9D       		.byte	-99
+ 668 027f 10       		.byte	16
+ 669 0280 9E       		.byte	-98
+ 670 0281 14       		.byte	20
+ 671 0282 9F       		.byte	-97
+ 672 0283 01       		.byte	1
+ 673 0284 A2       		.byte	-94
+ 674 0285 04       		.byte	4
+ 675 0286 A3       		.byte	-93
+ 676 0287 59       		.byte	89
+ 677 0288 A4       		.byte	-92
+ 678 0289 10       		.byte	16
+ 679 028a A5       		.byte	-91
+ 680 028b 88       		.byte	-120
+ 681 028c A6       		.byte	-90
+ 682 028d 20       		.byte	32
+ 683 028e A7       		.byte	-89
+ 684 028f 02       		.byte	2
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 13
+
+
+ 685 0290 C0       		.byte	-64
+ 686 0291 CF       		.byte	-49
+ 687 0292 C2       		.byte	-62
+ 688 0293 CF       		.byte	-49
+ 689 0294 C4       		.byte	-60
+ 690 0295 6E       		.byte	110
+ 691 0296 CA       		.byte	-54
+ 692 0297 6F       		.byte	111
+ 693 0298 CC       		.byte	-52
+ 694 0299 8F       		.byte	-113
+ 695 029a CE       		.byte	-50
+ 696 029b 5F       		.byte	95
+ 697 029c D6       		.byte	-42
+ 698 029d 01       		.byte	1
+ 699 029e E6       		.byte	-26
+ 700 029f 0A       		.byte	10
+ 701 02a0 01       		.byte	1
+ 702 02a1 21       		.byte	33
+ 703 02a2 03       		.byte	3
+ 704 02a3 9A       		.byte	-102
+ 705 02a4 05       		.byte	5
+ 706 02a5 73       		.byte	115
+ 707 02a6 06       		.byte	6
+ 708 02a7 01       		.byte	1
+ 709 02a8 09       		.byte	9
+ 710 02a9 73       		.byte	115
+ 711 02aa 15       		.byte	21
+ 712 02ab 10       		.byte	16
+ 713 02ac 17       		.byte	23
+ 714 02ad 64       		.byte	100
+ 715 02ae 19       		.byte	25
+ 716 02af 42       		.byte	66
+ 717 02b0 1B       		.byte	27
+ 718 02b1 19       		.byte	25
+ 719 02b2 2E       		.byte	46
+ 720 02b3 01       		.byte	1
+ 721 02b4 31       		.byte	49
+ 722 02b5 80       		.byte	-128
+ 723 02b6 33       		.byte	51
+ 724 02b7 70       		.byte	112
+ 725 02b8 34       		.byte	52
+ 726 02b9 01       		.byte	1
+ 727 02ba 35       		.byte	53
+ 728 02bb 03       		.byte	3
+ 729 02bc 37       		.byte	55
+ 730 02bd 0C       		.byte	12
+ 731 02be 3E       		.byte	62
+ 732 02bf 10       		.byte	16
+ 733 02c0 3F       		.byte	63
+ 734 02c1 40       		.byte	64
+ 735 02c2 40       		.byte	64
+ 736 02c3 25       		.byte	37
+ 737 02c4 41       		.byte	65
+ 738 02c5 04       		.byte	4
+ 739 02c6 42       		.byte	66
+ 740 02c7 06       		.byte	6
+ 741 02c8 44       		.byte	68
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 14
+
+
+ 742 02c9 01       		.byte	1
+ 743 02ca 47       		.byte	71
+ 744 02cb EC       		.byte	-20
+ 745 02cc 48       		.byte	72
+ 746 02cd 30       		.byte	48
+ 747 02ce 49       		.byte	73
+ 748 02cf FF       		.byte	-1
+ 749 02d0 4A       		.byte	74
+ 750 02d1 FF       		.byte	-1
+ 751 02d2 4B       		.byte	75
+ 752 02d3 FF       		.byte	-1
+ 753 02d4 4C       		.byte	76
+ 754 02d5 62       		.byte	98
+ 755 02d6 4D       		.byte	77
+ 756 02d7 A0       		.byte	-96
+ 757 02d8 4E       		.byte	78
+ 758 02d9 F0       		.byte	-16
+ 759 02da 4F       		.byte	79
+ 760 02db 41       		.byte	65
+ 761 02dc 50       		.byte	80
+ 762 02dd 0C       		.byte	12
+ 763 02de 54       		.byte	84
+ 764 02df 18       		.byte	24
+ 765 02e0 56       		.byte	86
+ 766 02e1 04       		.byte	4
+ 767 02e2 58       		.byte	88
+ 768 02e3 04       		.byte	4
+ 769 02e4 59       		.byte	89
+ 770 02e5 04       		.byte	4
+ 771 02e6 5A       		.byte	90
+ 772 02e7 04       		.byte	4
+ 773 02e8 5B       		.byte	91
+ 774 02e9 04       		.byte	4
+ 775 02ea 5F       		.byte	95
+ 776 02eb 01       		.byte	1
+ 777 02ec 66       		.byte	102
+ 778 02ed 40       		.byte	64
+ 779 02ee 67       		.byte	103
+ 780 02ef 02       		.byte	2
+ 781 02f0 69       		.byte	105
+ 782 02f1 10       		.byte	16
+ 783 02f2 6A       		.byte	106
+ 784 02f3 30       		.byte	48
+ 785 02f4 6B       		.byte	107
+ 786 02f5 10       		.byte	16
+ 787 02f6 6D       		.byte	109
+ 788 02f7 10       		.byte	16
+ 789 02f8 6E       		.byte	110
+ 790 02f9 10       		.byte	16
+ 791 02fa 6F       		.byte	111
+ 792 02fb 12       		.byte	18
+ 793 02fc 85       		.byte	-123
+ 794 02fd 2A       		.byte	42
+ 795 02fe 87       		.byte	-121
+ 796 02ff 04       		.byte	4
+ 797 0300 88       		.byte	-120
+ 798 0301 1C       		.byte	28
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 15
+
+
+ 799 0302 8A       		.byte	-118
+ 800 0303 02       		.byte	2
+ 801 0304 8C       		.byte	-116
+ 802 0305 20       		.byte	32
+ 803 0306 8D       		.byte	-115
+ 804 0307 03       		.byte	3
+ 805 0308 8E       		.byte	-114
+ 806 0309 03       		.byte	3
+ 807 030a 8F       		.byte	-113
+ 808 030b 04       		.byte	4
+ 809 030c 94       		.byte	-108
+ 810 030d 14       		.byte	20
+ 811 030e 98       		.byte	-104
+ 812 030f 10       		.byte	16
+ 813 0310 9C       		.byte	-100
+ 814 0311 09       		.byte	9
+ 815 0312 9D       		.byte	-99
+ 816 0313 33       		.byte	51
+ 817 0314 9E       		.byte	-98
+ 818 0315 10       		.byte	16
+ 819 0316 9F       		.byte	-97
+ 820 0317 0C       		.byte	12
+ 821 0318 A0       		.byte	-96
+ 822 0319 10       		.byte	16
+ 823 031a A2       		.byte	-94
+ 824 031b 0C       		.byte	12
+ 825 031c A3       		.byte	-93
+ 826 031d 08       		.byte	8
+ 827 031e A7       		.byte	-89
+ 828 031f 15       		.byte	21
+ 829 0320 A8       		.byte	-88
+ 830 0321 0C       		.byte	12
+ 831 0322 A9       		.byte	-87
+ 832 0323 33       		.byte	51
+ 833 0324 AA       		.byte	-86
+ 834 0325 11       		.byte	17
+ 835 0326 AB       		.byte	-85
+ 836 0327 04       		.byte	4
+ 837 0328 B2       		.byte	-78
+ 838 0329 20       		.byte	32
+ 839 032a B3       		.byte	-77
+ 840 032b 30       		.byte	48
+ 841 032c B6       		.byte	-74
+ 842 032d 1F       		.byte	31
+ 843 032e B7       		.byte	-73
+ 844 032f 0F       		.byte	15
+ 845 0330 B9       		.byte	-71
+ 846 0331 08       		.byte	8
+ 847 0332 BB       		.byte	-69
+ 848 0333 80       		.byte	-128
+ 849 0334 BE       		.byte	-66
+ 850 0335 04       		.byte	4
+ 851 0336 BF       		.byte	-65
+ 852 0337 04       		.byte	4
+ 853 0338 C0       		.byte	-64
+ 854 0339 02       		.byte	2
+ 855 033a C7       		.byte	-57
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 16
+
+
+ 856 033b 04       		.byte	4
+ 857 033c C9       		.byte	-55
+ 858 033d FF       		.byte	-1
+ 859 033e CA       		.byte	-54
+ 860 033f 07       		.byte	7
+ 861 0340 CB       		.byte	-53
+ 862 0341 FF       		.byte	-1
+ 863 0342 CC       		.byte	-52
+ 864 0343 40       		.byte	64
+ 865 0344 CD       		.byte	-51
+ 866 0345 20       		.byte	32
+ 867 0346 CE       		.byte	-50
+ 868 0347 F0       		.byte	-16
+ 869 0348 CF       		.byte	-49
+ 870 0349 05       		.byte	5
+ 871 034a D0       		.byte	-48
+ 872 034b 08       		.byte	8
+ 873 034c D4       		.byte	-44
+ 874 034d 01       		.byte	1
+ 875 034e D8       		.byte	-40
+ 876 034f 04       		.byte	4
+ 877 0350 D9       		.byte	-39
+ 878 0351 04       		.byte	4
+ 879 0352 DA       		.byte	-38
+ 880 0353 04       		.byte	4
+ 881 0354 DB       		.byte	-37
+ 882 0355 04       		.byte	4
+ 883 0356 DF       		.byte	-33
+ 884 0357 01       		.byte	1
+ 885 0358 E0       		.byte	-32
+ 886 0359 40       		.byte	64
+ 887 035a E1       		.byte	-31
+ 888 035b A8       		.byte	-88
+ 889 035c E2       		.byte	-30
+ 890 035d 40       		.byte	64
+ 891 035e E3       		.byte	-29
+ 892 035f 20       		.byte	32
+ 893 0360 01       		.byte	1
+ 894 0361 08       		.byte	8
+ 895 0362 05       		.byte	5
+ 896 0363 40       		.byte	64
+ 897 0364 06       		.byte	6
+ 898 0365 08       		.byte	8
+ 899 0366 0C       		.byte	12
+ 900 0367 80       		.byte	-128
+ 901 0368 0D       		.byte	13
+ 902 0369 80       		.byte	-128
+ 903 036a 0F       		.byte	15
+ 904 036b 28       		.byte	40
+ 905 036c 10       		.byte	16
+ 906 036d 02       		.byte	2
+ 907 036e 14       		.byte	20
+ 908 036f 04       		.byte	4
+ 909 0370 17       		.byte	23
+ 910 0371 01       		.byte	1
+ 911 0372 19       		.byte	25
+ 912 0373 10       		.byte	16
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 17
+
+
+ 913 0374 1D       		.byte	29
+ 914 0375 44       		.byte	68
+ 915 0376 20       		.byte	32
+ 916 0377 01       		.byte	1
+ 917 0378 21       		.byte	33
+ 918 0379 20       		.byte	32
+ 919 037a 22       		.byte	34
+ 920 037b 06       		.byte	6
+ 921 037c 26       		.byte	38
+ 922 037d 80       		.byte	-128
+ 923 037e 27       		.byte	39
+ 924 037f 11       		.byte	17
+ 925 0380 2C       		.byte	44
+ 926 0381 84       		.byte	-124
+ 927 0382 2F       		.byte	47
+ 928 0383 28       		.byte	40
+ 929 0384 30       		.byte	48
+ 930 0385 10       		.byte	16
+ 931 0386 31       		.byte	49
+ 932 0387 20       		.byte	32
+ 933 0388 32       		.byte	50
+ 934 0389 04       		.byte	4
+ 935 038a 36       		.byte	54
+ 936 038b 80       		.byte	-128
+ 937 038c 38       		.byte	56
+ 938 038d 02       		.byte	2
+ 939 038e 39       		.byte	57
+ 940 038f 14       		.byte	20
+ 941 0390 3C       		.byte	60
+ 942 0391 80       		.byte	-128
+ 943 0392 3E       		.byte	62
+ 944 0393 0C       		.byte	12
+ 945 0394 3F       		.byte	63
+ 946 0395 80       		.byte	-128
+ 947 0396 40       		.byte	64
+ 948 0397 85       		.byte	-123
+ 949 0398 47       		.byte	71
+ 950 0399 10       		.byte	16
+ 951 039a 49       		.byte	73
+ 952 039b 80       		.byte	-128
+ 953 039c 4A       		.byte	74
+ 954 039d 08       		.byte	8
+ 955 039e 50       		.byte	80
+ 956 039f 02       		.byte	2
+ 957 03a0 51       		.byte	81
+ 958 03a1 08       		.byte	8
+ 959 03a2 56       		.byte	86
+ 960 03a3 14       		.byte	20
+ 961 03a4 57       		.byte	87
+ 962 03a5 24       		.byte	36
+ 963 03a6 5A       		.byte	90
+ 964 03a7 02       		.byte	2
+ 965 03a8 5C       		.byte	92
+ 966 03a9 42       		.byte	66
+ 967 03aa 5E       		.byte	94
+ 968 03ab 08       		.byte	8
+ 969 03ac 5F       		.byte	95
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 18
+
+
+ 970 03ad 20       		.byte	32
+ 971 03ae 61       		.byte	97
+ 972 03af 10       		.byte	16
+ 973 03b0 63       		.byte	99
+ 974 03b1 42       		.byte	66
+ 975 03b2 81       		.byte	-127
+ 976 03b3 04       		.byte	4
+ 977 03b4 84       		.byte	-124
+ 978 03b5 40       		.byte	64
+ 979 03b6 86       		.byte	-122
+ 980 03b7 04       		.byte	4
+ 981 03b8 87       		.byte	-121
+ 982 03b9 40       		.byte	64
+ 983 03ba 88       		.byte	-120
+ 984 03bb 40       		.byte	64
+ 985 03bc 8B       		.byte	-117
+ 986 03bd 20       		.byte	32
+ 987 03be 8C       		.byte	-116
+ 988 03bf 01       		.byte	1
+ 989 03c0 8E       		.byte	-114
+ 990 03c1 10       		.byte	16
+ 991 03c2 90       		.byte	-112
+ 992 03c3 44       		.byte	68
+ 993 03c4 91       		.byte	-111
+ 994 03c5 14       		.byte	20
+ 995 03c6 92       		.byte	-110
+ 996 03c7 06       		.byte	6
+ 997 03c8 96       		.byte	-106
+ 998 03c9 20       		.byte	32
+ 999 03ca 98       		.byte	-104
+ 1000 03cb 82       		.byte	-126
+ 1001 03cc 99       		.byte	-103
+ 1002 03cd 88       		.byte	-120
+ 1003 03ce 9C       		.byte	-100
+ 1004 03cf 50       		.byte	80
+ 1005 03d0 9E       		.byte	-98
+ 1006 03d1 14       		.byte	20
+ 1007 03d2 9F       		.byte	-97
+ 1008 03d3 01       		.byte	1
+ 1009 03d4 A1       		.byte	-95
+ 1010 03d5 80       		.byte	-128
+ 1011 03d6 A2       		.byte	-94
+ 1012 03d7 0C       		.byte	12
+ 1013 03d8 A3       		.byte	-93
+ 1014 03d9 59       		.byte	89
+ 1015 03da A5       		.byte	-91
+ 1016 03db 08       		.byte	8
+ 1017 03dc A6       		.byte	-90
+ 1018 03dd 02       		.byte	2
+ 1019 03de A7       		.byte	-89
+ 1020 03df 20       		.byte	32
+ 1021 03e0 C0       		.byte	-64
+ 1022 03e1 C4       		.byte	-60
+ 1023 03e2 C2       		.byte	-62
+ 1024 03e3 E0       		.byte	-32
+ 1025 03e4 C4       		.byte	-60
+ 1026 03e5 51       		.byte	81
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 19
+
+
+ 1027 03e6 CA       		.byte	-54
+ 1028 03e7 E0       		.byte	-32
+ 1029 03e8 CC       		.byte	-52
+ 1030 03e9 16       		.byte	22
+ 1031 03ea CE       		.byte	-50
+ 1032 03eb 57       		.byte	87
+ 1033 03ec D0       		.byte	-48
+ 1034 03ed 2D       		.byte	45
+ 1035 03ee D2       		.byte	-46
+ 1036 03ef 0C       		.byte	12
+ 1037 03f0 D6       		.byte	-42
+ 1038 03f1 F1       		.byte	-15
+ 1039 03f2 D8       		.byte	-40
+ 1040 03f3 0D       		.byte	13
+ 1041 03f4 E4       		.byte	-28
+ 1042 03f5 01       		.byte	1
+ 1043 03f6 EA       		.byte	-22
+ 1044 03f7 01       		.byte	1
+ 1045 03f8 32       		.byte	50
+ 1046 03f9 20       		.byte	32
+ 1047 03fa CC       		.byte	-52
+ 1048 03fb 10       		.byte	16
+ 1049 03fc 01       		.byte	1
+ 1050 03fd 02       		.byte	2
+ 1051 03fe 04       		.byte	4
+ 1052 03ff 01       		.byte	1
+ 1053 0400 51       		.byte	81
+ 1054 0401 01       		.byte	1
+ 1055 0402 53       		.byte	83
+ 1056 0403 80       		.byte	-128
+ 1057 0404 A6       		.byte	-90
+ 1058 0405 20       		.byte	32
+ 1059 0406 C0       		.byte	-64
+ 1060 0407 30       		.byte	48
+ 1061 0408 D4       		.byte	-44
+ 1062 0409 A0       		.byte	-96
+ 1063 040a 3E       		.byte	62
+ 1064 040b 10       		.byte	16
+ 1065 040c 95       		.byte	-107
+ 1066 040d 02       		.byte	2
+ 1067 040e A6       		.byte	-90
+ 1068 040f 20       		.byte	32
+ 1069 0410 A7       		.byte	-89
+ 1070 0411 80       		.byte	-128
+ 1071 0412 B1       		.byte	-79
+ 1072 0413 02       		.byte	2
+ 1073 0414 B4       		.byte	-76
+ 1074 0415 01       		.byte	1
+ 1075 0416 CE       		.byte	-50
+ 1076 0417 20       		.byte	32
+ 1077 0418 95       		.byte	-107
+ 1078 0419 02       		.byte	2
+ 1079 041a 96       		.byte	-106
+ 1080 041b 10       		.byte	16
+ 1081 041c A6       		.byte	-90
+ 1082 041d 20       		.byte	32
+ 1083 041e A7       		.byte	-89
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 20
+
+
+ 1084 041f 80       		.byte	-128
+ 1085 0420 58       		.byte	88
+ 1086 0421 10       		.byte	16
+ 1087 0422 D4       		.byte	-44
+ 1088 0423 01       		.byte	1
+ 1089 0424 98       		.byte	-104
+ 1090 0425 20       		.byte	32
+ 1091 0426 9C       		.byte	-100
+ 1092 0427 10       		.byte	16
+ 1093 0428 A1       		.byte	-95
+ 1094 0429 10       		.byte	16
+ 1095 042a B0       		.byte	-80
+ 1096 042b 20       		.byte	32
+ 1097 042c B5       		.byte	-75
+ 1098 042d 10       		.byte	16
+ 1099 042e E8       		.byte	-24
+ 1100 042f 01       		.byte	1
+ 1101 0430 EC       		.byte	-20
+ 1102 0431 08       		.byte	8
+ 1103 0432 88       		.byte	-120
+ 1104 0433 10       		.byte	16
+ 1105 0434 98       		.byte	-104
+ 1106 0435 20       		.byte	32
+ 1107 0436 9C       		.byte	-100
+ 1108 0437 10       		.byte	16
+ 1109 0438 A1       		.byte	-95
+ 1110 0439 10       		.byte	16
+ 1111 043a E0       		.byte	-32
+ 1112 043b 04       		.byte	4
+ 1113 043c 85       		.byte	-123
+ 1114 043d 01       		.byte	1
+ 1115 043e 87       		.byte	-121
+ 1116 043f 80       		.byte	-128
+ 1117 0440 95       		.byte	-107
+ 1118 0441 02       		.byte	2
+ 1119 0442 96       		.byte	-106
+ 1120 0443 10       		.byte	16
+ 1121 0444 A6       		.byte	-90
+ 1122 0445 20       		.byte	32
+ 1123 0446 A7       		.byte	-89
+ 1124 0447 80       		.byte	-128
+ 1125 0448 E6       		.byte	-26
+ 1126 0449 50       		.byte	80
+ 1127 044a 86       		.byte	-122
+ 1128 044b 20       		.byte	32
+ 1129 044c A6       		.byte	-90
+ 1130 044d 20       		.byte	32
+ 1131 044e AA       		.byte	-86
+ 1132 044f 10       		.byte	16
+ 1133 0450 E6       		.byte	-26
+ 1134 0451 40       		.byte	64
+ 1135 0452 EA       		.byte	-22
+ 1136 0453 80       		.byte	-128
+ 1137 0454 12       		.byte	18
+ 1138 0455 80       		.byte	-128
+ 1139 0456 13       		.byte	19
+ 1140 0457 20       		.byte	32
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 21
+
+
+ 1141 0458 14       		.byte	20
+ 1142 0459 10       		.byte	16
+ 1143 045a 78       		.byte	120
+ 1144 045b 20       		.byte	32
+ 1145 045c 7D       		.byte	125
+ 1146 045d 20       		.byte	32
+ 1147 045e 84       		.byte	-124
+ 1148 045f 10       		.byte	16
+ 1149 0460 86       		.byte	-122
+ 1150 0461 80       		.byte	-128
+ 1151 0462 8D       		.byte	-115
+ 1152 0463 01       		.byte	1
+ 1153 0464 98       		.byte	-104
+ 1154 0465 20       		.byte	32
+ 1155 0466 A1       		.byte	-95
+ 1156 0467 10       		.byte	16
+ 1157 0468 C4       		.byte	-60
+ 1158 0469 0E       		.byte	14
+ 1159 046a DE       		.byte	-34
+ 1160 046b 03       		.byte	3
+ 1161 046c E2       		.byte	-30
+ 1162 046d 08       		.byte	8
+ 1163 046e 11       		.byte	17
+ 1164 046f 02       		.byte	2
+ 1165 0470 12       		.byte	18
+ 1166 0471 80       		.byte	-128
+ 1167 0472 70       		.byte	112
+ 1168 0473 04       		.byte	4
+ 1169 0474 80       		.byte	-128
+ 1170 0475 04       		.byte	4
+ 1171 0476 8E       		.byte	-114
+ 1172 0477 80       		.byte	-128
+ 1173 0478 A5       		.byte	-91
+ 1174 0479 01       		.byte	1
+ 1175 047a AB       		.byte	-85
+ 1176 047b 20       		.byte	32
+ 1177 047c C4       		.byte	-60
+ 1178 047d 08       		.byte	8
+ 1179 047e DC       		.byte	-36
+ 1180 047f 01       		.byte	1
+ 1181 0480 E2       		.byte	-30
+ 1182 0481 02       		.byte	2
+ 1183 0482 00       		.byte	0
+ 1184 0483 03       		.byte	3
+ 1185 0484 0C       		.byte	12
+ 1186 0485 03       		.byte	3
+ 1187 0486 10       		.byte	16
+ 1188 0487 01       		.byte	1
+ 1189 0488 1C       		.byte	28
+ 1190 0489 01       		.byte	1
+ 1191 048a 00       		.byte	0
+ 1192 048b 03       		.byte	3
+ 1193 048c 03       		.byte	3
+ 1194 048d C0       		.byte	-64
+ 1195 048e 00       		.byte	0
+ 1196 048f 00       		.byte	0
+ 1197 0490 03       		.byte	3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 22
+
+
+ 1198 0491 00       		.byte	0
+ 1199 0492 00       		.byte	0
+ 1200 0493 00       		.byte	0
+ 1201 0494 03       		.byte	3
+ 1202 0495 00       		.byte	0
+ 1203 0496 03       		.byte	3
+ 1204 0497 00       		.byte	0
+ 1205 0498 00       		.byte	0
+ 1206 0499 00       		.byte	0
+ 1207 049a 00       		.byte	0
+ 1208 049b 00       		.byte	0
+ 1209 049c 80       		.byte	-128
+ 1210 049d 00       		.byte	0
+ 1211 049e 40       		.byte	64
+ 1212 049f 80       		.byte	-128
+ 1213 04a0 80       		.byte	-128
+ 1214 04a1 00       		.byte	0
+ 1215 04a2 80       		.byte	-128
+ 1216 04a3 00       		.byte	0
+ 1217 04a4 00       		.byte	0
+ 1218 04a5 00       		.byte	0
+ 1219 04a6 00       		.byte	0
+ 1220 04a7 00       		.byte	0
+ 1221 04a8 00       		.byte	0
+ 1222 04a9 0B       		.byte	11
+ 1223 04aa 0B       		.byte	11
+ 1224 04ab 00       		.byte	0
+ 1225 04ac 00       		.byte	0
+ 1226 04ad 00       		.byte	0
+ 1227 04ae 00       		.byte	0
+ 1228 04af 00       		.byte	0
+ 1229 04b0 00       		.byte	0
+ 1230 04b1 02       		.byte	2
+ 1231 04b2 02       		.byte	2
+ 1232 04b3 00       		.byte	0
+ 1233 04b4 02       		.byte	2
+ 1234 04b5 00       		.byte	0
+ 1235 04b6 00       		.byte	0
+ 1236 04b7 00       		.byte	0
+ 1237              		.section	.cywolatch,"a",%progbits
+ 1238              		.align	2
+ 1239              		.type	cy_meta_wonvl, %object
+ 1240              		.size	cy_meta_wonvl, 4
+ 1241              	cy_meta_wonvl:
+ 1242 0000 BC       		.byte	-68
+ 1243 0001 90       		.byte	-112
+ 1244 0002 AC       		.byte	-84
+ 1245 0003 AF       		.byte	-81
+ 1246              		.section	.cycustnvl,"a",%progbits
+ 1247              		.align	2
+ 1248              		.type	cy_meta_custnvl, %object
+ 1249              		.size	cy_meta_custnvl, 4
+ 1250              	cy_meta_custnvl:
+ 1251 0000 00       		.byte	0
+ 1252 0001 00       		.byte	0
+ 1253 0002 40       		.byte	64
+ 1254 0003 05       		.byte	5
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 23
+
+
+ 1255              		.section	.cymeta,"a",%progbits
+ 1256              		.align	2
+ 1257              		.type	cy_metadata, %object
+ 1258              		.size	cy_metadata, 12
+ 1259              	cy_metadata:
+ 1260 0000 00       		.byte	0
+ 1261 0001 01       		.byte	1
+ 1262 0002 2E       		.byte	46
+ 1263 0003 16       		.byte	22
+ 1264 0004 10       		.byte	16
+ 1265 0005 69       		.byte	105
+ 1266 0006 00       		.byte	0
+ 1267 0007 01       		.byte	1
+ 1268 0008 00       		.byte	0
+ 1269 0009 00       		.byte	0
+ 1270 000a 00       		.byte	0
+ 1271 000b 00       		.byte	0
+ 1272              		.section	.cyflashprotect,"a",%progbits
+ 1273              		.align	2
+ 1274              		.type	cy_meta_flashprotect, %object
+ 1275              		.size	cy_meta_flashprotect, 256
+ 1276              	cy_meta_flashprotect:
+ 1277 0000 00000000 		.space	256
+ 1277      00000000 
+ 1277      00000000 
+ 1277      00000000 
+ 1277      00000000 
+ 1278              		.text
+ 1279              	.Letext0:
+ 1280              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1281              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1282              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 1283              		.section	.debug_info,"",%progbits
+ 1284              	.Ldebug_info0:
+ 1285 0000 32010000 		.4byte	0x132
+ 1286 0004 0400     		.2byte	0x4
+ 1287 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1288 000a 04       		.byte	0x4
+ 1289 000b 01       		.uleb128 0x1
+ 1290 000c 62000000 		.4byte	.LASF17
+ 1291 0010 0C       		.byte	0xc
+ 1292 0011 BC010000 		.4byte	.LASF18
+ 1293 0015 00000000 		.4byte	.LASF19
+ 1294 0019 00000000 		.4byte	.Ldebug_line0
+ 1295 001d 02       		.uleb128 0x2
+ 1296 001e 01       		.byte	0x1
+ 1297 001f 06       		.byte	0x6
+ 1298 0020 B0010000 		.4byte	.LASF0
+ 1299 0024 03       		.uleb128 0x3
+ 1300 0025 3E000000 		.4byte	.LASF9
+ 1301 0029 01       		.byte	0x1
+ 1302 002a 1D       		.byte	0x1d
+ 1303 002b 2F000000 		.4byte	0x2f
+ 1304 002f 02       		.uleb128 0x2
+ 1305 0030 01       		.byte	0x1
+ 1306 0031 08       		.byte	0x8
+ 1307 0032 54000000 		.4byte	.LASF1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 24
+
+
+ 1308 0036 02       		.uleb128 0x2
+ 1309 0037 02       		.byte	0x2
+ 1310 0038 05       		.byte	0x5
+ 1311 0039 9D010000 		.4byte	.LASF2
+ 1312 003d 02       		.uleb128 0x2
+ 1313 003e 02       		.byte	0x2
+ 1314 003f 07       		.byte	0x7
+ 1315 0040 02010000 		.4byte	.LASF3
+ 1316 0044 02       		.uleb128 0x2
+ 1317 0045 04       		.byte	0x4
+ 1318 0046 05       		.byte	0x5
+ 1319 0047 A7010000 		.4byte	.LASF4
+ 1320 004b 02       		.uleb128 0x2
+ 1321 004c 04       		.byte	0x4
+ 1322 004d 07       		.byte	0x7
+ 1323 004e F0000000 		.4byte	.LASF5
+ 1324 0052 02       		.uleb128 0x2
+ 1325 0053 08       		.byte	0x8
+ 1326 0054 05       		.byte	0x5
+ 1327 0055 8F010000 		.4byte	.LASF6
+ 1328 0059 02       		.uleb128 0x2
+ 1329 005a 08       		.byte	0x8
+ 1330 005b 07       		.byte	0x7
+ 1331 005c 44010000 		.4byte	.LASF7
+ 1332 0060 04       		.uleb128 0x4
+ 1333 0061 04       		.byte	0x4
+ 1334 0062 05       		.byte	0x5
+ 1335 0063 696E7400 		.ascii	"int\000"
+ 1336 0067 02       		.uleb128 0x2
+ 1337 0068 04       		.byte	0x4
+ 1338 0069 07       		.byte	0x7
+ 1339 006a 37010000 		.4byte	.LASF8
+ 1340 006e 03       		.uleb128 0x3
+ 1341 006f 5B010000 		.4byte	.LASF10
+ 1342 0073 02       		.byte	0x2
+ 1343 0074 18       		.byte	0x18
+ 1344 0075 24000000 		.4byte	0x24
+ 1345 0079 05       		.uleb128 0x5
+ 1346 007a 91000000 		.4byte	0x91
+ 1347 007e 8A000000 		.4byte	0x8a
+ 1348 0082 06       		.uleb128 0x6
+ 1349 0083 8A000000 		.4byte	0x8a
+ 1350 0087 B704     		.2byte	0x4b7
+ 1351 0089 00       		.byte	0
+ 1352 008a 02       		.uleb128 0x2
+ 1353 008b 04       		.byte	0x4
+ 1354 008c 07       		.byte	0x7
+ 1355 008d 86010000 		.4byte	.LASF11
+ 1356 0091 07       		.uleb128 0x7
+ 1357 0092 6E000000 		.4byte	0x6e
+ 1358 0096 08       		.uleb128 0x8
+ 1359 0097 25010000 		.4byte	.LASF12
+ 1360 009b 03       		.byte	0x3
+ 1361 009c 1F       		.byte	0x1f
+ 1362 009d A7000000 		.4byte	0xa7
+ 1363 00a1 05       		.uleb128 0x5
+ 1364 00a2 03       		.byte	0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 25
+
+
+ 1365 00a3 00000000 		.4byte	cy_meta_configecc
+ 1366 00a7 07       		.uleb128 0x7
+ 1367 00a8 79000000 		.4byte	0x79
+ 1368 00ac 05       		.uleb128 0x5
+ 1369 00ad 91000000 		.4byte	0x91
+ 1370 00b1 BC000000 		.4byte	0xbc
+ 1371 00b5 09       		.uleb128 0x9
+ 1372 00b6 8A000000 		.4byte	0x8a
+ 1373 00ba 03       		.byte	0x3
+ 1374 00bb 00       		.byte	0
+ 1375 00bc 08       		.uleb128 0x8
+ 1376 00bd 15010000 		.4byte	.LASF13
+ 1377 00c1 03       		.byte	0x3
+ 1378 00c2 C3       		.byte	0xc3
+ 1379 00c3 CD000000 		.4byte	0xcd
+ 1380 00c7 05       		.uleb128 0x5
+ 1381 00c8 03       		.byte	0x3
+ 1382 00c9 00000000 		.4byte	cy_meta_custnvl
+ 1383 00cd 07       		.uleb128 0x7
+ 1384 00ce AC000000 		.4byte	0xac
+ 1385 00d2 08       		.uleb128 0x8
+ 1386 00d3 78010000 		.4byte	.LASF14
+ 1387 00d7 03       		.byte	0x3
+ 1388 00d8 D1       		.byte	0xd1
+ 1389 00d9 E3000000 		.4byte	0xe3
+ 1390 00dd 05       		.uleb128 0x5
+ 1391 00de 03       		.byte	0x3
+ 1392 00df 00000000 		.4byte	cy_meta_wonvl
+ 1393 00e3 07       		.uleb128 0x7
+ 1394 00e4 AC000000 		.4byte	0xac
+ 1395 00e8 05       		.uleb128 0x5
+ 1396 00e9 91000000 		.4byte	0x91
+ 1397 00ed F8000000 		.4byte	0xf8
+ 1398 00f1 09       		.uleb128 0x9
+ 1399 00f2 8A000000 		.4byte	0x8a
+ 1400 00f6 FF       		.byte	0xff
+ 1401 00f7 00       		.byte	0
+ 1402 00f8 08       		.uleb128 0x8
+ 1403 00f9 63010000 		.4byte	.LASF15
+ 1404 00fd 03       		.byte	0x3
+ 1405 00fe DF       		.byte	0xdf
+ 1406 00ff 09010000 		.4byte	0x109
+ 1407 0103 05       		.uleb128 0x5
+ 1408 0104 03       		.byte	0x3
+ 1409 0105 00000000 		.4byte	cy_meta_flashprotect
+ 1410 0109 07       		.uleb128 0x7
+ 1411 010a E8000000 		.4byte	0xe8
+ 1412 010e 05       		.uleb128 0x5
+ 1413 010f 91000000 		.4byte	0x91
+ 1414 0113 1E010000 		.4byte	0x11e
+ 1415 0117 09       		.uleb128 0x9
+ 1416 0118 8A000000 		.4byte	0x8a
+ 1417 011c 0B       		.byte	0xb
+ 1418 011d 00       		.byte	0
+ 1419 011e 0A       		.uleb128 0xa
+ 1420 011f 48000000 		.4byte	.LASF16
+ 1421 0123 03       		.byte	0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 26
+
+
+ 1422 0124 0C01     		.2byte	0x10c
+ 1423 0126 30010000 		.4byte	0x130
+ 1424 012a 05       		.uleb128 0x5
+ 1425 012b 03       		.byte	0x3
+ 1426 012c 00000000 		.4byte	cy_metadata
+ 1427 0130 07       		.uleb128 0x7
+ 1428 0131 0E010000 		.4byte	0x10e
+ 1429 0135 00       		.byte	0
+ 1430              		.section	.debug_abbrev,"",%progbits
+ 1431              	.Ldebug_abbrev0:
+ 1432 0000 01       		.uleb128 0x1
+ 1433 0001 11       		.uleb128 0x11
+ 1434 0002 01       		.byte	0x1
+ 1435 0003 25       		.uleb128 0x25
+ 1436 0004 0E       		.uleb128 0xe
+ 1437 0005 13       		.uleb128 0x13
+ 1438 0006 0B       		.uleb128 0xb
+ 1439 0007 03       		.uleb128 0x3
+ 1440 0008 0E       		.uleb128 0xe
+ 1441 0009 1B       		.uleb128 0x1b
+ 1442 000a 0E       		.uleb128 0xe
+ 1443 000b 10       		.uleb128 0x10
+ 1444 000c 17       		.uleb128 0x17
+ 1445 000d 00       		.byte	0
+ 1446 000e 00       		.byte	0
+ 1447 000f 02       		.uleb128 0x2
+ 1448 0010 24       		.uleb128 0x24
+ 1449 0011 00       		.byte	0
+ 1450 0012 0B       		.uleb128 0xb
+ 1451 0013 0B       		.uleb128 0xb
+ 1452 0014 3E       		.uleb128 0x3e
+ 1453 0015 0B       		.uleb128 0xb
+ 1454 0016 03       		.uleb128 0x3
+ 1455 0017 0E       		.uleb128 0xe
+ 1456 0018 00       		.byte	0
+ 1457 0019 00       		.byte	0
+ 1458 001a 03       		.uleb128 0x3
+ 1459 001b 16       		.uleb128 0x16
+ 1460 001c 00       		.byte	0
+ 1461 001d 03       		.uleb128 0x3
+ 1462 001e 0E       		.uleb128 0xe
+ 1463 001f 3A       		.uleb128 0x3a
+ 1464 0020 0B       		.uleb128 0xb
+ 1465 0021 3B       		.uleb128 0x3b
+ 1466 0022 0B       		.uleb128 0xb
+ 1467 0023 49       		.uleb128 0x49
+ 1468 0024 13       		.uleb128 0x13
+ 1469 0025 00       		.byte	0
+ 1470 0026 00       		.byte	0
+ 1471 0027 04       		.uleb128 0x4
+ 1472 0028 24       		.uleb128 0x24
+ 1473 0029 00       		.byte	0
+ 1474 002a 0B       		.uleb128 0xb
+ 1475 002b 0B       		.uleb128 0xb
+ 1476 002c 3E       		.uleb128 0x3e
+ 1477 002d 0B       		.uleb128 0xb
+ 1478 002e 03       		.uleb128 0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 27
+
+
+ 1479 002f 08       		.uleb128 0x8
+ 1480 0030 00       		.byte	0
+ 1481 0031 00       		.byte	0
+ 1482 0032 05       		.uleb128 0x5
+ 1483 0033 01       		.uleb128 0x1
+ 1484 0034 01       		.byte	0x1
+ 1485 0035 49       		.uleb128 0x49
+ 1486 0036 13       		.uleb128 0x13
+ 1487 0037 01       		.uleb128 0x1
+ 1488 0038 13       		.uleb128 0x13
+ 1489 0039 00       		.byte	0
+ 1490 003a 00       		.byte	0
+ 1491 003b 06       		.uleb128 0x6
+ 1492 003c 21       		.uleb128 0x21
+ 1493 003d 00       		.byte	0
+ 1494 003e 49       		.uleb128 0x49
+ 1495 003f 13       		.uleb128 0x13
+ 1496 0040 2F       		.uleb128 0x2f
+ 1497 0041 05       		.uleb128 0x5
+ 1498 0042 00       		.byte	0
+ 1499 0043 00       		.byte	0
+ 1500 0044 07       		.uleb128 0x7
+ 1501 0045 26       		.uleb128 0x26
+ 1502 0046 00       		.byte	0
+ 1503 0047 49       		.uleb128 0x49
+ 1504 0048 13       		.uleb128 0x13
+ 1505 0049 00       		.byte	0
+ 1506 004a 00       		.byte	0
+ 1507 004b 08       		.uleb128 0x8
+ 1508 004c 34       		.uleb128 0x34
+ 1509 004d 00       		.byte	0
+ 1510 004e 03       		.uleb128 0x3
+ 1511 004f 0E       		.uleb128 0xe
+ 1512 0050 3A       		.uleb128 0x3a
+ 1513 0051 0B       		.uleb128 0xb
+ 1514 0052 3B       		.uleb128 0x3b
+ 1515 0053 0B       		.uleb128 0xb
+ 1516 0054 49       		.uleb128 0x49
+ 1517 0055 13       		.uleb128 0x13
+ 1518 0056 3F       		.uleb128 0x3f
+ 1519 0057 19       		.uleb128 0x19
+ 1520 0058 02       		.uleb128 0x2
+ 1521 0059 18       		.uleb128 0x18
+ 1522 005a 00       		.byte	0
+ 1523 005b 00       		.byte	0
+ 1524 005c 09       		.uleb128 0x9
+ 1525 005d 21       		.uleb128 0x21
+ 1526 005e 00       		.byte	0
+ 1527 005f 49       		.uleb128 0x49
+ 1528 0060 13       		.uleb128 0x13
+ 1529 0061 2F       		.uleb128 0x2f
+ 1530 0062 0B       		.uleb128 0xb
+ 1531 0063 00       		.byte	0
+ 1532 0064 00       		.byte	0
+ 1533 0065 0A       		.uleb128 0xa
+ 1534 0066 34       		.uleb128 0x34
+ 1535 0067 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 28
+
+
+ 1536 0068 03       		.uleb128 0x3
+ 1537 0069 0E       		.uleb128 0xe
+ 1538 006a 3A       		.uleb128 0x3a
+ 1539 006b 0B       		.uleb128 0xb
+ 1540 006c 3B       		.uleb128 0x3b
+ 1541 006d 05       		.uleb128 0x5
+ 1542 006e 49       		.uleb128 0x49
+ 1543 006f 13       		.uleb128 0x13
+ 1544 0070 3F       		.uleb128 0x3f
+ 1545 0071 19       		.uleb128 0x19
+ 1546 0072 02       		.uleb128 0x2
+ 1547 0073 18       		.uleb128 0x18
+ 1548 0074 00       		.byte	0
+ 1549 0075 00       		.byte	0
+ 1550 0076 00       		.byte	0
+ 1551              		.section	.debug_aranges,"",%progbits
+ 1552 0000 14000000 		.4byte	0x14
+ 1553 0004 0200     		.2byte	0x2
+ 1554 0006 00000000 		.4byte	.Ldebug_info0
+ 1555 000a 04       		.byte	0x4
+ 1556 000b 00       		.byte	0
+ 1557 000c 0000     		.2byte	0
+ 1558 000e 0000     		.2byte	0
+ 1559 0010 00000000 		.4byte	0
+ 1560 0014 00000000 		.4byte	0
+ 1561              		.section	.debug_line,"",%progbits
+ 1562              	.Ldebug_line0:
+ 1563 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 1563      02003701 
+ 1563      00000201 
+ 1563      FB0E0D00 
+ 1563      01010101 
+ 1564              	.LASF19:
+ 1565 0000 433A5C33 		.ascii	"C:\\3. semester\\GFV\\nyI2Ckode\\kommunikation\\DC-"
+ 1565      2E207365 
+ 1565      6D657374 
+ 1565      65725C47 
+ 1565      46565C6E 
+ 1566 002e 4D6F746F 		.ascii	"Motor-PWM.cydsn\000"
+ 1566      722D5057 
+ 1566      4D2E6379 
+ 1566      64736E00 
+ 1567              	.LASF9:
+ 1568 003e 5F5F7569 		.ascii	"__uint8_t\000"
+ 1568      6E74385F 
+ 1568      7400
+ 1569              	.LASF16:
+ 1570 0048 63795F6D 		.ascii	"cy_metadata\000"
+ 1570      65746164 
+ 1570      61746100 
+ 1571              	.LASF1:
+ 1572 0054 756E7369 		.ascii	"unsigned char\000"
+ 1572      676E6564 
+ 1572      20636861 
+ 1572      7200
+ 1573              	.LASF17:
+ 1574 0062 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 29
+
+
+ 1574      43313120 
+ 1574      352E342E 
+ 1574      31203230 
+ 1574      31363036 
+ 1575 0095 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1575      20726576 
+ 1575      6973696F 
+ 1575      6E203233 
+ 1575      37373135 
+ 1576 00c8 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1576      66756E63 
+ 1576      74696F6E 
+ 1576      2D736563 
+ 1576      74696F6E 
+ 1577              	.LASF5:
+ 1578 00f0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1578      20756E73 
+ 1578      69676E65 
+ 1578      6420696E 
+ 1578      7400
+ 1579              	.LASF3:
+ 1580 0102 73686F72 		.ascii	"short unsigned int\000"
+ 1580      7420756E 
+ 1580      7369676E 
+ 1580      65642069 
+ 1580      6E7400
+ 1581              	.LASF13:
+ 1582 0115 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 1582      6574615F 
+ 1582      63757374 
+ 1582      6E766C00 
+ 1583              	.LASF12:
+ 1584 0125 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 1584      6574615F 
+ 1584      636F6E66 
+ 1584      69676563 
+ 1584      6300
+ 1585              	.LASF8:
+ 1586 0137 756E7369 		.ascii	"unsigned int\000"
+ 1586      676E6564 
+ 1586      20696E74 
+ 1586      00
+ 1587              	.LASF7:
+ 1588 0144 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1588      206C6F6E 
+ 1588      6720756E 
+ 1588      7369676E 
+ 1588      65642069 
+ 1589              	.LASF10:
+ 1590 015b 75696E74 		.ascii	"uint8_t\000"
+ 1590      385F7400 
+ 1591              	.LASF15:
+ 1592 0163 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 1592      6574615F 
+ 1592      666C6173 
+ 1592      6870726F 
+ 1592      74656374 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccbafijh.s 			page 30
+
+
+ 1593              	.LASF14:
+ 1594 0178 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 1594      6574615F 
+ 1594      776F6E76 
+ 1594      6C00
+ 1595              	.LASF11:
+ 1596 0186 73697A65 		.ascii	"sizetype\000"
+ 1596      74797065 
+ 1596      00
+ 1597              	.LASF6:
+ 1598 018f 6C6F6E67 		.ascii	"long long int\000"
+ 1598      206C6F6E 
+ 1598      6720696E 
+ 1598      7400
+ 1599              	.LASF2:
+ 1600 019d 73686F72 		.ascii	"short int\000"
+ 1600      7420696E 
+ 1600      7400
+ 1601              	.LASF4:
+ 1602 01a7 6C6F6E67 		.ascii	"long int\000"
+ 1602      20696E74 
+ 1602      00
+ 1603              	.LASF0:
+ 1604 01b0 7369676E 		.ascii	"signed char\000"
+ 1604      65642063 
+ 1604      68617200 
+ 1605              	.LASF18:
+ 1606 01bc 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 1606      72617465 
+ 1606      645F536F 
+ 1606      75726365 
+ 1606      5C50536F 
+ 1607              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

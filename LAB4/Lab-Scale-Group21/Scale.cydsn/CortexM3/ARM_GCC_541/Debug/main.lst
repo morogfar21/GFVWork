@@ -1,0 +1,1067 @@
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.ISR_UART_rx_handler,"ax",%progbits
+  20              		.align	2
+  21              		.global	ISR_UART_rx_handler
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	ISR_UART_rx_handler, %function
+  25              	ISR_UART_rx_handler:
+  26              	.LFB65:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #include <stdio.h>
+  14:main.c        **** 
+  15:main.c        **** CY_ISR_PROTO(ISR_UART_rx_handler);
+  16:main.c        **** void handleByteReceived(uint8_t byteReceived);
+  17:main.c        **** 
+  18:main.c        **** int main(void)
+  19:main.c        **** {
+  20:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  21:main.c        ****     char uartBuffer[256];
+  22:main.c        **** 
+  23:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  24:main.c        ****     isr_uart_rx_StartEx(ISR_UART_rx_handler);
+  25:main.c        ****     UART_1_Start();
+  26:main.c        ****     ADC_SAR_1_Start();
+  27:main.c        ****     ADC_SAR_1_StartConvert();
+  28:main.c        ****      
+  29:main.c        ****     UART_1_PutString("Scale application started\r\n");
+  30:main.c        ****     UART_1_PutString("2003.408316 g\r\n2006.073561 g\r\n2006.073561 g\r\n2003.408316 g\r\n2006.0735
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 2
+
+
+  31:main.c        ****     for(;;)
+  32:main.c        ****     {
+  33:main.c        ****         /* Place your application code here. */
+  34:main.c        ****         /*if (ADC_SAR_1_IsEndConversion(ADC_SAR_1_WAIT_FOR_RESULT))
+  35:main.c        ****         {
+  36:main.c        ****             int result = ADC_SAR_1_GetResult16();
+  37:main.c        ****             //snprintf(uartBuffer, sizeof(uartBuffer), "%d \r\n", result);
+  38:main.c        ****             double gram = (result-2152.6788)/(-0.3752);
+  39:main.c        ****             if(gram<0) {gram=0;}
+  40:main.c        ****             snprintf(uartBuffer, sizeof(uartBuffer), "%lf g \r\n", gram);
+  41:main.c        ****             UART_1_PutString(uartBuffer);
+  42:main.c        ****         }
+  43:main.c        ****         CyDelay(100);*/
+  44:main.c        ****     }
+  45:main.c        **** }
+  46:main.c        **** 
+  47:main.c        **** CY_ISR(ISR_UART_rx_handler)
+  48:main.c        **** {
+  28              		.loc 1 48 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  49:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+  36              		.loc 1 49 0
+  37 0002 FFF7FEFF 		bl	UART_1_GetRxBufferSize
+  38              	.LVL0:
+  39 0006 0446     		mov	r4, r0
+  40              	.LVL1:
+  50:main.c        ****     while (bytesToRead > 0)
+  41              		.loc 1 50 0
+  42 0008 05E0     		b	.L2
+  43              	.L3:
+  44              	.LBB2:
+  51:main.c        ****     {
+  52:main.c        ****         uint8_t byteReceived = UART_1_ReadRxData();
+  45              		.loc 1 52 0
+  46 000a FFF7FEFF 		bl	UART_1_ReadRxData
+  47              	.LVL2:
+  53:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+  48              		.loc 1 53 0
+  49 000e FFF7FEFF 		bl	UART_1_WriteTxData
+  50              	.LVL3:
+  54:main.c        ****         
+  55:main.c        ****         handleByteReceived(byteReceived);
+  56:main.c        ****         
+  57:main.c        ****         bytesToRead--;
+  51              		.loc 1 57 0
+  52 0012 013C     		subs	r4, r4, #1
+  53              	.LVL4:
+  54 0014 E4B2     		uxtb	r4, r4
+  55              	.LVL5:
+  56              	.L2:
+  57              	.LBE2:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 3
+
+
+  50:main.c        ****     {
+  58              		.loc 1 50 0
+  59 0016 002C     		cmp	r4, #0
+  60 0018 F7D1     		bne	.L3
+  58:main.c        ****     }
+  59:main.c        **** }
+  61              		.loc 1 59 0
+  62 001a 10BD     		pop	{r4, pc}
+  63              		.cfi_endproc
+  64              	.LFE65:
+  65              		.size	ISR_UART_rx_handler, .-ISR_UART_rx_handler
+  66              		.section	.text.main,"ax",%progbits
+  67              		.align	2
+  68              		.global	main
+  69              		.thumb
+  70              		.thumb_func
+  71              		.type	main, %function
+  72              	main:
+  73              	.LFB64:
+  19:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  74              		.loc 1 19 0
+  75              		.cfi_startproc
+  76              		@ Volatile: function does not return.
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79 0000 08B5     		push	{r3, lr}
+  80              		.cfi_def_cfa_offset 8
+  81              		.cfi_offset 3, -8
+  82              		.cfi_offset 14, -4
+  20:main.c        ****     char uartBuffer[256];
+  83              		.loc 1 20 0
+  84              		.syntax unified
+  85              	@ 20 "main.c" 1
+  86 0002 62B6     		CPSIE   i
+  87              	@ 0 "" 2
+  24:main.c        ****     UART_1_Start();
+  88              		.loc 1 24 0
+  89              		.thumb
+  90              		.syntax unified
+  91 0004 0748     		ldr	r0, .L8
+  92 0006 FFF7FEFF 		bl	isr_uart_rx_StartEx
+  93              	.LVL6:
+  25:main.c        ****     ADC_SAR_1_Start();
+  94              		.loc 1 25 0
+  95 000a FFF7FEFF 		bl	UART_1_Start
+  96              	.LVL7:
+  26:main.c        ****     ADC_SAR_1_StartConvert();
+  97              		.loc 1 26 0
+  98 000e FFF7FEFF 		bl	ADC_SAR_1_Start
+  99              	.LVL8:
+  27:main.c        ****      
+ 100              		.loc 1 27 0
+ 101 0012 FFF7FEFF 		bl	ADC_SAR_1_StartConvert
+ 102              	.LVL9:
+  29:main.c        ****     UART_1_PutString("2003.408316 g\r\n2006.073561 g\r\n2006.073561 g\r\n2003.408316 g\r\n2006.0735
+ 103              		.loc 1 29 0
+ 104 0016 0448     		ldr	r0, .L8+4
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 4
+
+
+ 105 0018 FFF7FEFF 		bl	UART_1_PutString
+ 106              	.LVL10:
+  30:main.c        ****     for(;;)
+ 107              		.loc 1 30 0
+ 108 001c 0348     		ldr	r0, .L8+8
+ 109 001e FFF7FEFF 		bl	UART_1_PutString
+ 110              	.LVL11:
+ 111              	.L6:
+ 112 0022 FEE7     		b	.L6
+ 113              	.L9:
+ 114              		.align	2
+ 115              	.L8:
+ 116 0024 00000000 		.word	ISR_UART_rx_handler
+ 117 0028 00000000 		.word	.LC0
+ 118 002c 1C000000 		.word	.LC1
+ 119              		.cfi_endproc
+ 120              	.LFE64:
+ 121              		.size	main, .-main
+ 122              		.section	.text.handleByteReceived,"ax",%progbits
+ 123              		.align	2
+ 124              		.global	handleByteReceived
+ 125              		.thumb
+ 126              		.thumb_func
+ 127              		.type	handleByteReceived, %function
+ 128              	handleByteReceived:
+ 129              	.LFB66:
+  60:main.c        **** 
+  61:main.c        **** void handleByteReceived(uint8_t byteReceived)
+  62:main.c        **** {
+ 130              		.loc 1 62 0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134              		@ link register save eliminated.
+ 135              	.LVL12:
+ 136 0000 7047     		bx	lr
+ 137              		.cfi_endproc
+ 138              	.LFE66:
+ 139              		.size	handleByteReceived, .-handleByteReceived
+ 140 0002 00BF     		.section	.rodata.str1.4,"aMS",%progbits,1
+ 141              		.align	2
+ 142              	.LC0:
+ 143 0000 5363616C 		.ascii	"Scale application started\015\012\000"
+ 143      65206170 
+ 143      706C6963 
+ 143      6174696F 
+ 143      6E207374 
+ 144              	.LC1:
+ 145 001c 32303033 		.ascii	"2003.408316 g\015\0122006.073561 g\015\0122006.0735"
+ 145      2E343038 
+ 145      33313620 
+ 145      670D0A32 
+ 145      3030362E 
+ 146 0043 36312067 		.ascii	"61 g\015\0122003.408316 g\015\0122006.073561 g\015\012"
+ 146      0D0A3230 
+ 146      30332E34 
+ 146      30383331 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 5
+
+
+ 146      3620670D 
+ 147 0067 32303033 		.ascii	"2003.408316 g\015\0122000.743070 g\015\0122006.0735"
+ 147      2E343038 
+ 147      33313620 
+ 147      670D0A32 
+ 147      3030302E 
+ 148 008e 36312067 		.ascii	"61 g\015\0122006.073561 g\015\0122008.738806 g\015\012"
+ 148      0D0A3230 
+ 148      30362E30 
+ 148      37333536 
+ 148      3120670D 
+ 149 00b2 32303033 		.ascii	"2003.408316 g\015\0122006.073561 g\015\0122006.0735"
+ 149      2E343038 
+ 149      33313620 
+ 149      670D0A32 
+ 149      3030362E 
+ 150 00d9 36312067 		.ascii	"61 g\015\0122006.073561 g\015\0122006.073561 g\015\012"
+ 150      0D0A3230 
+ 150      30362E30 
+ 150      37333536 
+ 150      3120670D 
+ 151 00fd 00       		.ascii	"\000"
+ 152              		.text
+ 153              	.Letext0:
+ 154              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 155              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 156              		.file 4 "Generated_Source\\PSoC5/UART_1.h"
+ 157              		.file 5 "Generated_Source\\PSoC5/isr_uart_rx.h"
+ 158              		.file 6 "Generated_Source\\PSoC5/ADC_SAR_1.h"
+ 159              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 160              		.section	.debug_info,"",%progbits
+ 161              	.Ldebug_info0:
+ 162 0000 31020000 		.4byte	0x231
+ 163 0004 0400     		.2byte	0x4
+ 164 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 165 000a 04       		.byte	0x4
+ 166 000b 01       		.uleb128 0x1
+ 167 000c 73000000 		.4byte	.LASF30
+ 168 0010 0C       		.byte	0xc
+ 169 0011 10020000 		.4byte	.LASF31
+ 170 0015 50010000 		.4byte	.LASF32
+ 171 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 172 001d 00000000 		.4byte	0
+ 173 0021 00000000 		.4byte	.Ldebug_line0
+ 174 0025 02       		.uleb128 0x2
+ 175 0026 01       		.byte	0x1
+ 176 0027 06       		.byte	0x6
+ 177 0028 3B020000 		.4byte	.LASF0
+ 178 002c 03       		.uleb128 0x3
+ 179 002d 21000000 		.4byte	.LASF4
+ 180 0031 02       		.byte	0x2
+ 181 0032 1D       		.byte	0x1d
+ 182 0033 37000000 		.4byte	0x37
+ 183 0037 02       		.uleb128 0x2
+ 184 0038 01       		.byte	0x1
+ 185 0039 08       		.byte	0x8
+ 186 003a 65000000 		.4byte	.LASF1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 6
+
+
+ 187 003e 02       		.uleb128 0x2
+ 188 003f 02       		.byte	0x2
+ 189 0040 05       		.byte	0x5
+ 190 0041 1C020000 		.4byte	.LASF2
+ 191 0045 02       		.uleb128 0x2
+ 192 0046 02       		.byte	0x2
+ 193 0047 07       		.byte	0x7
+ 194 0048 40000000 		.4byte	.LASF3
+ 195 004c 03       		.uleb128 0x3
+ 196 004d 36000000 		.4byte	.LASF5
+ 197 0051 02       		.byte	0x2
+ 198 0052 3F       		.byte	0x3f
+ 199 0053 57000000 		.4byte	0x57
+ 200 0057 02       		.uleb128 0x2
+ 201 0058 04       		.byte	0x4
+ 202 0059 05       		.byte	0x5
+ 203 005a 26020000 		.4byte	.LASF6
+ 204 005e 02       		.uleb128 0x2
+ 205 005f 04       		.byte	0x4
+ 206 0060 07       		.byte	0x7
+ 207 0061 15010000 		.4byte	.LASF7
+ 208 0065 02       		.uleb128 0x2
+ 209 0066 08       		.byte	0x8
+ 210 0067 05       		.byte	0x5
+ 211 0068 02020000 		.4byte	.LASF8
+ 212 006c 02       		.uleb128 0x2
+ 213 006d 08       		.byte	0x8
+ 214 006e 07       		.byte	0x7
+ 215 006f BB010000 		.4byte	.LASF9
+ 216 0073 04       		.uleb128 0x4
+ 217 0074 04       		.byte	0x4
+ 218 0075 05       		.byte	0x5
+ 219 0076 696E7400 		.ascii	"int\000"
+ 220 007a 02       		.uleb128 0x2
+ 221 007b 04       		.byte	0x4
+ 222 007c 07       		.byte	0x7
+ 223 007d AE010000 		.4byte	.LASF10
+ 224 0081 03       		.uleb128 0x3
+ 225 0082 D2010000 		.4byte	.LASF11
+ 226 0086 03       		.byte	0x3
+ 227 0087 18       		.byte	0x18
+ 228 0088 2C000000 		.4byte	0x2c
+ 229 008c 03       		.uleb128 0x3
+ 230 008d F1010000 		.4byte	.LASF12
+ 231 0091 03       		.byte	0x3
+ 232 0092 2C       		.byte	0x2c
+ 233 0093 4C000000 		.4byte	0x4c
+ 234 0097 02       		.uleb128 0x2
+ 235 0098 04       		.byte	0x4
+ 236 0099 04       		.byte	0x4
+ 237 009a 5F000000 		.4byte	.LASF13
+ 238 009e 02       		.uleb128 0x2
+ 239 009f 08       		.byte	0x8
+ 240 00a0 04       		.byte	0x4
+ 241 00a1 82010000 		.4byte	.LASF14
+ 242 00a5 02       		.uleb128 0x2
+ 243 00a6 01       		.byte	0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 7
+
+
+ 244 00a7 08       		.byte	0x8
+ 245 00a8 17020000 		.4byte	.LASF15
+ 246 00ac 02       		.uleb128 0x2
+ 247 00ad 08       		.byte	0x8
+ 248 00ae 04       		.byte	0x4
+ 249 00af 2F020000 		.4byte	.LASF16
+ 250 00b3 02       		.uleb128 0x2
+ 251 00b4 04       		.byte	0x4
+ 252 00b5 07       		.byte	0x7
+ 253 00b6 F9010000 		.4byte	.LASF17
+ 254 00ba 05       		.uleb128 0x5
+ 255 00bb 01010000 		.4byte	.LASF20
+ 256 00bf 01       		.byte	0x1
+ 257 00c0 2F       		.byte	0x2f
+ 258 00c1 00000000 		.4byte	.LFB65
+ 259 00c5 1C000000 		.4byte	.LFE65-.LFB65
+ 260 00c9 01       		.uleb128 0x1
+ 261 00ca 9C       		.byte	0x9c
+ 262 00cb 17010000 		.4byte	0x117
+ 263 00cf 06       		.uleb128 0x6
+ 264 00d0 53000000 		.4byte	.LASF18
+ 265 00d4 01       		.byte	0x1
+ 266 00d5 31       		.byte	0x31
+ 267 00d6 81000000 		.4byte	0x81
+ 268 00da 00000000 		.4byte	.LLST0
+ 269 00de 07       		.uleb128 0x7
+ 270 00df 0A000000 		.4byte	.LBB2
+ 271 00e3 0C000000 		.4byte	.LBE2-.LBB2
+ 272 00e7 0D010000 		.4byte	0x10d
+ 273 00eb 06       		.uleb128 0x6
+ 274 00ec 68020000 		.4byte	.LASF19
+ 275 00f0 01       		.byte	0x1
+ 276 00f1 34       		.byte	0x34
+ 277 00f2 81000000 		.4byte	0x81
+ 278 00f6 1E000000 		.4byte	.LLST1
+ 279 00fa 08       		.uleb128 0x8
+ 280 00fb 0E000000 		.4byte	.LVL2
+ 281 00ff DC010000 		.4byte	0x1dc
+ 282 0103 08       		.uleb128 0x8
+ 283 0104 12000000 		.4byte	.LVL3
+ 284 0108 E7010000 		.4byte	0x1e7
+ 285 010c 00       		.byte	0
+ 286 010d 08       		.uleb128 0x8
+ 287 010e 06000000 		.4byte	.LVL0
+ 288 0112 F2010000 		.4byte	0x1f2
+ 289 0116 00       		.byte	0
+ 290 0117 09       		.uleb128 0x9
+ 291 0118 89010000 		.4byte	.LASF33
+ 292 011c 01       		.byte	0x1
+ 293 011d 12       		.byte	0x12
+ 294 011e 73000000 		.4byte	0x73
+ 295 0122 00000000 		.4byte	.LFB64
+ 296 0126 30000000 		.4byte	.LFE64-.LFB64
+ 297 012a 01       		.uleb128 0x1
+ 298 012b 9C       		.byte	0x9c
+ 299 012c 98010000 		.4byte	0x198
+ 300 0130 0A       		.uleb128 0xa
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 8
+
+
+ 301 0131 2B000000 		.4byte	.LASF34
+ 302 0135 01       		.byte	0x1
+ 303 0136 15       		.byte	0x15
+ 304 0137 98010000 		.4byte	0x198
+ 305 013b 0B       		.uleb128 0xb
+ 306 013c 0A000000 		.4byte	.LVL6
+ 307 0140 FD010000 		.4byte	0x1fd
+ 308 0144 52010000 		.4byte	0x152
+ 309 0148 0C       		.uleb128 0xc
+ 310 0149 01       		.uleb128 0x1
+ 311 014a 50       		.byte	0x50
+ 312 014b 05       		.uleb128 0x5
+ 313 014c 03       		.byte	0x3
+ 314 014d 00000000 		.4byte	ISR_UART_rx_handler
+ 315 0151 00       		.byte	0
+ 316 0152 08       		.uleb128 0x8
+ 317 0153 0E000000 		.4byte	.LVL7
+ 318 0157 08020000 		.4byte	0x208
+ 319 015b 08       		.uleb128 0x8
+ 320 015c 12000000 		.4byte	.LVL8
+ 321 0160 13020000 		.4byte	0x213
+ 322 0164 08       		.uleb128 0x8
+ 323 0165 16000000 		.4byte	.LVL9
+ 324 0169 1E020000 		.4byte	0x21e
+ 325 016d 0B       		.uleb128 0xb
+ 326 016e 1C000000 		.4byte	.LVL10
+ 327 0172 29020000 		.4byte	0x229
+ 328 0176 84010000 		.4byte	0x184
+ 329 017a 0C       		.uleb128 0xc
+ 330 017b 01       		.uleb128 0x1
+ 331 017c 50       		.byte	0x50
+ 332 017d 05       		.uleb128 0x5
+ 333 017e 03       		.byte	0x3
+ 334 017f 00000000 		.4byte	.LC0
+ 335 0183 00       		.byte	0
+ 336 0184 0D       		.uleb128 0xd
+ 337 0185 22000000 		.4byte	.LVL11
+ 338 0189 29020000 		.4byte	0x229
+ 339 018d 0C       		.uleb128 0xc
+ 340 018e 01       		.uleb128 0x1
+ 341 018f 50       		.byte	0x50
+ 342 0190 05       		.uleb128 0x5
+ 343 0191 03       		.byte	0x3
+ 344 0192 1C000000 		.4byte	.LC1
+ 345 0196 00       		.byte	0
+ 346 0197 00       		.byte	0
+ 347 0198 0E       		.uleb128 0xe
+ 348 0199 A5000000 		.4byte	0xa5
+ 349 019d A8010000 		.4byte	0x1a8
+ 350 01a1 0F       		.uleb128 0xf
+ 351 01a2 B3000000 		.4byte	0xb3
+ 352 01a6 FF       		.byte	0xff
+ 353 01a7 00       		.byte	0
+ 354 01a8 05       		.uleb128 0x5
+ 355 01a9 8E010000 		.4byte	.LASF21
+ 356 01ad 01       		.byte	0x1
+ 357 01ae 3D       		.byte	0x3d
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 9
+
+
+ 358 01af 00000000 		.4byte	.LFB66
+ 359 01b3 02000000 		.4byte	.LFE66-.LFB66
+ 360 01b7 01       		.uleb128 0x1
+ 361 01b8 9C       		.byte	0x9c
+ 362 01b9 CB010000 		.4byte	0x1cb
+ 363 01bd 10       		.uleb128 0x10
+ 364 01be 68020000 		.4byte	.LASF19
+ 365 01c2 01       		.byte	0x1
+ 366 01c3 3D       		.byte	0x3d
+ 367 01c4 81000000 		.4byte	0x81
+ 368 01c8 01       		.uleb128 0x1
+ 369 01c9 50       		.byte	0x50
+ 370 01ca 00       		.byte	0
+ 371 01cb 11       		.uleb128 0x11
+ 372 01cc A1010000 		.4byte	.LASF35
+ 373 01d0 07       		.byte	0x7
+ 374 01d1 9606     		.2byte	0x696
+ 375 01d3 D7010000 		.4byte	0x1d7
+ 376 01d7 12       		.uleb128 0x12
+ 377 01d8 8C000000 		.4byte	0x8c
+ 378 01dc 13       		.uleb128 0x13
+ 379 01dd 27010000 		.4byte	.LASF22
+ 380 01e1 27010000 		.4byte	.LASF22
+ 381 01e5 04       		.byte	0x4
+ 382 01e6 6F       		.byte	0x6f
+ 383 01e7 13       		.uleb128 0x13
+ 384 01e8 6F010000 		.4byte	.LASF23
+ 385 01ec 6F010000 		.4byte	.LASF23
+ 386 01f0 04       		.byte	0x4
+ 387 01f1 88       		.byte	0x88
+ 388 01f2 13       		.uleb128 0x13
+ 389 01f3 DA010000 		.4byte	.LASF24
+ 390 01f7 DA010000 		.4byte	.LASF24
+ 391 01fb 04       		.byte	0x4
+ 392 01fc 73       		.byte	0x73
+ 393 01fd 13       		.uleb128 0x13
+ 394 01fe 00000000 		.4byte	.LASF25
+ 395 0202 00000000 		.4byte	.LASF25
+ 396 0206 05       		.byte	0x5
+ 397 0207 18       		.byte	0x18
+ 398 0208 13       		.uleb128 0x13
+ 399 0209 14000000 		.4byte	.LASF26
+ 400 020d 14000000 		.4byte	.LASF26
+ 401 0211 04       		.byte	0x4
+ 402 0212 54       		.byte	0x54
+ 403 0213 13       		.uleb128 0x13
+ 404 0214 47020000 		.4byte	.LASF27
+ 405 0218 47020000 		.4byte	.LASF27
+ 406 021c 06       		.byte	0x6
+ 407 021d 34       		.byte	0x34
+ 408 021e 13       		.uleb128 0x13
+ 409 021f 39010000 		.4byte	.LASF28
+ 410 0223 39010000 		.4byte	.LASF28
+ 411 0227 06       		.byte	0x6
+ 412 0228 D1       		.byte	0xd1
+ 413 0229 13       		.uleb128 0x13
+ 414 022a 57020000 		.4byte	.LASF29
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 10
+
+
+ 415 022e 57020000 		.4byte	.LASF29
+ 416 0232 04       		.byte	0x4
+ 417 0233 8B       		.byte	0x8b
+ 418 0234 00       		.byte	0
+ 419              		.section	.debug_abbrev,"",%progbits
+ 420              	.Ldebug_abbrev0:
+ 421 0000 01       		.uleb128 0x1
+ 422 0001 11       		.uleb128 0x11
+ 423 0002 01       		.byte	0x1
+ 424 0003 25       		.uleb128 0x25
+ 425 0004 0E       		.uleb128 0xe
+ 426 0005 13       		.uleb128 0x13
+ 427 0006 0B       		.uleb128 0xb
+ 428 0007 03       		.uleb128 0x3
+ 429 0008 0E       		.uleb128 0xe
+ 430 0009 1B       		.uleb128 0x1b
+ 431 000a 0E       		.uleb128 0xe
+ 432 000b 55       		.uleb128 0x55
+ 433 000c 17       		.uleb128 0x17
+ 434 000d 11       		.uleb128 0x11
+ 435 000e 01       		.uleb128 0x1
+ 436 000f 10       		.uleb128 0x10
+ 437 0010 17       		.uleb128 0x17
+ 438 0011 00       		.byte	0
+ 439 0012 00       		.byte	0
+ 440 0013 02       		.uleb128 0x2
+ 441 0014 24       		.uleb128 0x24
+ 442 0015 00       		.byte	0
+ 443 0016 0B       		.uleb128 0xb
+ 444 0017 0B       		.uleb128 0xb
+ 445 0018 3E       		.uleb128 0x3e
+ 446 0019 0B       		.uleb128 0xb
+ 447 001a 03       		.uleb128 0x3
+ 448 001b 0E       		.uleb128 0xe
+ 449 001c 00       		.byte	0
+ 450 001d 00       		.byte	0
+ 451 001e 03       		.uleb128 0x3
+ 452 001f 16       		.uleb128 0x16
+ 453 0020 00       		.byte	0
+ 454 0021 03       		.uleb128 0x3
+ 455 0022 0E       		.uleb128 0xe
+ 456 0023 3A       		.uleb128 0x3a
+ 457 0024 0B       		.uleb128 0xb
+ 458 0025 3B       		.uleb128 0x3b
+ 459 0026 0B       		.uleb128 0xb
+ 460 0027 49       		.uleb128 0x49
+ 461 0028 13       		.uleb128 0x13
+ 462 0029 00       		.byte	0
+ 463 002a 00       		.byte	0
+ 464 002b 04       		.uleb128 0x4
+ 465 002c 24       		.uleb128 0x24
+ 466 002d 00       		.byte	0
+ 467 002e 0B       		.uleb128 0xb
+ 468 002f 0B       		.uleb128 0xb
+ 469 0030 3E       		.uleb128 0x3e
+ 470 0031 0B       		.uleb128 0xb
+ 471 0032 03       		.uleb128 0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 11
+
+
+ 472 0033 08       		.uleb128 0x8
+ 473 0034 00       		.byte	0
+ 474 0035 00       		.byte	0
+ 475 0036 05       		.uleb128 0x5
+ 476 0037 2E       		.uleb128 0x2e
+ 477 0038 01       		.byte	0x1
+ 478 0039 3F       		.uleb128 0x3f
+ 479 003a 19       		.uleb128 0x19
+ 480 003b 03       		.uleb128 0x3
+ 481 003c 0E       		.uleb128 0xe
+ 482 003d 3A       		.uleb128 0x3a
+ 483 003e 0B       		.uleb128 0xb
+ 484 003f 3B       		.uleb128 0x3b
+ 485 0040 0B       		.uleb128 0xb
+ 486 0041 27       		.uleb128 0x27
+ 487 0042 19       		.uleb128 0x19
+ 488 0043 11       		.uleb128 0x11
+ 489 0044 01       		.uleb128 0x1
+ 490 0045 12       		.uleb128 0x12
+ 491 0046 06       		.uleb128 0x6
+ 492 0047 40       		.uleb128 0x40
+ 493 0048 18       		.uleb128 0x18
+ 494 0049 9742     		.uleb128 0x2117
+ 495 004b 19       		.uleb128 0x19
+ 496 004c 01       		.uleb128 0x1
+ 497 004d 13       		.uleb128 0x13
+ 498 004e 00       		.byte	0
+ 499 004f 00       		.byte	0
+ 500 0050 06       		.uleb128 0x6
+ 501 0051 34       		.uleb128 0x34
+ 502 0052 00       		.byte	0
+ 503 0053 03       		.uleb128 0x3
+ 504 0054 0E       		.uleb128 0xe
+ 505 0055 3A       		.uleb128 0x3a
+ 506 0056 0B       		.uleb128 0xb
+ 507 0057 3B       		.uleb128 0x3b
+ 508 0058 0B       		.uleb128 0xb
+ 509 0059 49       		.uleb128 0x49
+ 510 005a 13       		.uleb128 0x13
+ 511 005b 02       		.uleb128 0x2
+ 512 005c 17       		.uleb128 0x17
+ 513 005d 00       		.byte	0
+ 514 005e 00       		.byte	0
+ 515 005f 07       		.uleb128 0x7
+ 516 0060 0B       		.uleb128 0xb
+ 517 0061 01       		.byte	0x1
+ 518 0062 11       		.uleb128 0x11
+ 519 0063 01       		.uleb128 0x1
+ 520 0064 12       		.uleb128 0x12
+ 521 0065 06       		.uleb128 0x6
+ 522 0066 01       		.uleb128 0x1
+ 523 0067 13       		.uleb128 0x13
+ 524 0068 00       		.byte	0
+ 525 0069 00       		.byte	0
+ 526 006a 08       		.uleb128 0x8
+ 527 006b 898201   		.uleb128 0x4109
+ 528 006e 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 12
+
+
+ 529 006f 11       		.uleb128 0x11
+ 530 0070 01       		.uleb128 0x1
+ 531 0071 31       		.uleb128 0x31
+ 532 0072 13       		.uleb128 0x13
+ 533 0073 00       		.byte	0
+ 534 0074 00       		.byte	0
+ 535 0075 09       		.uleb128 0x9
+ 536 0076 2E       		.uleb128 0x2e
+ 537 0077 01       		.byte	0x1
+ 538 0078 3F       		.uleb128 0x3f
+ 539 0079 19       		.uleb128 0x19
+ 540 007a 03       		.uleb128 0x3
+ 541 007b 0E       		.uleb128 0xe
+ 542 007c 3A       		.uleb128 0x3a
+ 543 007d 0B       		.uleb128 0xb
+ 544 007e 3B       		.uleb128 0x3b
+ 545 007f 0B       		.uleb128 0xb
+ 546 0080 27       		.uleb128 0x27
+ 547 0081 19       		.uleb128 0x19
+ 548 0082 49       		.uleb128 0x49
+ 549 0083 13       		.uleb128 0x13
+ 550 0084 8701     		.uleb128 0x87
+ 551 0086 19       		.uleb128 0x19
+ 552 0087 11       		.uleb128 0x11
+ 553 0088 01       		.uleb128 0x1
+ 554 0089 12       		.uleb128 0x12
+ 555 008a 06       		.uleb128 0x6
+ 556 008b 40       		.uleb128 0x40
+ 557 008c 18       		.uleb128 0x18
+ 558 008d 9742     		.uleb128 0x2117
+ 559 008f 19       		.uleb128 0x19
+ 560 0090 01       		.uleb128 0x1
+ 561 0091 13       		.uleb128 0x13
+ 562 0092 00       		.byte	0
+ 563 0093 00       		.byte	0
+ 564 0094 0A       		.uleb128 0xa
+ 565 0095 34       		.uleb128 0x34
+ 566 0096 00       		.byte	0
+ 567 0097 03       		.uleb128 0x3
+ 568 0098 0E       		.uleb128 0xe
+ 569 0099 3A       		.uleb128 0x3a
+ 570 009a 0B       		.uleb128 0xb
+ 571 009b 3B       		.uleb128 0x3b
+ 572 009c 0B       		.uleb128 0xb
+ 573 009d 49       		.uleb128 0x49
+ 574 009e 13       		.uleb128 0x13
+ 575 009f 00       		.byte	0
+ 576 00a0 00       		.byte	0
+ 577 00a1 0B       		.uleb128 0xb
+ 578 00a2 898201   		.uleb128 0x4109
+ 579 00a5 01       		.byte	0x1
+ 580 00a6 11       		.uleb128 0x11
+ 581 00a7 01       		.uleb128 0x1
+ 582 00a8 31       		.uleb128 0x31
+ 583 00a9 13       		.uleb128 0x13
+ 584 00aa 01       		.uleb128 0x1
+ 585 00ab 13       		.uleb128 0x13
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 13
+
+
+ 586 00ac 00       		.byte	0
+ 587 00ad 00       		.byte	0
+ 588 00ae 0C       		.uleb128 0xc
+ 589 00af 8A8201   		.uleb128 0x410a
+ 590 00b2 00       		.byte	0
+ 591 00b3 02       		.uleb128 0x2
+ 592 00b4 18       		.uleb128 0x18
+ 593 00b5 9142     		.uleb128 0x2111
+ 594 00b7 18       		.uleb128 0x18
+ 595 00b8 00       		.byte	0
+ 596 00b9 00       		.byte	0
+ 597 00ba 0D       		.uleb128 0xd
+ 598 00bb 898201   		.uleb128 0x4109
+ 599 00be 01       		.byte	0x1
+ 600 00bf 11       		.uleb128 0x11
+ 601 00c0 01       		.uleb128 0x1
+ 602 00c1 31       		.uleb128 0x31
+ 603 00c2 13       		.uleb128 0x13
+ 604 00c3 00       		.byte	0
+ 605 00c4 00       		.byte	0
+ 606 00c5 0E       		.uleb128 0xe
+ 607 00c6 01       		.uleb128 0x1
+ 608 00c7 01       		.byte	0x1
+ 609 00c8 49       		.uleb128 0x49
+ 610 00c9 13       		.uleb128 0x13
+ 611 00ca 01       		.uleb128 0x1
+ 612 00cb 13       		.uleb128 0x13
+ 613 00cc 00       		.byte	0
+ 614 00cd 00       		.byte	0
+ 615 00ce 0F       		.uleb128 0xf
+ 616 00cf 21       		.uleb128 0x21
+ 617 00d0 00       		.byte	0
+ 618 00d1 49       		.uleb128 0x49
+ 619 00d2 13       		.uleb128 0x13
+ 620 00d3 2F       		.uleb128 0x2f
+ 621 00d4 0B       		.uleb128 0xb
+ 622 00d5 00       		.byte	0
+ 623 00d6 00       		.byte	0
+ 624 00d7 10       		.uleb128 0x10
+ 625 00d8 05       		.uleb128 0x5
+ 626 00d9 00       		.byte	0
+ 627 00da 03       		.uleb128 0x3
+ 628 00db 0E       		.uleb128 0xe
+ 629 00dc 3A       		.uleb128 0x3a
+ 630 00dd 0B       		.uleb128 0xb
+ 631 00de 3B       		.uleb128 0x3b
+ 632 00df 0B       		.uleb128 0xb
+ 633 00e0 49       		.uleb128 0x49
+ 634 00e1 13       		.uleb128 0x13
+ 635 00e2 02       		.uleb128 0x2
+ 636 00e3 18       		.uleb128 0x18
+ 637 00e4 00       		.byte	0
+ 638 00e5 00       		.byte	0
+ 639 00e6 11       		.uleb128 0x11
+ 640 00e7 34       		.uleb128 0x34
+ 641 00e8 00       		.byte	0
+ 642 00e9 03       		.uleb128 0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 14
+
+
+ 643 00ea 0E       		.uleb128 0xe
+ 644 00eb 3A       		.uleb128 0x3a
+ 645 00ec 0B       		.uleb128 0xb
+ 646 00ed 3B       		.uleb128 0x3b
+ 647 00ee 05       		.uleb128 0x5
+ 648 00ef 49       		.uleb128 0x49
+ 649 00f0 13       		.uleb128 0x13
+ 650 00f1 3F       		.uleb128 0x3f
+ 651 00f2 19       		.uleb128 0x19
+ 652 00f3 3C       		.uleb128 0x3c
+ 653 00f4 19       		.uleb128 0x19
+ 654 00f5 00       		.byte	0
+ 655 00f6 00       		.byte	0
+ 656 00f7 12       		.uleb128 0x12
+ 657 00f8 35       		.uleb128 0x35
+ 658 00f9 00       		.byte	0
+ 659 00fa 49       		.uleb128 0x49
+ 660 00fb 13       		.uleb128 0x13
+ 661 00fc 00       		.byte	0
+ 662 00fd 00       		.byte	0
+ 663 00fe 13       		.uleb128 0x13
+ 664 00ff 2E       		.uleb128 0x2e
+ 665 0100 00       		.byte	0
+ 666 0101 3F       		.uleb128 0x3f
+ 667 0102 19       		.uleb128 0x19
+ 668 0103 3C       		.uleb128 0x3c
+ 669 0104 19       		.uleb128 0x19
+ 670 0105 6E       		.uleb128 0x6e
+ 671 0106 0E       		.uleb128 0xe
+ 672 0107 03       		.uleb128 0x3
+ 673 0108 0E       		.uleb128 0xe
+ 674 0109 3A       		.uleb128 0x3a
+ 675 010a 0B       		.uleb128 0xb
+ 676 010b 3B       		.uleb128 0x3b
+ 677 010c 0B       		.uleb128 0xb
+ 678 010d 00       		.byte	0
+ 679 010e 00       		.byte	0
+ 680 010f 00       		.byte	0
+ 681              		.section	.debug_loc,"",%progbits
+ 682              	.Ldebug_loc0:
+ 683              	.LLST0:
+ 684 0000 08000000 		.4byte	.LVL1
+ 685 0004 14000000 		.4byte	.LVL4
+ 686 0008 0100     		.2byte	0x1
+ 687 000a 54       		.byte	0x54
+ 688 000b 16000000 		.4byte	.LVL5
+ 689 000f 1C000000 		.4byte	.LFE65
+ 690 0013 0100     		.2byte	0x1
+ 691 0015 54       		.byte	0x54
+ 692 0016 00000000 		.4byte	0
+ 693 001a 00000000 		.4byte	0
+ 694              	.LLST1:
+ 695 001e 0E000000 		.4byte	.LVL2
+ 696 0022 11000000 		.4byte	.LVL3-1
+ 697 0026 0100     		.2byte	0x1
+ 698 0028 50       		.byte	0x50
+ 699 0029 00000000 		.4byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 15
+
+
+ 700 002d 00000000 		.4byte	0
+ 701              		.section	.debug_aranges,"",%progbits
+ 702 0000 2C000000 		.4byte	0x2c
+ 703 0004 0200     		.2byte	0x2
+ 704 0006 00000000 		.4byte	.Ldebug_info0
+ 705 000a 04       		.byte	0x4
+ 706 000b 00       		.byte	0
+ 707 000c 0000     		.2byte	0
+ 708 000e 0000     		.2byte	0
+ 709 0010 00000000 		.4byte	.LFB65
+ 710 0014 1C000000 		.4byte	.LFE65-.LFB65
+ 711 0018 00000000 		.4byte	.LFB64
+ 712 001c 30000000 		.4byte	.LFE64-.LFB64
+ 713 0020 00000000 		.4byte	.LFB66
+ 714 0024 02000000 		.4byte	.LFE66-.LFB66
+ 715 0028 00000000 		.4byte	0
+ 716 002c 00000000 		.4byte	0
+ 717              		.section	.debug_ranges,"",%progbits
+ 718              	.Ldebug_ranges0:
+ 719 0000 00000000 		.4byte	.LFB65
+ 720 0004 1C000000 		.4byte	.LFE65
+ 721 0008 00000000 		.4byte	.LFB64
+ 722 000c 30000000 		.4byte	.LFE64
+ 723 0010 00000000 		.4byte	.LFB66
+ 724 0014 02000000 		.4byte	.LFE66
+ 725 0018 00000000 		.4byte	0
+ 726 001c 00000000 		.4byte	0
+ 727              		.section	.debug_line,"",%progbits
+ 728              	.Ldebug_line0:
+ 729 0000 B0010000 		.section	.debug_str,"MS",%progbits,1
+ 729      02006B01 
+ 729      00000201 
+ 729      FB0E0D00 
+ 729      01010101 
+ 730              	.LASF25:
+ 731 0000 6973725F 		.ascii	"isr_uart_rx_StartEx\000"
+ 731      75617274 
+ 731      5F72785F 
+ 731      53746172 
+ 731      74457800 
+ 732              	.LASF26:
+ 733 0014 55415254 		.ascii	"UART_1_Start\000"
+ 733      5F315F53 
+ 733      74617274 
+ 733      00
+ 734              	.LASF4:
+ 735 0021 5F5F7569 		.ascii	"__uint8_t\000"
+ 735      6E74385F 
+ 735      7400
+ 736              	.LASF34:
+ 737 002b 75617274 		.ascii	"uartBuffer\000"
+ 737      42756666 
+ 737      657200
+ 738              	.LASF5:
+ 739 0036 5F5F696E 		.ascii	"__int32_t\000"
+ 739      7433325F 
+ 739      7400
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 16
+
+
+ 740              	.LASF3:
+ 741 0040 73686F72 		.ascii	"short unsigned int\000"
+ 741      7420756E 
+ 741      7369676E 
+ 741      65642069 
+ 741      6E7400
+ 742              	.LASF18:
+ 743 0053 62797465 		.ascii	"bytesToRead\000"
+ 743      73546F52 
+ 743      65616400 
+ 744              	.LASF13:
+ 745 005f 666C6F61 		.ascii	"float\000"
+ 745      7400
+ 746              	.LASF1:
+ 747 0065 756E7369 		.ascii	"unsigned char\000"
+ 747      676E6564 
+ 747      20636861 
+ 747      7200
+ 748              	.LASF30:
+ 749 0073 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 749      43313120 
+ 749      352E342E 
+ 749      31203230 
+ 749      31363036 
+ 750 00a6 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 750      20726576 
+ 750      6973696F 
+ 750      6E203233 
+ 750      37373135 
+ 751 00d9 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 751      66756E63 
+ 751      74696F6E 
+ 751      2D736563 
+ 751      74696F6E 
+ 752              	.LASF20:
+ 753 0101 4953525F 		.ascii	"ISR_UART_rx_handler\000"
+ 753      55415254 
+ 753      5F72785F 
+ 753      68616E64 
+ 753      6C657200 
+ 754              	.LASF7:
+ 755 0115 6C6F6E67 		.ascii	"long unsigned int\000"
+ 755      20756E73 
+ 755      69676E65 
+ 755      6420696E 
+ 755      7400
+ 756              	.LASF22:
+ 757 0127 55415254 		.ascii	"UART_1_ReadRxData\000"
+ 757      5F315F52 
+ 757      65616452 
+ 757      78446174 
+ 757      6100
+ 758              	.LASF28:
+ 759 0139 4144435F 		.ascii	"ADC_SAR_1_StartConvert\000"
+ 759      5341525F 
+ 759      315F5374 
+ 759      61727443 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 17
+
+
+ 759      6F6E7665 
+ 760              	.LASF32:
+ 761 0150 433A5C33 		.ascii	"C:\\3. semester\\GFV\\Scale.cydsn\000"
+ 761      2E207365 
+ 761      6D657374 
+ 761      65725C47 
+ 761      46565C53 
+ 762              	.LASF23:
+ 763 016f 55415254 		.ascii	"UART_1_WriteTxData\000"
+ 763      5F315F57 
+ 763      72697465 
+ 763      54784461 
+ 763      746100
+ 764              	.LASF14:
+ 765 0182 646F7562 		.ascii	"double\000"
+ 765      6C6500
+ 766              	.LASF33:
+ 767 0189 6D61696E 		.ascii	"main\000"
+ 767      00
+ 768              	.LASF21:
+ 769 018e 68616E64 		.ascii	"handleByteReceived\000"
+ 769      6C654279 
+ 769      74655265 
+ 769      63656976 
+ 769      656400
+ 770              	.LASF35:
+ 771 01a1 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 771      52784275 
+ 771      66666572 
+ 771      00
+ 772              	.LASF10:
+ 773 01ae 756E7369 		.ascii	"unsigned int\000"
+ 773      676E6564 
+ 773      20696E74 
+ 773      00
+ 774              	.LASF9:
+ 775 01bb 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 775      206C6F6E 
+ 775      6720756E 
+ 775      7369676E 
+ 775      65642069 
+ 776              	.LASF11:
+ 777 01d2 75696E74 		.ascii	"uint8_t\000"
+ 777      385F7400 
+ 778              	.LASF24:
+ 779 01da 55415254 		.ascii	"UART_1_GetRxBufferSize\000"
+ 779      5F315F47 
+ 779      65745278 
+ 779      42756666 
+ 779      65725369 
+ 780              	.LASF12:
+ 781 01f1 696E7433 		.ascii	"int32_t\000"
+ 781      325F7400 
+ 782              	.LASF17:
+ 783 01f9 73697A65 		.ascii	"sizetype\000"
+ 783      74797065 
+ 783      00
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccBXmXkj.s 			page 18
+
+
+ 784              	.LASF8:
+ 785 0202 6C6F6E67 		.ascii	"long long int\000"
+ 785      206C6F6E 
+ 785      6720696E 
+ 785      7400
+ 786              	.LASF31:
+ 787 0210 6D61696E 		.ascii	"main.c\000"
+ 787      2E6300
+ 788              	.LASF15:
+ 789 0217 63686172 		.ascii	"char\000"
+ 789      00
+ 790              	.LASF2:
+ 791 021c 73686F72 		.ascii	"short int\000"
+ 791      7420696E 
+ 791      7400
+ 792              	.LASF6:
+ 793 0226 6C6F6E67 		.ascii	"long int\000"
+ 793      20696E74 
+ 793      00
+ 794              	.LASF16:
+ 795 022f 6C6F6E67 		.ascii	"long double\000"
+ 795      20646F75 
+ 795      626C6500 
+ 796              	.LASF0:
+ 797 023b 7369676E 		.ascii	"signed char\000"
+ 797      65642063 
+ 797      68617200 
+ 798              	.LASF27:
+ 799 0247 4144435F 		.ascii	"ADC_SAR_1_Start\000"
+ 799      5341525F 
+ 799      315F5374 
+ 799      61727400 
+ 800              	.LASF29:
+ 801 0257 55415254 		.ascii	"UART_1_PutString\000"
+ 801      5F315F50 
+ 801      75745374 
+ 801      72696E67 
+ 801      00
+ 802              	.LASF19:
+ 803 0268 62797465 		.ascii	"byteReceived\000"
+ 803      52656365 
+ 803      69766564 
+ 803      00
+ 804              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

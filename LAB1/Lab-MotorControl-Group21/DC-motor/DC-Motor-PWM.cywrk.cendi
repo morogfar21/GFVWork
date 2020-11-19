@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\TopDesign</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Pins</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Analog</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Clocks</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Interrupts</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\DMA</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\System</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Directives</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Flash Security</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\EEPROM</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Header Files</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Header Files\cyapicallbacks.h</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Source Files</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Source Files\main.c</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\TopDesign</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Pins</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Analog</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Clocks</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Interrupts</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\DMA</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\System</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Directives</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\Flash Security</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.cydwr\EEPROM</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Header Files</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Header Files\cyapicallbacks.h</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Source Files</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Source Files\main.c</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Clock_PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Clock_PWM_1</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\cy_boot</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\isr_uart_rx</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Pin_1B</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Pin_2B</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Pin_EN</v>
+<v>DC-Motor-PWM\DC-Motor-tank\Generated_Source\PSoC5\Pin_LN1</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\TopDesign</v>
+<v>DC-Motor-PWM\DC-Motor-tank\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\TopDesign</v>
+<v>DC-Motor-PWM\DC-Motor-tank\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_PWM.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_PWM_1.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\isr_uart_rx.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_1B.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_2B.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_EN.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN1.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN2.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN3.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN4.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_PWM.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_PWM2.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_1.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_1_PM.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_2.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_2_PM.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_BOOT.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_INT.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_IntClock.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_PM.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\DC-Motor-tank.elf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\DC-Motor-tank.hex</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\DC-Motor-tank.map</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.gpdsc</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank.rpt</v>
+<v>DC-Motor-PWM\DC-Motor-tank\DC-Motor-tank_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_PWM.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_PWM_1.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\isr_uart_rx.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_1B.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_2B.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_EN.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN1.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN2.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN3.lst</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN4.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\PSoC 5LP Architecture TRM</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CY8C58LP Family Datasheet</v>
+<v>DC-Motor-PWM\DC-Motor-tank\System Reference Guides</v>
+<v>DC-Motor-PWM\DC-Motor-tank\System Reference Guides\cy_boot_v5_50</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_clock_v2_20</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_isr_v1_70.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_pins_v2_20</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\PWM_v3_30</v>
+<v>DC-Motor-PWM\DC-Motor-tank\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\UART_v2_50.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>DC-Motor-PWM</v>
+<v>DC-Motor-PWM\DC-Motor-tank</v>
+<v>DC-Motor-PWM\DC-Motor-tank\PSoC 5LP Architecture TRM</v>
+<v>DC-Motor-PWM\DC-Motor-tank\CY8C58LP Family Datasheet</v>
+<v>DC-Motor-PWM\DC-Motor-tank\System Reference Guides</v>
+<v>DC-Motor-PWM\DC-Motor-tank\System Reference Guides\cy_boot_v5_50</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_clock_v2_20</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_isr_v1_70.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_pins_v2_20</v>
+<v>DC-Motor-PWM\DC-Motor-tank\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\PWM_v3_30</v>
+<v>DC-Motor-PWM\DC-Motor-tank\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>DC-Motor-PWM\DC-Motor-tank\UART_v2_50.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v="..\..\..\..\..\..\..\PSoC Creator\Projects\CE195352_PSoC_5LP_Blinking_LED\CE195277_ADC_and_UART\main.c" />
+<name v="..\..\..\..\Semesterprojekt\DC-Motor-tank.cydsn\cyapicallbacks.h" />
+<name v="..\..\..\..\Semesterprojekt\DC-Motor-tank.cydsn\TopDesign\TopDesign.cysch" />
+<name v="..\..\..\..\Semesterprojekt\DC-Motor-tank.cydsn\DC-Motor-tank.cydwr" />
+<name v="..\..\..\..\Semesterprojekt\DC-Motor-tank.cydsn\main.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="864, 383" SelectedTabbedMdiWindow="3f61a985-b895-43bb-b865-11fd1dd17297"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="b9e77714-268a-470e-8901-e47b0f6b4ea0" /><DocumentWindow Key="C:\Users\cendi\OneDrive\Dokumenter\PSoC Creator\Projects\CE195352_PSoC_5LP_Blinking_LED\CE195277_ADC_and_UART\main.c" Guid="bd97edd7-e3bd-417d-b639-9505694ab3dd" /><DocumentWindow Key="C:\Users\cendi\OneDrive\Dokumenter\Marcus ting\Skoleting\3.Semester\Semesterprojekt\DC-Motor-tank.cydsn\cyapicallbacks.h" Guid="7d90c4ed-6133-43f9-93d9-855f2af01157" /><DocumentWindow Key="C:\Users\cendi\OneDrive\Dokumenter\Marcus ting\Skoleting\3.Semester\Semesterprojekt\DC-Motor-tank.cydsn\TopDesign\TopDesign.cysch" Guid="3f61a985-b895-43bb-b865-11fd1dd17297" /><DocumentWindow Key="C:\Users\cendi\OneDrive\Dokumenter\Marcus ting\Skoleting\3.Semester\Semesterprojekt\DC-Motor-tank.cydsn\DC-Motor-tank.cydwr" Guid="06578d06-ddaf-4dfb-bd1b-53126b63377a" /><DocumentWindow Key="C:\Users\cendi\OneDrive\Dokumenter\Marcus ting\Skoleting\3.Semester\Semesterprojekt\DC-Motor-tank.cydsn\main.c" Guid="582389c7-8787-4092-9c1c-2605ae2e228c" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

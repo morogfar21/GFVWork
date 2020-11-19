@@ -1,0 +1,1385 @@
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** 
+  14:main.c        **** CY_ISR_PROTO(ISR_UART_rx_handler);
+  15:main.c        **** void handleByteReceived(uint8_t byteReceived);
+  16:main.c        **** 
+  17:main.c        **** void Turnon(void); //tænd LED
+  18:main.c        **** void Turnoff(void); // Sluk LED
+  19:main.c        **** 
+  20:main.c        **** uint8 char2 = '0'; //karakter der skal sendes
+  21:main.c        **** int main(void)
+  22:main.c        **** {
+  28              		.loc 1 22 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 2
+
+
+  23:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  36              		.loc 1 23 0
+  37              		.syntax unified
+  38              	@ 23 "main.c" 1
+  39 0002 62B6     		CPSIE   i
+  40              	@ 0 "" 2
+  24:main.c        **** 
+  25:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  26:main.c        ****     isr_uart_rx_StartEx(ISR_UART_rx_handler); //UART interrupt initialiseres
+  41              		.loc 1 26 0
+  42              		.thumb
+  43              		.syntax unified
+  44 0004 0B48     		ldr	r0, .L5
+  45 0006 FFF7FEFF 		bl	isr_uart_rx_StartEx
+  46              	.LVL0:
+  27:main.c        ****     UART_1_Start(); //UART initialiseres
+  47              		.loc 1 27 0
+  48 000a FFF7FEFF 		bl	UART_1_Start
+  49              	.LVL1:
+  28:main.c        ****     
+  29:main.c        ****     
+  30:main.c        ****     
+  31:main.c        ****     
+  32:main.c        ****   
+  33:main.c        **** 
+  34:main.c        ****     //static uint8 mTxBuffer[8];
+  35:main.c        ****     
+  36:main.c        ****     CyGlobalIntEnable;
+  50              		.loc 1 36 0
+  51              		.syntax unified
+  52              	@ 36 "main.c" 1
+  53 000e 62B6     		CPSIE   i
+  54              	@ 0 "" 2
+  55              		.thumb
+  56              		.syntax unified
+  57              	.L3:
+  58              	.LBB2:
+  37:main.c        ****     
+  38:main.c        ****     for(;;)
+  39:main.c        ****     {
+  40:main.c        ****         SPIM_Start(); //SPI kommunikation startes
+  59              		.loc 1 40 0
+  60 0010 FFF7FEFF 		bl	SPIM_Start
+  61              	.LVL2:
+  41:main.c        ****         
+  42:main.c        ****        
+  43:main.c        ****         SPIM_WriteTxData(char2); //karakter skrives til Slave
+  62              		.loc 1 43 0
+  63 0014 084B     		ldr	r3, .L5+4
+  64 0016 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  65 0018 FFF7FEFF 		bl	SPIM_WriteTxData
+  66              	.LVL3:
+  67              	.L2:
+  44:main.c        ****         while(!SPIM_ReadRxStatus()); //Der ventes til, der er klar
+  68              		.loc 1 44 0 discriminator 1
+  69 001c FFF7FEFF 		bl	SPIM_ReadRxStatus
+  70              	.LVL4:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 3
+
+
+  71 0020 0028     		cmp	r0, #0
+  72 0022 FBD0     		beq	.L2
+  45:main.c        ****         uint8 data = SPIM_ReadRxData();
+  73              		.loc 1 45 0
+  74 0024 FFF7FEFF 		bl	SPIM_ReadRxData
+  75              	.LVL5:
+  46:main.c        ****         UART_1_PutChar(data); //Den modtaget karakter sendes ud på terminal
+  76              		.loc 1 46 0
+  77 0028 FFF7FEFF 		bl	UART_1_PutChar
+  78              	.LVL6:
+  47:main.c        ****         UART_1_PutString("\r\n");
+  79              		.loc 1 47 0
+  80 002c 0348     		ldr	r0, .L5+8
+  81 002e FFF7FEFF 		bl	UART_1_PutString
+  82              	.LVL7:
+  83              	.LBE2:
+  48:main.c        ****         }
+  84              		.loc 1 48 0
+  85 0032 EDE7     		b	.L3
+  86              	.L6:
+  87              		.align	2
+  88              	.L5:
+  89 0034 00000000 		.word	ISR_UART_rx_handler
+  90 0038 00000000 		.word	.LANCHOR0
+  91 003c 00000000 		.word	.LC0
+  92              		.cfi_endproc
+  93              	.LFE63:
+  94              		.size	main, .-main
+  95              		.section	.text.Turnon,"ax",%progbits
+  96              		.align	2
+  97              		.global	Turnon
+  98              		.thumb
+  99              		.thumb_func
+ 100              		.type	Turnon, %function
+ 101              	Turnon:
+ 102              	.LFB66:
+  49:main.c        ****         SPIM_ClearRxBuffer(); //clear buffer, så der er klar til næste transmission
+  50:main.c        ****         
+  51:main.c        ****         
+  52:main.c        ****         /* Place your application code here. */
+  53:main.c        ****         
+  54:main.c        ****     //}
+  55:main.c        ****         
+  56:main.c        ****     SPIM_Stop(); //SPI stoppes
+  57:main.c        ****     CyDelay(1000);
+  58:main.c        **** }
+  59:main.c        **** 
+  60:main.c        **** CY_ISR(ISR_UART_rx_handler)
+  61:main.c        **** {
+  62:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+  63:main.c        ****     while (bytesToRead > 0)
+  64:main.c        ****     {
+  65:main.c        ****         uint8_t byteReceived = UART_1_ReadRxData();
+  66:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+  67:main.c        ****         
+  68:main.c        ****         handleByteReceived(byteReceived);
+  69:main.c        ****         
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 4
+
+
+  70:main.c        ****         bytesToRead--;
+  71:main.c        ****     }
+  72:main.c        **** }
+  73:main.c        **** 
+  74:main.c        **** void handleByteReceived(uint8_t byteReceived)
+  75:main.c        **** {
+  76:main.c        ****     //Ved at taste disse tegn i terminalen kaldes de respektive metoder
+  77:main.c        ****     switch(byteReceived)
+  78:main.c        ****     {
+  79:main.c        ****         
+  80:main.c        ****         case '1' :
+  81:main.c        ****         {
+  82:main.c        ****             Turnon(); //tænd LED
+  83:main.c        ****         }
+  84:main.c        ****         break;
+  85:main.c        ****         
+  86:main.c        ****         case '0' :
+  87:main.c        ****         {
+  88:main.c        ****             Turnoff(); //sluk LED
+  89:main.c        ****             
+  90:main.c        ****         }
+  91:main.c        ****         break;
+  92:main.c        ****         default :
+  93:main.c        ****         {
+  94:main.c        ****             // nothing
+  95:main.c        ****         }
+  96:main.c        ****         break;
+  97:main.c        ****     }
+  98:main.c        **** }
+  99:main.c        **** 
+ 100:main.c        **** void Turnon()
+ 101:main.c        **** {
+ 103              		.loc 1 101 0
+ 104              		.cfi_startproc
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107 0000 08B5     		push	{r3, lr}
+ 108              		.cfi_def_cfa_offset 8
+ 109              		.cfi_offset 3, -8
+ 110              		.cfi_offset 14, -4
+ 102:main.c        ****     UART_1_PutString("Tend\r\n");
+ 111              		.loc 1 102 0
+ 112 0002 0348     		ldr	r0, .L9
+ 113 0004 FFF7FEFF 		bl	UART_1_PutString
+ 114              	.LVL8:
+ 103:main.c        ****     char2 = '1'; //set til tænd
+ 115              		.loc 1 103 0
+ 116 0008 3122     		movs	r2, #49
+ 117 000a 024B     		ldr	r3, .L9+4
+ 118 000c 1A70     		strb	r2, [r3]
+ 119 000e 08BD     		pop	{r3, pc}
+ 120              	.L10:
+ 121              		.align	2
+ 122              	.L9:
+ 123 0010 04000000 		.word	.LC1
+ 124 0014 00000000 		.word	.LANCHOR0
+ 125              		.cfi_endproc
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 5
+
+
+ 126              	.LFE66:
+ 127              		.size	Turnon, .-Turnon
+ 128              		.section	.text.Turnoff,"ax",%progbits
+ 129              		.align	2
+ 130              		.global	Turnoff
+ 131              		.thumb
+ 132              		.thumb_func
+ 133              		.type	Turnoff, %function
+ 134              	Turnoff:
+ 135              	.LFB67:
+ 104:main.c        ****     
+ 105:main.c        **** }
+ 106:main.c        **** 
+ 107:main.c        **** 
+ 108:main.c        **** void Turnoff()
+ 109:main.c        **** {
+ 136              		.loc 1 109 0
+ 137              		.cfi_startproc
+ 138              		@ args = 0, pretend = 0, frame = 0
+ 139              		@ frame_needed = 0, uses_anonymous_args = 0
+ 140 0000 08B5     		push	{r3, lr}
+ 141              		.cfi_def_cfa_offset 8
+ 142              		.cfi_offset 3, -8
+ 143              		.cfi_offset 14, -4
+ 110:main.c        ****     
+ 111:main.c        ****     UART_1_PutString("Sluk\r\n");
+ 144              		.loc 1 111 0
+ 145 0002 0348     		ldr	r0, .L13
+ 146 0004 FFF7FEFF 		bl	UART_1_PutString
+ 147              	.LVL9:
+ 112:main.c        ****     char2 = '0'; //set til sluk
+ 148              		.loc 1 112 0
+ 149 0008 3022     		movs	r2, #48
+ 150 000a 024B     		ldr	r3, .L13+4
+ 151 000c 1A70     		strb	r2, [r3]
+ 152 000e 08BD     		pop	{r3, pc}
+ 153              	.L14:
+ 154              		.align	2
+ 155              	.L13:
+ 156 0010 0C000000 		.word	.LC2
+ 157 0014 00000000 		.word	.LANCHOR0
+ 158              		.cfi_endproc
+ 159              	.LFE67:
+ 160              		.size	Turnoff, .-Turnoff
+ 161              		.section	.text.handleByteReceived,"ax",%progbits
+ 162              		.align	2
+ 163              		.global	handleByteReceived
+ 164              		.thumb
+ 165              		.thumb_func
+ 166              		.type	handleByteReceived, %function
+ 167              	handleByteReceived:
+ 168              	.LFB65:
+  75:main.c        ****     //Ved at taste disse tegn i terminalen kaldes de respektive metoder
+ 169              		.loc 1 75 0
+ 170              		.cfi_startproc
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 6
+
+
+ 173              	.LVL10:
+ 174 0000 08B5     		push	{r3, lr}
+ 175              		.cfi_def_cfa_offset 8
+ 176              		.cfi_offset 3, -8
+ 177              		.cfi_offset 14, -4
+  77:main.c        ****     {
+ 178              		.loc 1 77 0
+ 179 0002 3028     		cmp	r0, #48
+ 180 0004 04D0     		beq	.L17
+ 181 0006 3128     		cmp	r0, #49
+ 182 0008 04D1     		bne	.L15
+  82:main.c        ****         }
+ 183              		.loc 1 82 0
+ 184 000a FFF7FEFF 		bl	Turnon
+ 185              	.LVL11:
+  84:main.c        ****         
+ 186              		.loc 1 84 0
+ 187 000e 08BD     		pop	{r3, pc}
+ 188              	.LVL12:
+ 189              	.L17:
+  88:main.c        ****             
+ 190              		.loc 1 88 0
+ 191 0010 FFF7FEFF 		bl	Turnoff
+ 192              	.LVL13:
+ 193              	.L15:
+ 194 0014 08BD     		pop	{r3, pc}
+ 195              		.cfi_endproc
+ 196              	.LFE65:
+ 197              		.size	handleByteReceived, .-handleByteReceived
+ 198 0016 00BF     		.section	.text.ISR_UART_rx_handler,"ax",%progbits
+ 199              		.align	2
+ 200              		.global	ISR_UART_rx_handler
+ 201              		.thumb
+ 202              		.thumb_func
+ 203              		.type	ISR_UART_rx_handler, %function
+ 204              	ISR_UART_rx_handler:
+ 205              	.LFB64:
+  61:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+ 206              		.loc 1 61 0
+ 207              		.cfi_startproc
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210 0000 38B5     		push	{r3, r4, r5, lr}
+ 211              		.cfi_def_cfa_offset 16
+ 212              		.cfi_offset 3, -16
+ 213              		.cfi_offset 4, -12
+ 214              		.cfi_offset 5, -8
+ 215              		.cfi_offset 14, -4
+  62:main.c        ****     while (bytesToRead > 0)
+ 216              		.loc 1 62 0
+ 217 0002 FFF7FEFF 		bl	UART_1_GetRxBufferSize
+ 218              	.LVL14:
+ 219 0006 0446     		mov	r4, r0
+ 220              	.LVL15:
+  63:main.c        ****     {
+ 221              		.loc 1 63 0
+ 222 0008 09E0     		b	.L21
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 7
+
+
+ 223              	.L22:
+ 224              	.LBB3:
+  65:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+ 225              		.loc 1 65 0
+ 226 000a FFF7FEFF 		bl	UART_1_ReadRxData
+ 227              	.LVL16:
+ 228 000e 0546     		mov	r5, r0
+ 229              	.LVL17:
+  66:main.c        ****         
+ 230              		.loc 1 66 0
+ 231 0010 FFF7FEFF 		bl	UART_1_WriteTxData
+ 232              	.LVL18:
+  68:main.c        ****         
+ 233              		.loc 1 68 0
+ 234 0014 2846     		mov	r0, r5
+ 235 0016 FFF7FEFF 		bl	handleByteReceived
+ 236              	.LVL19:
+  70:main.c        ****     }
+ 237              		.loc 1 70 0
+ 238 001a 013C     		subs	r4, r4, #1
+ 239              	.LVL20:
+ 240 001c E4B2     		uxtb	r4, r4
+ 241              	.LVL21:
+ 242              	.L21:
+ 243              	.LBE3:
+  63:main.c        ****     {
+ 244              		.loc 1 63 0
+ 245 001e 002C     		cmp	r4, #0
+ 246 0020 F3D1     		bne	.L22
+  72:main.c        **** 
+ 247              		.loc 1 72 0
+ 248 0022 38BD     		pop	{r3, r4, r5, pc}
+ 249              		.cfi_endproc
+ 250              	.LFE64:
+ 251              		.size	ISR_UART_rx_handler, .-ISR_UART_rx_handler
+ 252              		.global	char2
+ 253              		.data
+ 254              		.set	.LANCHOR0,. + 0
+ 255              		.type	char2, %object
+ 256              		.size	char2, 1
+ 257              	char2:
+ 258 0000 30       		.byte	48
+ 259              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 260              		.align	2
+ 261              	.LC0:
+ 262 0000 0D0A00   		.ascii	"\015\012\000"
+ 263 0003 00       		.space	1
+ 264              	.LC1:
+ 265 0004 54656E64 		.ascii	"Tend\015\012\000"
+ 265      0D0A00
+ 266 000b 00       		.space	1
+ 267              	.LC2:
+ 268 000c 536C756B 		.ascii	"Sluk\015\012\000"
+ 268      0D0A00
+ 269              		.text
+ 270              	.Letext0:
+ 271              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 8
+
+
+ 272              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 273              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 274              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 275              		.file 6 "Generated_Source\\PSoC5/SPIM.h"
+ 276              		.file 7 "Generated_Source\\PSoC5/UART_1.h"
+ 277              		.file 8 "Generated_Source\\PSoC5/isr_uart_rx.h"
+ 278              		.section	.debug_info,"",%progbits
+ 279              	.Ldebug_info0:
+ 280 0000 F6020000 		.4byte	0x2f6
+ 281 0004 0400     		.2byte	0x4
+ 282 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 283 000a 04       		.byte	0x4
+ 284 000b 01       		.uleb128 0x1
+ 285 000c 9C000000 		.4byte	.LASF39
+ 286 0010 0C       		.byte	0xc
+ 287 0011 5C020000 		.4byte	.LASF40
+ 288 0015 62010000 		.4byte	.LASF41
+ 289 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 290 001d 00000000 		.4byte	0
+ 291 0021 00000000 		.4byte	.Ldebug_line0
+ 292 0025 02       		.uleb128 0x2
+ 293 0026 01       		.byte	0x1
+ 294 0027 06       		.byte	0x6
+ 295 0028 8F020000 		.4byte	.LASF0
+ 296 002c 03       		.uleb128 0x3
+ 297 002d 21000000 		.4byte	.LASF4
+ 298 0031 02       		.byte	0x2
+ 299 0032 1D       		.byte	0x1d
+ 300 0033 37000000 		.4byte	0x37
+ 301 0037 02       		.uleb128 0x2
+ 302 0038 01       		.byte	0x1
+ 303 0039 08       		.byte	0x8
+ 304 003a 8E000000 		.4byte	.LASF1
+ 305 003e 02       		.uleb128 0x2
+ 306 003f 02       		.byte	0x2
+ 307 0040 05       		.byte	0x5
+ 308 0041 68020000 		.4byte	.LASF2
+ 309 0045 02       		.uleb128 0x2
+ 310 0046 02       		.byte	0x2
+ 311 0047 07       		.byte	0x7
+ 312 0048 4D000000 		.4byte	.LASF3
+ 313 004c 03       		.uleb128 0x3
+ 314 004d 43000000 		.4byte	.LASF5
+ 315 0051 02       		.byte	0x2
+ 316 0052 3F       		.byte	0x3f
+ 317 0053 57000000 		.4byte	0x57
+ 318 0057 02       		.uleb128 0x2
+ 319 0058 04       		.byte	0x4
+ 320 0059 05       		.byte	0x5
+ 321 005a 7A020000 		.4byte	.LASF6
+ 322 005e 02       		.uleb128 0x2
+ 323 005f 04       		.byte	0x4
+ 324 0060 07       		.byte	0x7
+ 325 0061 3E010000 		.4byte	.LASF7
+ 326 0065 02       		.uleb128 0x2
+ 327 0066 08       		.byte	0x8
+ 328 0067 05       		.byte	0x5
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 9
+
+
+ 329 0068 4E020000 		.4byte	.LASF8
+ 330 006c 02       		.uleb128 0x2
+ 331 006d 08       		.byte	0x8
+ 332 006e 07       		.byte	0x7
+ 333 006f F5010000 		.4byte	.LASF9
+ 334 0073 04       		.uleb128 0x4
+ 335 0074 04       		.byte	0x4
+ 336 0075 05       		.byte	0x5
+ 337 0076 696E7400 		.ascii	"int\000"
+ 338 007a 02       		.uleb128 0x2
+ 339 007b 04       		.byte	0x4
+ 340 007c 07       		.byte	0x7
+ 341 007d E8010000 		.4byte	.LASF10
+ 342 0081 03       		.uleb128 0x3
+ 343 0082 0C020000 		.4byte	.LASF11
+ 344 0086 03       		.byte	0x3
+ 345 0087 18       		.byte	0x18
+ 346 0088 2C000000 		.4byte	0x2c
+ 347 008c 03       		.uleb128 0x3
+ 348 008d 3D020000 		.4byte	.LASF12
+ 349 0091 03       		.byte	0x3
+ 350 0092 2C       		.byte	0x2c
+ 351 0093 4C000000 		.4byte	0x4c
+ 352 0097 05       		.uleb128 0x5
+ 353 0098 6B000000 		.4byte	.LASF13
+ 354 009c 04       		.byte	0x4
+ 355 009d 9201     		.2byte	0x192
+ 356 009f 37000000 		.4byte	0x37
+ 357 00a3 02       		.uleb128 0x2
+ 358 00a4 04       		.byte	0x4
+ 359 00a5 04       		.byte	0x4
+ 360 00a6 7D000000 		.4byte	.LASF14
+ 361 00aa 02       		.uleb128 0x2
+ 362 00ab 08       		.byte	0x8
+ 363 00ac 04       		.byte	0x4
+ 364 00ad BA010000 		.4byte	.LASF15
+ 365 00b1 02       		.uleb128 0x2
+ 366 00b2 01       		.byte	0x1
+ 367 00b3 08       		.byte	0x8
+ 368 00b4 63020000 		.4byte	.LASF16
+ 369 00b8 02       		.uleb128 0x2
+ 370 00b9 08       		.byte	0x8
+ 371 00ba 04       		.byte	0x4
+ 372 00bb 83020000 		.4byte	.LASF17
+ 373 00bf 02       		.uleb128 0x2
+ 374 00c0 04       		.byte	0x4
+ 375 00c1 07       		.byte	0x7
+ 376 00c2 45020000 		.4byte	.LASF18
+ 377 00c6 06       		.uleb128 0x6
+ 378 00c7 C1010000 		.4byte	.LASF42
+ 379 00cb 01       		.byte	0x1
+ 380 00cc 15       		.byte	0x15
+ 381 00cd 73000000 		.4byte	0x73
+ 382 00d1 00000000 		.4byte	.LFB63
+ 383 00d5 40000000 		.4byte	.LFE63-.LFB63
+ 384 00d9 01       		.uleb128 0x1
+ 385 00da 9C       		.byte	0x9c
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 10
+
+
+ 386 00db 5D010000 		.4byte	0x15d
+ 387 00df 07       		.uleb128 0x7
+ 388 00e0 10000000 		.4byte	.LBB2
+ 389 00e4 22000000 		.4byte	.LBE2-.LBB2
+ 390 00e8 3C010000 		.4byte	0x13c
+ 391 00ec 08       		.uleb128 0x8
+ 392 00ed 83000000 		.4byte	.LASF23
+ 393 00f1 01       		.byte	0x1
+ 394 00f2 2D       		.byte	0x2d
+ 395 00f3 97000000 		.4byte	0x97
+ 396 00f7 00000000 		.4byte	.LLST0
+ 397 00fb 09       		.uleb128 0x9
+ 398 00fc 14000000 		.4byte	.LVL2
+ 399 0100 80020000 		.4byte	0x280
+ 400 0104 09       		.uleb128 0x9
+ 401 0105 1C000000 		.4byte	.LVL3
+ 402 0109 8B020000 		.4byte	0x28b
+ 403 010d 09       		.uleb128 0x9
+ 404 010e 20000000 		.4byte	.LVL4
+ 405 0112 96020000 		.4byte	0x296
+ 406 0116 09       		.uleb128 0x9
+ 407 0117 28000000 		.4byte	.LVL5
+ 408 011b A1020000 		.4byte	0x2a1
+ 409 011f 09       		.uleb128 0x9
+ 410 0120 2C000000 		.4byte	.LVL6
+ 411 0124 AC020000 		.4byte	0x2ac
+ 412 0128 0A       		.uleb128 0xa
+ 413 0129 32000000 		.4byte	.LVL7
+ 414 012d B7020000 		.4byte	0x2b7
+ 415 0131 0B       		.uleb128 0xb
+ 416 0132 01       		.uleb128 0x1
+ 417 0133 50       		.byte	0x50
+ 418 0134 05       		.uleb128 0x5
+ 419 0135 03       		.byte	0x3
+ 420 0136 00000000 		.4byte	.LC0
+ 421 013a 00       		.byte	0
+ 422 013b 00       		.byte	0
+ 423 013c 0C       		.uleb128 0xc
+ 424 013d 0A000000 		.4byte	.LVL0
+ 425 0141 C2020000 		.4byte	0x2c2
+ 426 0145 53010000 		.4byte	0x153
+ 427 0149 0B       		.uleb128 0xb
+ 428 014a 01       		.uleb128 0x1
+ 429 014b 50       		.byte	0x50
+ 430 014c 05       		.uleb128 0x5
+ 431 014d 03       		.byte	0x3
+ 432 014e 00000000 		.4byte	ISR_UART_rx_handler
+ 433 0152 00       		.byte	0
+ 434 0153 09       		.uleb128 0x9
+ 435 0154 0E000000 		.4byte	.LVL1
+ 436 0158 CD020000 		.4byte	0x2cd
+ 437 015c 00       		.byte	0
+ 438 015d 0D       		.uleb128 0xd
+ 439 015e 2B000000 		.4byte	.LASF19
+ 440 0162 01       		.byte	0x1
+ 441 0163 64       		.byte	0x64
+ 442 0164 00000000 		.4byte	.LFB66
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 11
+
+
+ 443 0168 18000000 		.4byte	.LFE66-.LFB66
+ 444 016c 01       		.uleb128 0x1
+ 445 016d 9C       		.byte	0x9c
+ 446 016e 86010000 		.4byte	0x186
+ 447 0172 0A       		.uleb128 0xa
+ 448 0173 08000000 		.4byte	.LVL8
+ 449 0177 B7020000 		.4byte	0x2b7
+ 450 017b 0B       		.uleb128 0xb
+ 451 017c 01       		.uleb128 0x1
+ 452 017d 50       		.byte	0x50
+ 453 017e 05       		.uleb128 0x5
+ 454 017f 03       		.byte	0x3
+ 455 0180 04000000 		.4byte	.LC1
+ 456 0184 00       		.byte	0
+ 457 0185 00       		.byte	0
+ 458 0186 0D       		.uleb128 0xd
+ 459 0187 72020000 		.4byte	.LASF20
+ 460 018b 01       		.byte	0x1
+ 461 018c 6C       		.byte	0x6c
+ 462 018d 00000000 		.4byte	.LFB67
+ 463 0191 18000000 		.4byte	.LFE67-.LFB67
+ 464 0195 01       		.uleb128 0x1
+ 465 0196 9C       		.byte	0x9c
+ 466 0197 AF010000 		.4byte	0x1af
+ 467 019b 0A       		.uleb128 0xa
+ 468 019c 08000000 		.4byte	.LVL9
+ 469 01a0 B7020000 		.4byte	0x2b7
+ 470 01a4 0B       		.uleb128 0xb
+ 471 01a5 01       		.uleb128 0x1
+ 472 01a6 50       		.byte	0x50
+ 473 01a7 05       		.uleb128 0x5
+ 474 01a8 03       		.byte	0x3
+ 475 01a9 0C000000 		.4byte	.LC2
+ 476 01ad 00       		.byte	0
+ 477 01ae 00       		.byte	0
+ 478 01af 0D       		.uleb128 0xd
+ 479 01b0 C6010000 		.4byte	.LASF21
+ 480 01b4 01       		.byte	0x1
+ 481 01b5 4A       		.byte	0x4a
+ 482 01b6 00000000 		.4byte	.LFB65
+ 483 01ba 16000000 		.4byte	.LFE65-.LFB65
+ 484 01be 01       		.uleb128 0x1
+ 485 01bf 9C       		.byte	0x9c
+ 486 01c0 E6010000 		.4byte	0x1e6
+ 487 01c4 0E       		.uleb128 0xe
+ 488 01c5 AC020000 		.4byte	.LASF25
+ 489 01c9 01       		.byte	0x1
+ 490 01ca 4A       		.byte	0x4a
+ 491 01cb 81000000 		.4byte	0x81
+ 492 01cf 13000000 		.4byte	.LLST1
+ 493 01d3 09       		.uleb128 0x9
+ 494 01d4 0E000000 		.4byte	.LVL11
+ 495 01d8 5D010000 		.4byte	0x15d
+ 496 01dc 09       		.uleb128 0x9
+ 497 01dd 14000000 		.4byte	.LVL13
+ 498 01e1 86010000 		.4byte	0x186
+ 499 01e5 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 12
+
+
+ 500 01e6 0D       		.uleb128 0xd
+ 501 01e7 2A010000 		.4byte	.LASF22
+ 502 01eb 01       		.byte	0x1
+ 503 01ec 3C       		.byte	0x3c
+ 504 01ed 00000000 		.4byte	.LFB64
+ 505 01f1 24000000 		.4byte	.LFE64-.LFB64
+ 506 01f5 01       		.uleb128 0x1
+ 507 01f6 9C       		.byte	0x9c
+ 508 01f7 5E020000 		.4byte	0x25e
+ 509 01fb 08       		.uleb128 0x8
+ 510 01fc 71000000 		.4byte	.LASF24
+ 511 0200 01       		.byte	0x1
+ 512 0201 3E       		.byte	0x3e
+ 513 0202 81000000 		.4byte	0x81
+ 514 0206 4D000000 		.4byte	.LLST2
+ 515 020a 07       		.uleb128 0x7
+ 516 020b 0A000000 		.4byte	.LBB3
+ 517 020f 14000000 		.4byte	.LBE3-.LBB3
+ 518 0213 54020000 		.4byte	0x254
+ 519 0217 08       		.uleb128 0x8
+ 520 0218 AC020000 		.4byte	.LASF25
+ 521 021c 01       		.byte	0x1
+ 522 021d 41       		.byte	0x41
+ 523 021e 81000000 		.4byte	0x81
+ 524 0222 6B000000 		.4byte	.LLST3
+ 525 0226 09       		.uleb128 0x9
+ 526 0227 0E000000 		.4byte	.LVL16
+ 527 022b D8020000 		.4byte	0x2d8
+ 528 022f 0C       		.uleb128 0xc
+ 529 0230 14000000 		.4byte	.LVL18
+ 530 0234 E3020000 		.4byte	0x2e3
+ 531 0238 43020000 		.4byte	0x243
+ 532 023c 0B       		.uleb128 0xb
+ 533 023d 01       		.uleb128 0x1
+ 534 023e 50       		.byte	0x50
+ 535 023f 02       		.uleb128 0x2
+ 536 0240 75       		.byte	0x75
+ 537 0241 00       		.sleb128 0
+ 538 0242 00       		.byte	0
+ 539 0243 0A       		.uleb128 0xa
+ 540 0244 1A000000 		.4byte	.LVL19
+ 541 0248 AF010000 		.4byte	0x1af
+ 542 024c 0B       		.uleb128 0xb
+ 543 024d 01       		.uleb128 0x1
+ 544 024e 50       		.byte	0x50
+ 545 024f 02       		.uleb128 0x2
+ 546 0250 75       		.byte	0x75
+ 547 0251 00       		.sleb128 0
+ 548 0252 00       		.byte	0
+ 549 0253 00       		.byte	0
+ 550 0254 09       		.uleb128 0x9
+ 551 0255 06000000 		.4byte	.LVL14
+ 552 0259 EE020000 		.4byte	0x2ee
+ 553 025d 00       		.byte	0
+ 554 025e 0F       		.uleb128 0xf
+ 555 025f 8A010000 		.4byte	.LASF26
+ 556 0263 05       		.byte	0x5
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 13
+
+
+ 557 0264 9606     		.2byte	0x696
+ 558 0266 6A020000 		.4byte	0x26a
+ 559 026a 10       		.uleb128 0x10
+ 560 026b 8C000000 		.4byte	0x8c
+ 561 026f 11       		.uleb128 0x11
+ 562 0270 88000000 		.4byte	.LASF27
+ 563 0274 01       		.byte	0x1
+ 564 0275 14       		.byte	0x14
+ 565 0276 97000000 		.4byte	0x97
+ 566 027a 05       		.uleb128 0x5
+ 567 027b 03       		.byte	0x3
+ 568 027c 00000000 		.4byte	char2
+ 569 0280 12       		.uleb128 0x12
+ 570 0281 60000000 		.4byte	.LASF28
+ 571 0285 60000000 		.4byte	.LASF28
+ 572 0289 06       		.byte	0x6
+ 573 028a 4D       		.byte	0x4d
+ 574 028b 12       		.uleb128 0x12
+ 575 028c 32000000 		.4byte	.LASF29
+ 576 0290 32000000 		.4byte	.LASF29
+ 577 0294 06       		.byte	0x6
+ 578 0295 5E       		.byte	0x5e
+ 579 0296 12       		.uleb128 0x12
+ 580 0297 2B020000 		.4byte	.LASF30
+ 581 029b 2B020000 		.4byte	.LASF30
+ 582 029f 06       		.byte	0x6
+ 583 02a0 5D       		.byte	0x5d
+ 584 02a1 12       		.uleb128 0x12
+ 585 02a2 97010000 		.4byte	.LASF31
+ 586 02a6 97010000 		.4byte	.LASF31
+ 587 02aa 06       		.byte	0x6
+ 588 02ab 60       		.byte	0x60
+ 589 02ac 12       		.uleb128 0x12
+ 590 02ad D9010000 		.4byte	.LASF32
+ 591 02b1 D9010000 		.4byte	.LASF32
+ 592 02b5 07       		.byte	0x7
+ 593 02b6 8A       		.byte	0x8a
+ 594 02b7 12       		.uleb128 0x12
+ 595 02b8 9B020000 		.4byte	.LASF33
+ 596 02bc 9B020000 		.4byte	.LASF33
+ 597 02c0 07       		.byte	0x7
+ 598 02c1 8B       		.byte	0x8b
+ 599 02c2 12       		.uleb128 0x12
+ 600 02c3 00000000 		.4byte	.LASF34
+ 601 02c7 00000000 		.4byte	.LASF34
+ 602 02cb 08       		.byte	0x8
+ 603 02cc 18       		.byte	0x18
+ 604 02cd 12       		.uleb128 0x12
+ 605 02ce 14000000 		.4byte	.LASF35
+ 606 02d2 14000000 		.4byte	.LASF35
+ 607 02d6 07       		.byte	0x7
+ 608 02d7 54       		.byte	0x54
+ 609 02d8 12       		.uleb128 0x12
+ 610 02d9 50010000 		.4byte	.LASF36
+ 611 02dd 50010000 		.4byte	.LASF36
+ 612 02e1 07       		.byte	0x7
+ 613 02e2 6F       		.byte	0x6f
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 14
+
+
+ 614 02e3 12       		.uleb128 0x12
+ 615 02e4 A7010000 		.4byte	.LASF37
+ 616 02e8 A7010000 		.4byte	.LASF37
+ 617 02ec 07       		.byte	0x7
+ 618 02ed 88       		.byte	0x88
+ 619 02ee 12       		.uleb128 0x12
+ 620 02ef 14020000 		.4byte	.LASF38
+ 621 02f3 14020000 		.4byte	.LASF38
+ 622 02f7 07       		.byte	0x7
+ 623 02f8 73       		.byte	0x73
+ 624 02f9 00       		.byte	0
+ 625              		.section	.debug_abbrev,"",%progbits
+ 626              	.Ldebug_abbrev0:
+ 627 0000 01       		.uleb128 0x1
+ 628 0001 11       		.uleb128 0x11
+ 629 0002 01       		.byte	0x1
+ 630 0003 25       		.uleb128 0x25
+ 631 0004 0E       		.uleb128 0xe
+ 632 0005 13       		.uleb128 0x13
+ 633 0006 0B       		.uleb128 0xb
+ 634 0007 03       		.uleb128 0x3
+ 635 0008 0E       		.uleb128 0xe
+ 636 0009 1B       		.uleb128 0x1b
+ 637 000a 0E       		.uleb128 0xe
+ 638 000b 55       		.uleb128 0x55
+ 639 000c 17       		.uleb128 0x17
+ 640 000d 11       		.uleb128 0x11
+ 641 000e 01       		.uleb128 0x1
+ 642 000f 10       		.uleb128 0x10
+ 643 0010 17       		.uleb128 0x17
+ 644 0011 00       		.byte	0
+ 645 0012 00       		.byte	0
+ 646 0013 02       		.uleb128 0x2
+ 647 0014 24       		.uleb128 0x24
+ 648 0015 00       		.byte	0
+ 649 0016 0B       		.uleb128 0xb
+ 650 0017 0B       		.uleb128 0xb
+ 651 0018 3E       		.uleb128 0x3e
+ 652 0019 0B       		.uleb128 0xb
+ 653 001a 03       		.uleb128 0x3
+ 654 001b 0E       		.uleb128 0xe
+ 655 001c 00       		.byte	0
+ 656 001d 00       		.byte	0
+ 657 001e 03       		.uleb128 0x3
+ 658 001f 16       		.uleb128 0x16
+ 659 0020 00       		.byte	0
+ 660 0021 03       		.uleb128 0x3
+ 661 0022 0E       		.uleb128 0xe
+ 662 0023 3A       		.uleb128 0x3a
+ 663 0024 0B       		.uleb128 0xb
+ 664 0025 3B       		.uleb128 0x3b
+ 665 0026 0B       		.uleb128 0xb
+ 666 0027 49       		.uleb128 0x49
+ 667 0028 13       		.uleb128 0x13
+ 668 0029 00       		.byte	0
+ 669 002a 00       		.byte	0
+ 670 002b 04       		.uleb128 0x4
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 15
+
+
+ 671 002c 24       		.uleb128 0x24
+ 672 002d 00       		.byte	0
+ 673 002e 0B       		.uleb128 0xb
+ 674 002f 0B       		.uleb128 0xb
+ 675 0030 3E       		.uleb128 0x3e
+ 676 0031 0B       		.uleb128 0xb
+ 677 0032 03       		.uleb128 0x3
+ 678 0033 08       		.uleb128 0x8
+ 679 0034 00       		.byte	0
+ 680 0035 00       		.byte	0
+ 681 0036 05       		.uleb128 0x5
+ 682 0037 16       		.uleb128 0x16
+ 683 0038 00       		.byte	0
+ 684 0039 03       		.uleb128 0x3
+ 685 003a 0E       		.uleb128 0xe
+ 686 003b 3A       		.uleb128 0x3a
+ 687 003c 0B       		.uleb128 0xb
+ 688 003d 3B       		.uleb128 0x3b
+ 689 003e 05       		.uleb128 0x5
+ 690 003f 49       		.uleb128 0x49
+ 691 0040 13       		.uleb128 0x13
+ 692 0041 00       		.byte	0
+ 693 0042 00       		.byte	0
+ 694 0043 06       		.uleb128 0x6
+ 695 0044 2E       		.uleb128 0x2e
+ 696 0045 01       		.byte	0x1
+ 697 0046 3F       		.uleb128 0x3f
+ 698 0047 19       		.uleb128 0x19
+ 699 0048 03       		.uleb128 0x3
+ 700 0049 0E       		.uleb128 0xe
+ 701 004a 3A       		.uleb128 0x3a
+ 702 004b 0B       		.uleb128 0xb
+ 703 004c 3B       		.uleb128 0x3b
+ 704 004d 0B       		.uleb128 0xb
+ 705 004e 27       		.uleb128 0x27
+ 706 004f 19       		.uleb128 0x19
+ 707 0050 49       		.uleb128 0x49
+ 708 0051 13       		.uleb128 0x13
+ 709 0052 8701     		.uleb128 0x87
+ 710 0054 19       		.uleb128 0x19
+ 711 0055 11       		.uleb128 0x11
+ 712 0056 01       		.uleb128 0x1
+ 713 0057 12       		.uleb128 0x12
+ 714 0058 06       		.uleb128 0x6
+ 715 0059 40       		.uleb128 0x40
+ 716 005a 18       		.uleb128 0x18
+ 717 005b 9742     		.uleb128 0x2117
+ 718 005d 19       		.uleb128 0x19
+ 719 005e 01       		.uleb128 0x1
+ 720 005f 13       		.uleb128 0x13
+ 721 0060 00       		.byte	0
+ 722 0061 00       		.byte	0
+ 723 0062 07       		.uleb128 0x7
+ 724 0063 0B       		.uleb128 0xb
+ 725 0064 01       		.byte	0x1
+ 726 0065 11       		.uleb128 0x11
+ 727 0066 01       		.uleb128 0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 16
+
+
+ 728 0067 12       		.uleb128 0x12
+ 729 0068 06       		.uleb128 0x6
+ 730 0069 01       		.uleb128 0x1
+ 731 006a 13       		.uleb128 0x13
+ 732 006b 00       		.byte	0
+ 733 006c 00       		.byte	0
+ 734 006d 08       		.uleb128 0x8
+ 735 006e 34       		.uleb128 0x34
+ 736 006f 00       		.byte	0
+ 737 0070 03       		.uleb128 0x3
+ 738 0071 0E       		.uleb128 0xe
+ 739 0072 3A       		.uleb128 0x3a
+ 740 0073 0B       		.uleb128 0xb
+ 741 0074 3B       		.uleb128 0x3b
+ 742 0075 0B       		.uleb128 0xb
+ 743 0076 49       		.uleb128 0x49
+ 744 0077 13       		.uleb128 0x13
+ 745 0078 02       		.uleb128 0x2
+ 746 0079 17       		.uleb128 0x17
+ 747 007a 00       		.byte	0
+ 748 007b 00       		.byte	0
+ 749 007c 09       		.uleb128 0x9
+ 750 007d 898201   		.uleb128 0x4109
+ 751 0080 00       		.byte	0
+ 752 0081 11       		.uleb128 0x11
+ 753 0082 01       		.uleb128 0x1
+ 754 0083 31       		.uleb128 0x31
+ 755 0084 13       		.uleb128 0x13
+ 756 0085 00       		.byte	0
+ 757 0086 00       		.byte	0
+ 758 0087 0A       		.uleb128 0xa
+ 759 0088 898201   		.uleb128 0x4109
+ 760 008b 01       		.byte	0x1
+ 761 008c 11       		.uleb128 0x11
+ 762 008d 01       		.uleb128 0x1
+ 763 008e 31       		.uleb128 0x31
+ 764 008f 13       		.uleb128 0x13
+ 765 0090 00       		.byte	0
+ 766 0091 00       		.byte	0
+ 767 0092 0B       		.uleb128 0xb
+ 768 0093 8A8201   		.uleb128 0x410a
+ 769 0096 00       		.byte	0
+ 770 0097 02       		.uleb128 0x2
+ 771 0098 18       		.uleb128 0x18
+ 772 0099 9142     		.uleb128 0x2111
+ 773 009b 18       		.uleb128 0x18
+ 774 009c 00       		.byte	0
+ 775 009d 00       		.byte	0
+ 776 009e 0C       		.uleb128 0xc
+ 777 009f 898201   		.uleb128 0x4109
+ 778 00a2 01       		.byte	0x1
+ 779 00a3 11       		.uleb128 0x11
+ 780 00a4 01       		.uleb128 0x1
+ 781 00a5 31       		.uleb128 0x31
+ 782 00a6 13       		.uleb128 0x13
+ 783 00a7 01       		.uleb128 0x1
+ 784 00a8 13       		.uleb128 0x13
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 17
+
+
+ 785 00a9 00       		.byte	0
+ 786 00aa 00       		.byte	0
+ 787 00ab 0D       		.uleb128 0xd
+ 788 00ac 2E       		.uleb128 0x2e
+ 789 00ad 01       		.byte	0x1
+ 790 00ae 3F       		.uleb128 0x3f
+ 791 00af 19       		.uleb128 0x19
+ 792 00b0 03       		.uleb128 0x3
+ 793 00b1 0E       		.uleb128 0xe
+ 794 00b2 3A       		.uleb128 0x3a
+ 795 00b3 0B       		.uleb128 0xb
+ 796 00b4 3B       		.uleb128 0x3b
+ 797 00b5 0B       		.uleb128 0xb
+ 798 00b6 27       		.uleb128 0x27
+ 799 00b7 19       		.uleb128 0x19
+ 800 00b8 11       		.uleb128 0x11
+ 801 00b9 01       		.uleb128 0x1
+ 802 00ba 12       		.uleb128 0x12
+ 803 00bb 06       		.uleb128 0x6
+ 804 00bc 40       		.uleb128 0x40
+ 805 00bd 18       		.uleb128 0x18
+ 806 00be 9742     		.uleb128 0x2117
+ 807 00c0 19       		.uleb128 0x19
+ 808 00c1 01       		.uleb128 0x1
+ 809 00c2 13       		.uleb128 0x13
+ 810 00c3 00       		.byte	0
+ 811 00c4 00       		.byte	0
+ 812 00c5 0E       		.uleb128 0xe
+ 813 00c6 05       		.uleb128 0x5
+ 814 00c7 00       		.byte	0
+ 815 00c8 03       		.uleb128 0x3
+ 816 00c9 0E       		.uleb128 0xe
+ 817 00ca 3A       		.uleb128 0x3a
+ 818 00cb 0B       		.uleb128 0xb
+ 819 00cc 3B       		.uleb128 0x3b
+ 820 00cd 0B       		.uleb128 0xb
+ 821 00ce 49       		.uleb128 0x49
+ 822 00cf 13       		.uleb128 0x13
+ 823 00d0 02       		.uleb128 0x2
+ 824 00d1 17       		.uleb128 0x17
+ 825 00d2 00       		.byte	0
+ 826 00d3 00       		.byte	0
+ 827 00d4 0F       		.uleb128 0xf
+ 828 00d5 34       		.uleb128 0x34
+ 829 00d6 00       		.byte	0
+ 830 00d7 03       		.uleb128 0x3
+ 831 00d8 0E       		.uleb128 0xe
+ 832 00d9 3A       		.uleb128 0x3a
+ 833 00da 0B       		.uleb128 0xb
+ 834 00db 3B       		.uleb128 0x3b
+ 835 00dc 05       		.uleb128 0x5
+ 836 00dd 49       		.uleb128 0x49
+ 837 00de 13       		.uleb128 0x13
+ 838 00df 3F       		.uleb128 0x3f
+ 839 00e0 19       		.uleb128 0x19
+ 840 00e1 3C       		.uleb128 0x3c
+ 841 00e2 19       		.uleb128 0x19
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 18
+
+
+ 842 00e3 00       		.byte	0
+ 843 00e4 00       		.byte	0
+ 844 00e5 10       		.uleb128 0x10
+ 845 00e6 35       		.uleb128 0x35
+ 846 00e7 00       		.byte	0
+ 847 00e8 49       		.uleb128 0x49
+ 848 00e9 13       		.uleb128 0x13
+ 849 00ea 00       		.byte	0
+ 850 00eb 00       		.byte	0
+ 851 00ec 11       		.uleb128 0x11
+ 852 00ed 34       		.uleb128 0x34
+ 853 00ee 00       		.byte	0
+ 854 00ef 03       		.uleb128 0x3
+ 855 00f0 0E       		.uleb128 0xe
+ 856 00f1 3A       		.uleb128 0x3a
+ 857 00f2 0B       		.uleb128 0xb
+ 858 00f3 3B       		.uleb128 0x3b
+ 859 00f4 0B       		.uleb128 0xb
+ 860 00f5 49       		.uleb128 0x49
+ 861 00f6 13       		.uleb128 0x13
+ 862 00f7 3F       		.uleb128 0x3f
+ 863 00f8 19       		.uleb128 0x19
+ 864 00f9 02       		.uleb128 0x2
+ 865 00fa 18       		.uleb128 0x18
+ 866 00fb 00       		.byte	0
+ 867 00fc 00       		.byte	0
+ 868 00fd 12       		.uleb128 0x12
+ 869 00fe 2E       		.uleb128 0x2e
+ 870 00ff 00       		.byte	0
+ 871 0100 3F       		.uleb128 0x3f
+ 872 0101 19       		.uleb128 0x19
+ 873 0102 3C       		.uleb128 0x3c
+ 874 0103 19       		.uleb128 0x19
+ 875 0104 6E       		.uleb128 0x6e
+ 876 0105 0E       		.uleb128 0xe
+ 877 0106 03       		.uleb128 0x3
+ 878 0107 0E       		.uleb128 0xe
+ 879 0108 3A       		.uleb128 0x3a
+ 880 0109 0B       		.uleb128 0xb
+ 881 010a 3B       		.uleb128 0x3b
+ 882 010b 0B       		.uleb128 0xb
+ 883 010c 00       		.byte	0
+ 884 010d 00       		.byte	0
+ 885 010e 00       		.byte	0
+ 886              		.section	.debug_loc,"",%progbits
+ 887              	.Ldebug_loc0:
+ 888              	.LLST0:
+ 889 0000 28000000 		.4byte	.LVL5
+ 890 0004 2B000000 		.4byte	.LVL6-1
+ 891 0008 0100     		.2byte	0x1
+ 892 000a 50       		.byte	0x50
+ 893 000b 00000000 		.4byte	0
+ 894 000f 00000000 		.4byte	0
+ 895              	.LLST1:
+ 896 0013 00000000 		.4byte	.LVL10
+ 897 0017 0D000000 		.4byte	.LVL11-1
+ 898 001b 0100     		.2byte	0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 19
+
+
+ 899 001d 50       		.byte	0x50
+ 900 001e 0D000000 		.4byte	.LVL11-1
+ 901 0022 10000000 		.4byte	.LVL12
+ 902 0026 0400     		.2byte	0x4
+ 903 0028 F3       		.byte	0xf3
+ 904 0029 01       		.uleb128 0x1
+ 905 002a 50       		.byte	0x50
+ 906 002b 9F       		.byte	0x9f
+ 907 002c 10000000 		.4byte	.LVL12
+ 908 0030 13000000 		.4byte	.LVL13-1
+ 909 0034 0100     		.2byte	0x1
+ 910 0036 50       		.byte	0x50
+ 911 0037 13000000 		.4byte	.LVL13-1
+ 912 003b 16000000 		.4byte	.LFE65
+ 913 003f 0400     		.2byte	0x4
+ 914 0041 F3       		.byte	0xf3
+ 915 0042 01       		.uleb128 0x1
+ 916 0043 50       		.byte	0x50
+ 917 0044 9F       		.byte	0x9f
+ 918 0045 00000000 		.4byte	0
+ 919 0049 00000000 		.4byte	0
+ 920              	.LLST2:
+ 921 004d 08000000 		.4byte	.LVL15
+ 922 0051 1C000000 		.4byte	.LVL20
+ 923 0055 0100     		.2byte	0x1
+ 924 0057 54       		.byte	0x54
+ 925 0058 1E000000 		.4byte	.LVL21
+ 926 005c 24000000 		.4byte	.LFE64
+ 927 0060 0100     		.2byte	0x1
+ 928 0062 54       		.byte	0x54
+ 929 0063 00000000 		.4byte	0
+ 930 0067 00000000 		.4byte	0
+ 931              	.LLST3:
+ 932 006b 10000000 		.4byte	.LVL17
+ 933 006f 1E000000 		.4byte	.LVL21
+ 934 0073 0100     		.2byte	0x1
+ 935 0075 55       		.byte	0x55
+ 936 0076 00000000 		.4byte	0
+ 937 007a 00000000 		.4byte	0
+ 938              		.section	.debug_aranges,"",%progbits
+ 939 0000 3C000000 		.4byte	0x3c
+ 940 0004 0200     		.2byte	0x2
+ 941 0006 00000000 		.4byte	.Ldebug_info0
+ 942 000a 04       		.byte	0x4
+ 943 000b 00       		.byte	0
+ 944 000c 0000     		.2byte	0
+ 945 000e 0000     		.2byte	0
+ 946 0010 00000000 		.4byte	.LFB63
+ 947 0014 40000000 		.4byte	.LFE63-.LFB63
+ 948 0018 00000000 		.4byte	.LFB66
+ 949 001c 18000000 		.4byte	.LFE66-.LFB66
+ 950 0020 00000000 		.4byte	.LFB67
+ 951 0024 18000000 		.4byte	.LFE67-.LFB67
+ 952 0028 00000000 		.4byte	.LFB65
+ 953 002c 16000000 		.4byte	.LFE65-.LFB65
+ 954 0030 00000000 		.4byte	.LFB64
+ 955 0034 24000000 		.4byte	.LFE64-.LFB64
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 20
+
+
+ 956 0038 00000000 		.4byte	0
+ 957 003c 00000000 		.4byte	0
+ 958              		.section	.debug_ranges,"",%progbits
+ 959              	.Ldebug_ranges0:
+ 960 0000 00000000 		.4byte	.LFB63
+ 961 0004 40000000 		.4byte	.LFE63
+ 962 0008 00000000 		.4byte	.LFB66
+ 963 000c 18000000 		.4byte	.LFE66
+ 964 0010 00000000 		.4byte	.LFB67
+ 965 0014 18000000 		.4byte	.LFE67
+ 966 0018 00000000 		.4byte	.LFB65
+ 967 001c 16000000 		.4byte	.LFE65
+ 968 0020 00000000 		.4byte	.LFB64
+ 969 0024 24000000 		.4byte	.LFE64
+ 970 0028 00000000 		.4byte	0
+ 971 002c 00000000 		.4byte	0
+ 972              		.section	.debug_line,"",%progbits
+ 973              	.Ldebug_line0:
+ 974 0000 EC010000 		.section	.debug_str,"MS",%progbits,1
+ 974      02007301 
+ 974      00000201 
+ 974      FB0E0D00 
+ 974      01010101 
+ 975              	.LASF34:
+ 976 0000 6973725F 		.ascii	"isr_uart_rx_StartEx\000"
+ 976      75617274 
+ 976      5F72785F 
+ 976      53746172 
+ 976      74457800 
+ 977              	.LASF35:
+ 978 0014 55415254 		.ascii	"UART_1_Start\000"
+ 978      5F315F53 
+ 978      74617274 
+ 978      00
+ 979              	.LASF4:
+ 980 0021 5F5F7569 		.ascii	"__uint8_t\000"
+ 980      6E74385F 
+ 980      7400
+ 981              	.LASF19:
+ 982 002b 5475726E 		.ascii	"Turnon\000"
+ 982      6F6E00
+ 983              	.LASF29:
+ 984 0032 5350494D 		.ascii	"SPIM_WriteTxData\000"
+ 984      5F577269 
+ 984      74655478 
+ 984      44617461 
+ 984      00
+ 985              	.LASF5:
+ 986 0043 5F5F696E 		.ascii	"__int32_t\000"
+ 986      7433325F 
+ 986      7400
+ 987              	.LASF3:
+ 988 004d 73686F72 		.ascii	"short unsigned int\000"
+ 988      7420756E 
+ 988      7369676E 
+ 988      65642069 
+ 988      6E7400
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 21
+
+
+ 989              	.LASF28:
+ 990 0060 5350494D 		.ascii	"SPIM_Start\000"
+ 990      5F537461 
+ 990      727400
+ 991              	.LASF13:
+ 992 006b 75696E74 		.ascii	"uint8\000"
+ 992      3800
+ 993              	.LASF24:
+ 994 0071 62797465 		.ascii	"bytesToRead\000"
+ 994      73546F52 
+ 994      65616400 
+ 995              	.LASF14:
+ 996 007d 666C6F61 		.ascii	"float\000"
+ 996      7400
+ 997              	.LASF23:
+ 998 0083 64617461 		.ascii	"data\000"
+ 998      00
+ 999              	.LASF27:
+ 1000 0088 63686172 		.ascii	"char2\000"
+ 1000      3200
+ 1001              	.LASF1:
+ 1002 008e 756E7369 		.ascii	"unsigned char\000"
+ 1002      676E6564 
+ 1002      20636861 
+ 1002      7200
+ 1003              	.LASF39:
+ 1004 009c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1004      43313120 
+ 1004      352E342E 
+ 1004      31203230 
+ 1004      31363036 
+ 1005 00cf 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1005      20726576 
+ 1005      6973696F 
+ 1005      6E203233 
+ 1005      37373135 
+ 1006 0102 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1006      66756E63 
+ 1006      74696F6E 
+ 1006      2D736563 
+ 1006      74696F6E 
+ 1007              	.LASF22:
+ 1008 012a 4953525F 		.ascii	"ISR_UART_rx_handler\000"
+ 1008      55415254 
+ 1008      5F72785F 
+ 1008      68616E64 
+ 1008      6C657200 
+ 1009              	.LASF7:
+ 1010 013e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1010      20756E73 
+ 1010      69676E65 
+ 1010      6420696E 
+ 1010      7400
+ 1011              	.LASF36:
+ 1012 0150 55415254 		.ascii	"UART_1_ReadRxData\000"
+ 1012      5F315F52 
+ 1012      65616452 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 22
+
+
+ 1012      78446174 
+ 1012      6100
+ 1013              	.LASF41:
+ 1014 0162 433A5C33 		.ascii	"C:\\3. semester\\GFV\\SPI\\SPI_Master.cydsn\000"
+ 1014      2E207365 
+ 1014      6D657374 
+ 1014      65725C47 
+ 1014      46565C53 
+ 1015              	.LASF26:
+ 1016 018a 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1016      52784275 
+ 1016      66666572 
+ 1016      00
+ 1017              	.LASF31:
+ 1018 0197 5350494D 		.ascii	"SPIM_ReadRxData\000"
+ 1018      5F526561 
+ 1018      64527844 
+ 1018      61746100 
+ 1019              	.LASF37:
+ 1020 01a7 55415254 		.ascii	"UART_1_WriteTxData\000"
+ 1020      5F315F57 
+ 1020      72697465 
+ 1020      54784461 
+ 1020      746100
+ 1021              	.LASF15:
+ 1022 01ba 646F7562 		.ascii	"double\000"
+ 1022      6C6500
+ 1023              	.LASF42:
+ 1024 01c1 6D61696E 		.ascii	"main\000"
+ 1024      00
+ 1025              	.LASF21:
+ 1026 01c6 68616E64 		.ascii	"handleByteReceived\000"
+ 1026      6C654279 
+ 1026      74655265 
+ 1026      63656976 
+ 1026      656400
+ 1027              	.LASF32:
+ 1028 01d9 55415254 		.ascii	"UART_1_PutChar\000"
+ 1028      5F315F50 
+ 1028      75744368 
+ 1028      617200
+ 1029              	.LASF10:
+ 1030 01e8 756E7369 		.ascii	"unsigned int\000"
+ 1030      676E6564 
+ 1030      20696E74 
+ 1030      00
+ 1031              	.LASF9:
+ 1032 01f5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1032      206C6F6E 
+ 1032      6720756E 
+ 1032      7369676E 
+ 1032      65642069 
+ 1033              	.LASF11:
+ 1034 020c 75696E74 		.ascii	"uint8_t\000"
+ 1034      385F7400 
+ 1035              	.LASF38:
+ 1036 0214 55415254 		.ascii	"UART_1_GetRxBufferSize\000"
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 23
+
+
+ 1036      5F315F47 
+ 1036      65745278 
+ 1036      42756666 
+ 1036      65725369 
+ 1037              	.LASF30:
+ 1038 022b 5350494D 		.ascii	"SPIM_ReadRxStatus\000"
+ 1038      5F526561 
+ 1038      64527853 
+ 1038      74617475 
+ 1038      7300
+ 1039              	.LASF12:
+ 1040 023d 696E7433 		.ascii	"int32_t\000"
+ 1040      325F7400 
+ 1041              	.LASF18:
+ 1042 0245 73697A65 		.ascii	"sizetype\000"
+ 1042      74797065 
+ 1042      00
+ 1043              	.LASF8:
+ 1044 024e 6C6F6E67 		.ascii	"long long int\000"
+ 1044      206C6F6E 
+ 1044      6720696E 
+ 1044      7400
+ 1045              	.LASF40:
+ 1046 025c 6D61696E 		.ascii	"main.c\000"
+ 1046      2E6300
+ 1047              	.LASF16:
+ 1048 0263 63686172 		.ascii	"char\000"
+ 1048      00
+ 1049              	.LASF2:
+ 1050 0268 73686F72 		.ascii	"short int\000"
+ 1050      7420696E 
+ 1050      7400
+ 1051              	.LASF20:
+ 1052 0272 5475726E 		.ascii	"Turnoff\000"
+ 1052      6F666600 
+ 1053              	.LASF6:
+ 1054 027a 6C6F6E67 		.ascii	"long int\000"
+ 1054      20696E74 
+ 1054      00
+ 1055              	.LASF17:
+ 1056 0283 6C6F6E67 		.ascii	"long double\000"
+ 1056      20646F75 
+ 1056      626C6500 
+ 1057              	.LASF0:
+ 1058 028f 7369676E 		.ascii	"signed char\000"
+ 1058      65642063 
+ 1058      68617200 
+ 1059              	.LASF33:
+ 1060 029b 55415254 		.ascii	"UART_1_PutString\000"
+ 1060      5F315F50 
+ 1060      75745374 
+ 1060      72696E67 
+ 1060      00
+ 1061              	.LASF25:
+ 1062 02ac 62797465 		.ascii	"byteReceived\000"
+ 1062      52656365 
+ 1062      69766564 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccIpx5TC.s 			page 24
+
+
+ 1062      00
+ 1063              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

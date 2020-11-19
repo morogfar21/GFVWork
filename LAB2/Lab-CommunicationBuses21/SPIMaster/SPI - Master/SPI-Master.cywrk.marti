@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="SPI-Master\SPI_Master">
+<ExpandedNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\TopDesign</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Pins</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Analog</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Clocks</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Interrupts</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\DMA</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\System</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Directives</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Flash Security</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\EEPROM</v>
+<v>SPI-Master\SPI_Master\Header Files</v>
+<v>SPI-Master\SPI_Master\Header Files\cyapicallbacks.h</v>
+<v>SPI-Master\SPI_Master\Source Files</v>
+<v>SPI-Master\SPI_Master\Source Files\main.c</v>
+<v>SPI-Master\SPI_Master\Generated_Source</v>
+<v>SPI-Master\SPI_Master\Generated_Source\PSoC5</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\TopDesign</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Pins</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Analog</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Clocks</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Interrupts</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\DMA</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\System</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Directives</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\Flash Security</v>
+<v>SPI-Master\SPI_Master\SPI_Master.cydwr\EEPROM</v>
+<v>SPI-Master\SPI_Master\Header Files</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\TopDesign</v>
+<v>SPI-Master\SPI_Master\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\TopDesign</v>
+<v>SPI-Master\SPI_Master\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\CortexM3</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\isr_uart_rx.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_1.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_2.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_3.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_4.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_EN.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN1.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_LN2.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\SPIM.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\SPIM_INT.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\SPIM_PM.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_BOOT.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_INT.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_IntClock.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_PM.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\SPI_Master.elf</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\SPI_Master.hex</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\SPI_Master.map</v>
+<v>SPI-Master\SPI_Master\SPI_Master.gpdsc</v>
+<v>SPI-Master\SPI_Master\SPI_Master.rpt</v>
+<v>SPI-Master\SPI_Master\SPI_Master_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\CortexM3</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>SPI-Master\SPI_Master\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\PSoC 5LP Architecture TRM</v>
+<v>SPI-Master\SPI_Master\CY8C58LP Family Datasheet</v>
+<v>SPI-Master\SPI_Master\System Reference Guides</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>SPI-Master</v>
+<v>SPI-Master\SPI_Master</v>
+<v>SPI-Master\SPI_Master\PSoC 5LP Architecture TRM</v>
+<v>SPI-Master\SPI_Master\CY8C58LP Family Datasheet</v>
+<v>SPI-Master\SPI_Master\System Reference Guides</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\SPI_Master.cydsn\main.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="570, 192" SelectedTabbedMdiWindow="fc1992de-4815-4424-9136-aa419857c566"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="842f0438-e381-41eb-9956-b4319dc8c14a" /><DocumentWindow Key="C:\3. semester\GFV\Lab-CommunicationBuses21\SPIMaster\SPI - Master\SPI_Master.cydsn\main.c" Guid="fc1992de-4815-4424-9136-aa419857c566" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

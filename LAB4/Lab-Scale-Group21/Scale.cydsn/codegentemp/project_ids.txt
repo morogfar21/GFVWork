@@ -1,0 +1,5 @@
+C:\3. semester\GFV\Scale.cydsn\Scale.cyprj|4ae78a42-3b01-45f6-8d7a-d824f9a719f1
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|5afdf8cf-c08d-4111-aac4-371adc6462a3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|1f2c286e-883b-4b54-8347-6c0cb4f1958d
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|95f6afed-10bc-462b-a1e0-2f69caaf9151
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|d34a6a45-4f41-4b60-ad9a-dba65a03f81e

@@ -1,0 +1,2 @@
+Kilde fra PSoC projektet i denne mappe er baseret på det opstartsprojekt, der findes på GFV's blackboardside for øvelse 4.
+Det fremgår også af journalen.

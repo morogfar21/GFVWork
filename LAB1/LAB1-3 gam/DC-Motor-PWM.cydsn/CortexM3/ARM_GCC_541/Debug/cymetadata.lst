@@ -1,0 +1,1630 @@
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_metadata
+  20              		.global	cy_meta_flashprotect
+  21              		.global	cy_meta_wonvl
+  22              		.global	cy_meta_custnvl
+  23              		.global	cy_meta_configecc
+  24              		.section	.cyconfigecc,"a",%progbits
+  25              		.align	2
+  26              		.type	cy_meta_configecc, %object
+  27              		.size	cy_meta_configecc, 1088
+  28              	cy_meta_configecc:
+  29 0000 02       		.byte	2
+  30 0001 4F       		.byte	79
+  31 0002 00       		.byte	0
+  32 0003 40       		.byte	64
+  33 0004 02       		.byte	2
+  34 0005 52       		.byte	82
+  35 0006 00       		.byte	0
+  36 0007 40       		.byte	64
+  37 0008 01       		.byte	1
+  38 0009 64       		.byte	100
+  39 000a 00       		.byte	0
+  40 000b 40       		.byte	64
+  41 000c 03       		.byte	3
+  42 000d 65       		.byte	101
+  43 000e 00       		.byte	0
+  44 000f 40       		.byte	64
+  45 0010 01       		.byte	1
+  46 0011 05       		.byte	5
+  47 0012 01       		.byte	1
+  48 0013 40       		.byte	64
+  49 0014 01       		.byte	1
+  50 0015 07       		.byte	7
+  51 0016 01       		.byte	1
+  52 0017 40       		.byte	64
+  53 0018 53       		.byte	83
+  54 0019 08       		.byte	8
+  55 001a 01       		.byte	1
+  56 001b 40       		.byte	64
+  57 001c 2E       		.byte	46
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 2
+
+
+  58 001d 09       		.byte	9
+  59 001e 01       		.byte	1
+  60 001f 40       		.byte	64
+  61 0020 01       		.byte	1
+  62 0021 0B       		.byte	11
+  63 0022 01       		.byte	1
+  64 0023 40       		.byte	64
+  65 0024 04       		.byte	4
+  66 0025 0C       		.byte	12
+  67 0026 01       		.byte	1
+  68 0027 40       		.byte	64
+  69 0028 01       		.byte	1
+  70 0029 0D       		.byte	13
+  71 002a 01       		.byte	1
+  72 002b 40       		.byte	64
+  73 002c 01       		.byte	1
+  74 002d 17       		.byte	23
+  75 002e 01       		.byte	1
+  76 002f 40       		.byte	64
+  77 0030 08       		.byte	8
+  78 0031 18       		.byte	24
+  79 0032 01       		.byte	1
+  80 0033 40       		.byte	64
+  81 0034 3B       		.byte	59
+  82 0035 19       		.byte	25
+  83 0036 01       		.byte	1
+  84 0037 40       		.byte	64
+  85 0038 5B       		.byte	91
+  86 0039 1A       		.byte	26
+  87 003a 01       		.byte	1
+  88 003b 40       		.byte	64
+  89 003c 3D       		.byte	61
+  90 003d 1B       		.byte	27
+  91 003e 01       		.byte	1
+  92 003f 40       		.byte	64
+  93 0040 03       		.byte	3
+  94 0041 40       		.byte	64
+  95 0042 01       		.byte	1
+  96 0043 40       		.byte	64
+  97 0044 02       		.byte	2
+  98 0045 41       		.byte	65
+  99 0046 01       		.byte	1
+ 100 0047 40       		.byte	64
+ 101 0048 07       		.byte	7
+ 102 0049 42       		.byte	66
+ 103 004a 01       		.byte	1
+ 104 004b 40       		.byte	64
+ 105 004c 04       		.byte	4
+ 106 004d 43       		.byte	67
+ 107 004e 01       		.byte	1
+ 108 004f 40       		.byte	64
+ 109 0050 02       		.byte	2
+ 110 0051 45       		.byte	69
+ 111 0052 01       		.byte	1
+ 112 0053 40       		.byte	64
+ 113 0054 01       		.byte	1
+ 114 0055 46       		.byte	70
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 3
+
+
+ 115 0056 01       		.byte	1
+ 116 0057 40       		.byte	64
+ 117 0058 02       		.byte	2
+ 118 0059 47       		.byte	71
+ 119 005a 01       		.byte	1
+ 120 005b 40       		.byte	64
+ 121 005c 03       		.byte	3
+ 122 005d 48       		.byte	72
+ 123 005e 01       		.byte	1
+ 124 005f 40       		.byte	64
+ 125 0060 01       		.byte	1
+ 126 0061 4C       		.byte	76
+ 127 0062 01       		.byte	1
+ 128 0063 40       		.byte	64
+ 129 0064 07       		.byte	7
+ 130 0065 4D       		.byte	77
+ 131 0066 01       		.byte	1
+ 132 0067 40       		.byte	64
+ 133 0068 04       		.byte	4
+ 134 0069 50       		.byte	80
+ 135 006a 01       		.byte	1
+ 136 006b 40       		.byte	64
+ 137 006c 01       		.byte	1
+ 138 006d 51       		.byte	81
+ 139 006e 01       		.byte	1
+ 140 006f 40       		.byte	64
+ 141 0070 01       		.byte	1
+ 142 0071 80       		.byte	-128
+ 143 0072 0A       		.byte	10
+ 144 0073 4B       		.byte	75
+ 145 0074 10       		.byte	16
+ 146 0075 02       		.byte	2
+ 147 0076 11       		.byte	17
+ 148 0077 02       		.byte	2
+ 149 0078 88       		.byte	-120
+ 150 0079 0D       		.byte	13
+ 151 007a 88       		.byte	-120
+ 152 007b 38       		.byte	56
+ 153 007c 89       		.byte	-119
+ 154 007d 72       		.byte	114
+ 155 007e 8B       		.byte	-117
+ 156 007f 0F       		.byte	15
+ 157 0080 EA       		.byte	-22
+ 158 0081 08       		.byte	8
+ 159 0082 E6       		.byte	-26
+ 160 0083 02       		.byte	2
+ 161 0084 03       		.byte	3
+ 162 0085 01       		.byte	1
+ 163 0086 16       		.byte	22
+ 164 0087 01       		.byte	1
+ 165 0088 17       		.byte	23
+ 166 0089 02       		.byte	2
+ 167 008a 21       		.byte	33
+ 168 008b 04       		.byte	4
+ 169 008c 26       		.byte	38
+ 170 008d 01       		.byte	1
+ 171 008e 2F       		.byte	47
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 4
+
+
+ 172 008f 06       		.byte	6
+ 173 0090 31       		.byte	49
+ 174 0091 04       		.byte	4
+ 175 0092 33       		.byte	51
+ 176 0093 02       		.byte	2
+ 177 0094 34       		.byte	52
+ 178 0095 01       		.byte	1
+ 179 0096 35       		.byte	53
+ 180 0097 01       		.byte	1
+ 181 0098 3E       		.byte	62
+ 182 0099 10       		.byte	16
+ 183 009a 40       		.byte	64
+ 184 009b 30       		.byte	48
+ 185 009c 41       		.byte	65
+ 186 009d 06       		.byte	6
+ 187 009e 45       		.byte	69
+ 188 009f D0       		.byte	-48
+ 189 00a0 46       		.byte	70
+ 190 00a1 20       		.byte	32
+ 191 00a2 47       		.byte	71
+ 192 00a3 10       		.byte	16
+ 193 00a4 48       		.byte	72
+ 194 00a5 2A       		.byte	42
+ 195 00a6 49       		.byte	73
+ 196 00a7 FF       		.byte	-1
+ 197 00a8 4A       		.byte	74
+ 198 00a9 FF       		.byte	-1
+ 199 00aa 4B       		.byte	75
+ 200 00ab FF       		.byte	-1
+ 201 00ac 4D       		.byte	77
+ 202 00ad A0       		.byte	-96
+ 203 00ae 4F       		.byte	79
+ 204 00af 04       		.byte	4
+ 205 00b0 50       		.byte	80
+ 206 00b1 18       		.byte	24
+ 207 00b2 52       		.byte	82
+ 208 00b3 80       		.byte	-128
+ 209 00b4 54       		.byte	84
+ 210 00b5 05       		.byte	5
+ 211 00b6 56       		.byte	86
+ 212 00b7 04       		.byte	4
+ 213 00b8 58       		.byte	88
+ 214 00b9 04       		.byte	4
+ 215 00ba 59       		.byte	89
+ 216 00bb 04       		.byte	4
+ 217 00bc 5A       		.byte	90
+ 218 00bd 04       		.byte	4
+ 219 00be 5B       		.byte	91
+ 220 00bf 04       		.byte	4
+ 221 00c0 5C       		.byte	92
+ 222 00c1 10       		.byte	16
+ 223 00c2 5D       		.byte	93
+ 224 00c3 11       		.byte	17
+ 225 00c4 5F       		.byte	95
+ 226 00c5 01       		.byte	1
+ 227 00c6 60       		.byte	96
+ 228 00c7 40       		.byte	64
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 5
+
+
+ 229 00c8 62       		.byte	98
+ 230 00c9 C0       		.byte	-64
+ 231 00ca 64       		.byte	100
+ 232 00cb 40       		.byte	64
+ 233 00cc 65       		.byte	101
+ 234 00cd 40       		.byte	64
+ 235 00ce 66       		.byte	102
+ 236 00cf C0       		.byte	-64
+ 237 00d0 68       		.byte	104
+ 238 00d1 C0       		.byte	-64
+ 239 00d2 6A       		.byte	106
+ 240 00d3 C0       		.byte	-64
+ 241 00d4 6C       		.byte	108
+ 242 00d5 C0       		.byte	-64
+ 243 00d6 6E       		.byte	110
+ 244 00d7 C0       		.byte	-64
+ 245 00d8 81       		.byte	-127
+ 246 00d9 44       		.byte	68
+ 247 00da 86       		.byte	-122
+ 248 00db 04       		.byte	4
+ 249 00dc 87       		.byte	-121
+ 250 00dd E3       		.byte	-29
+ 251 00de 89       		.byte	-119
+ 252 00df 18       		.byte	24
+ 253 00e0 8A       		.byte	-118
+ 254 00e1 02       		.byte	2
+ 255 00e2 8C       		.byte	-116
+ 256 00e3 1D       		.byte	29
+ 257 00e4 8D       		.byte	-115
+ 258 00e5 FF       		.byte	-1
+ 259 00e6 91       		.byte	-111
+ 260 00e7 80       		.byte	-128
+ 261 00e8 94       		.byte	-108
+ 262 00e9 18       		.byte	24
+ 263 00ea 95       		.byte	-107
+ 264 00eb 1C       		.byte	28
+ 265 00ec 97       		.byte	-105
+ 266 00ed E2       		.byte	-30
+ 267 00ee 98       		.byte	-104
+ 268 00ef 18       		.byte	24
+ 269 00f0 99       		.byte	-103
+ 270 00f1 1C       		.byte	28
+ 271 00f2 9A       		.byte	-102
+ 272 00f3 05       		.byte	5
+ 273 00f4 9B       		.byte	-101
+ 274 00f5 E1       		.byte	-31
+ 275 00f6 9C       		.byte	-100
+ 276 00f7 10       		.byte	16
+ 277 00f8 9D       		.byte	-99
+ 278 00f9 C0       		.byte	-64
+ 279 00fa A0       		.byte	-96
+ 280 00fb 05       		.byte	5
+ 281 00fc A1       		.byte	-95
+ 282 00fd E7       		.byte	-25
+ 283 00fe A2       		.byte	-94
+ 284 00ff 18       		.byte	24
+ 285 0100 A3       		.byte	-93
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 6
+
+
+ 286 0101 18       		.byte	24
+ 287 0102 A4       		.byte	-92
+ 288 0103 08       		.byte	8
+ 289 0104 A7       		.byte	-89
+ 290 0105 04       		.byte	4
+ 291 0106 A8       		.byte	-88
+ 292 0107 1C       		.byte	28
+ 293 0108 A9       		.byte	-87
+ 294 0109 08       		.byte	8
+ 295 010a AA       		.byte	-86
+ 296 010b 01       		.byte	1
+ 297 010c AD       		.byte	-83
+ 298 010d 10       		.byte	16
+ 299 010e AE       		.byte	-82
+ 300 010f 02       		.byte	2
+ 301 0110 B2       		.byte	-78
+ 302 0111 01       		.byte	1
+ 303 0112 B3       		.byte	-77
+ 304 0113 1F       		.byte	31
+ 305 0114 B4       		.byte	-76
+ 306 0115 02       		.byte	2
+ 307 0116 B5       		.byte	-75
+ 308 0117 38       		.byte	56
+ 309 0118 B6       		.byte	-74
+ 310 0119 1C       		.byte	28
+ 311 011a B7       		.byte	-73
+ 312 011b C0       		.byte	-64
+ 313 011c B8       		.byte	-72
+ 314 011d 08       		.byte	8
+ 315 011e BA       		.byte	-70
+ 316 011f 02       		.byte	2
+ 317 0120 BB       		.byte	-69
+ 318 0121 28       		.byte	40
+ 319 0122 BE       		.byte	-66
+ 320 0123 10       		.byte	16
+ 321 0124 D8       		.byte	-40
+ 322 0125 04       		.byte	4
+ 323 0126 D9       		.byte	-39
+ 324 0127 04       		.byte	4
+ 325 0128 DF       		.byte	-33
+ 326 0129 01       		.byte	1
+ 327 012a 00       		.byte	0
+ 328 012b 54       		.byte	84
+ 329 012c 09       		.byte	9
+ 330 012d 88       		.byte	-120
+ 331 012e 0B       		.byte	11
+ 332 012f 24       		.byte	36
+ 333 0130 0F       		.byte	15
+ 334 0131 20       		.byte	32
+ 335 0132 10       		.byte	16
+ 336 0133 60       		.byte	96
+ 337 0134 12       		.byte	18
+ 338 0135 1A       		.byte	26
+ 339 0136 17       		.byte	23
+ 340 0137 04       		.byte	4
+ 341 0138 18       		.byte	24
+ 342 0139 D0       		.byte	-48
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 7
+
+
+ 343 013a 19       		.byte	25
+ 344 013b A0       		.byte	-96
+ 345 013c 1E       		.byte	30
+ 346 013d 08       		.byte	8
+ 347 013e 22       		.byte	34
+ 348 013f 28       		.byte	40
+ 349 0140 23       		.byte	35
+ 350 0141 06       		.byte	6
+ 351 0142 27       		.byte	39
+ 352 0143 94       		.byte	-108
+ 353 0144 28       		.byte	40
+ 354 0145 40       		.byte	64
+ 355 0146 29       		.byte	41
+ 356 0147 41       		.byte	65
+ 357 0148 2A       		.byte	42
+ 358 0149 10       		.byte	16
+ 359 014a 2B       		.byte	43
+ 360 014b 20       		.byte	32
+ 361 014c 2F       		.byte	47
+ 362 014d 82       		.byte	-126
+ 363 014e 30       		.byte	48
+ 364 014f 02       		.byte	2
+ 365 0150 32       		.byte	50
+ 366 0151 68       		.byte	104
+ 367 0152 37       		.byte	55
+ 368 0153 04       		.byte	4
+ 369 0154 38       		.byte	56
+ 370 0155 84       		.byte	-124
+ 371 0156 3A       		.byte	58
+ 372 0157 02       		.byte	2
+ 373 0158 3B       		.byte	59
+ 374 0159 20       		.byte	32
+ 375 015a 3C       		.byte	60
+ 376 015b 02       		.byte	2
+ 377 015c 47       		.byte	71
+ 378 015d 04       		.byte	4
+ 379 015e 4F       		.byte	79
+ 380 015f 21       		.byte	33
+ 381 0160 57       		.byte	87
+ 382 0161 13       		.byte	19
+ 383 0162 5E       		.byte	94
+ 384 0163 08       		.byte	8
+ 385 0164 5F       		.byte	95
+ 386 0165 81       		.byte	-127
+ 387 0166 67       		.byte	103
+ 388 0167 40       		.byte	64
+ 389 0168 74       		.byte	116
+ 390 0169 01       		.byte	1
+ 391 016a 83       		.byte	-125
+ 392 016b 10       		.byte	16
+ 393 016c 87       		.byte	-121
+ 394 016d 40       		.byte	64
+ 395 016e 88       		.byte	-120
+ 396 016f 12       		.byte	18
+ 397 0170 C0       		.byte	-64
+ 398 0171 07       		.byte	7
+ 399 0172 C2       		.byte	-62
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 8
+
+
+ 400 0173 27       		.byte	39
+ 401 0174 C4       		.byte	-60
+ 402 0175 2F       		.byte	47
+ 403 0176 CA       		.byte	-54
+ 404 0177 9F       		.byte	-97
+ 405 0178 CC       		.byte	-52
+ 406 0179 4F       		.byte	79
+ 407 017a CE       		.byte	-50
+ 408 017b 8F       		.byte	-113
+ 409 017c D0       		.byte	-48
+ 410 017d 40       		.byte	64
+ 411 017e D2       		.byte	-46
+ 412 017f 20       		.byte	32
+ 413 0180 D6       		.byte	-42
+ 414 0181 D0       		.byte	-48
+ 415 0182 D8       		.byte	-40
+ 416 0183 80       		.byte	-128
+ 417 0184 E0       		.byte	-32
+ 418 0185 04       		.byte	4
+ 419 0186 AF       		.byte	-81
+ 420 0187 40       		.byte	64
+ 421 0188 38       		.byte	56
+ 422 0189 80       		.byte	-128
+ 423 018a 3E       		.byte	62
+ 424 018b 40       		.byte	64
+ 425 018c 58       		.byte	88
+ 426 018d 04       		.byte	4
+ 427 018e 5F       		.byte	95
+ 428 018f 01       		.byte	1
+ 429 0190 1F       		.byte	31
+ 430 0191 40       		.byte	64
+ 431 0192 E2       		.byte	-30
+ 432 0193 08       		.byte	8
+ 433 0194 1E       		.byte	30
+ 434 0195 01       		.byte	1
+ 435 0196 36       		.byte	54
+ 436 0197 01       		.byte	1
+ 437 0198 54       		.byte	84
+ 438 0199 18       		.byte	24
+ 439 019a 56       		.byte	86
+ 440 019b 04       		.byte	4
+ 441 019c 58       		.byte	88
+ 442 019d 04       		.byte	4
+ 443 019e 5B       		.byte	91
+ 444 019f 04       		.byte	4
+ 445 01a0 5C       		.byte	92
+ 446 01a1 01       		.byte	1
+ 447 01a2 5F       		.byte	95
+ 448 01a3 01       		.byte	1
+ 449 01a4 00       		.byte	0
+ 450 01a5 66       		.byte	102
+ 451 01a6 08       		.byte	8
+ 452 01a7 10       		.byte	16
+ 453 01a8 09       		.byte	9
+ 454 01a9 40       		.byte	64
+ 455 01aa 0A       		.byte	10
+ 456 01ab A0       		.byte	-96
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 9
+
+
+ 457 01ac 0F       		.byte	15
+ 458 01ad 02       		.byte	2
+ 459 01ae 10       		.byte	16
+ 460 01af A0       		.byte	-96
+ 461 01b0 11       		.byte	17
+ 462 01b1 40       		.byte	64
+ 463 01b2 12       		.byte	18
+ 464 01b3 08       		.byte	8
+ 465 01b4 18       		.byte	24
+ 466 01b5 41       		.byte	65
+ 467 01b6 19       		.byte	25
+ 468 01b7 01       		.byte	1
+ 469 01b8 1B       		.byte	27
+ 470 01b9 24       		.byte	36
+ 471 01ba 1F       		.byte	31
+ 472 01bb 80       		.byte	-128
+ 473 01bc 20       		.byte	32
+ 474 01bd 04       		.byte	4
+ 475 01be 22       		.byte	34
+ 476 01bf 04       		.byte	4
+ 477 01c0 23       		.byte	35
+ 478 01c1 01       		.byte	1
+ 479 01c2 29       		.byte	41
+ 480 01c3 85       		.byte	-123
+ 481 01c4 30       		.byte	48
+ 482 01c5 02       		.byte	2
+ 483 01c6 32       		.byte	50
+ 484 01c7 38       		.byte	56
+ 485 01c8 38       		.byte	56
+ 486 01c9 80       		.byte	-128
+ 487 01ca 39       		.byte	57
+ 488 01cb 54       		.byte	84
+ 489 01cc 40       		.byte	64
+ 490 01cd 45       		.byte	69
+ 491 01ce 48       		.byte	72
+ 492 01cf 08       		.byte	8
+ 493 01d0 49       		.byte	73
+ 494 01d1 84       		.byte	-124
+ 495 01d2 52       		.byte	82
+ 496 01d3 02       		.byte	2
+ 497 01d4 5A       		.byte	90
+ 498 01d5 08       		.byte	8
+ 499 01d6 5F       		.byte	95
+ 500 01d7 02       		.byte	2
+ 501 01d8 65       		.byte	101
+ 502 01d9 20       		.byte	32
+ 503 01da 67       		.byte	103
+ 504 01db 81       		.byte	-127
+ 505 01dc 68       		.byte	104
+ 506 01dd 02       		.byte	2
+ 507 01de 69       		.byte	105
+ 508 01df 14       		.byte	20
+ 509 01e0 70       		.byte	112
+ 510 01e1 A0       		.byte	-96
+ 511 01e2 71       		.byte	113
+ 512 01e3 C8       		.byte	-56
+ 513 01e4 83       		.byte	-125
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 10
+
+
+ 514 01e5 04       		.byte	4
+ 515 01e6 87       		.byte	-121
+ 516 01e7 40       		.byte	64
+ 517 01e8 89       		.byte	-119
+ 518 01e9 48       		.byte	72
+ 519 01ea 90       		.byte	-112
+ 520 01eb 80       		.byte	-128
+ 521 01ec 94       		.byte	-108
+ 522 01ed 04       		.byte	4
+ 523 01ee 96       		.byte	-106
+ 524 01ef 80       		.byte	-128
+ 525 01f0 99       		.byte	-103
+ 526 01f1 A0       		.byte	-96
+ 527 01f2 9B       		.byte	-101
+ 528 01f3 02       		.byte	2
+ 529 01f4 9D       		.byte	-99
+ 530 01f5 41       		.byte	65
+ 531 01f6 9E       		.byte	-98
+ 532 01f7 02       		.byte	2
+ 533 01f8 A2       		.byte	-94
+ 534 01f9 28       		.byte	40
+ 535 01fa A3       		.byte	-93
+ 536 01fb 01       		.byte	1
+ 537 01fc A4       		.byte	-92
+ 538 01fd 30       		.byte	48
+ 539 01fe A5       		.byte	-91
+ 540 01ff 88       		.byte	-120
+ 541 0200 A6       		.byte	-90
+ 542 0201 02       		.byte	2
+ 543 0202 A7       		.byte	-89
+ 544 0203 A0       		.byte	-96
+ 545 0204 C0       		.byte	-64
+ 546 0205 0F       		.byte	15
+ 547 0206 C2       		.byte	-62
+ 548 0207 8F       		.byte	-113
+ 549 0208 C4       		.byte	-60
+ 550 0209 0F       		.byte	15
+ 551 020a CA       		.byte	-54
+ 552 020b 0B       		.byte	11
+ 553 020c CC       		.byte	-52
+ 554 020d 07       		.byte	7
+ 555 020e CE       		.byte	-50
+ 556 020f 0E       		.byte	14
+ 557 0210 D0       		.byte	-48
+ 558 0211 0D       		.byte	13
+ 559 0212 D2       		.byte	-46
+ 560 0213 0C       		.byte	12
+ 561 0214 D6       		.byte	-42
+ 562 0215 82       		.byte	-126
+ 563 0216 D8       		.byte	-40
+ 564 0217 B0       		.byte	-80
+ 565 0218 E4       		.byte	-28
+ 566 0219 04       		.byte	4
+ 567 021a 01       		.byte	1
+ 568 021b 09       		.byte	9
+ 569 021c 03       		.byte	3
+ 570 021d 06       		.byte	6
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 11
+
+
+ 571 021e 05       		.byte	5
+ 572 021f 1F       		.byte	31
+ 573 0220 09       		.byte	9
+ 574 0221 1F       		.byte	31
+ 575 0222 10       		.byte	16
+ 576 0223 02       		.byte	2
+ 577 0224 12       		.byte	18
+ 578 0225 04       		.byte	4
+ 579 0226 14       		.byte	20
+ 580 0227 07       		.byte	7
+ 581 0228 15       		.byte	21
+ 582 0229 12       		.byte	18
+ 583 022a 17       		.byte	23
+ 584 022b 05       		.byte	5
+ 585 022c 18       		.byte	24
+ 586 022d 07       		.byte	7
+ 587 022e 1D       		.byte	29
+ 588 022f 04       		.byte	4
+ 589 0230 1F       		.byte	31
+ 590 0231 18       		.byte	24
+ 591 0232 2C       		.byte	44
+ 592 0233 08       		.byte	8
+ 593 0234 2E       		.byte	46
+ 594 0235 01       		.byte	1
+ 595 0236 32       		.byte	50
+ 596 0237 0C       		.byte	12
+ 597 0238 33       		.byte	51
+ 598 0239 03       		.byte	3
+ 599 023a 34       		.byte	52
+ 600 023b 03       		.byte	3
+ 601 023c 37       		.byte	55
+ 602 023d 1C       		.byte	28
+ 603 023e 38       		.byte	56
+ 604 023f 28       		.byte	40
+ 605 0240 3E       		.byte	62
+ 606 0241 10       		.byte	16
+ 607 0242 40       		.byte	64
+ 608 0243 02       		.byte	2
+ 609 0244 46       		.byte	70
+ 610 0245 40       		.byte	64
+ 611 0246 49       		.byte	73
+ 612 0247 FF       		.byte	-1
+ 613 0248 4A       		.byte	74
+ 614 0249 07       		.byte	7
+ 615 024a 4B       		.byte	75
+ 616 024b FF       		.byte	-1
+ 617 024c 4C       		.byte	76
+ 618 024d 40       		.byte	64
+ 619 024e 4D       		.byte	77
+ 620 024f 20       		.byte	32
+ 621 0250 4E       		.byte	78
+ 622 0251 F0       		.byte	-16
+ 623 0252 4F       		.byte	79
+ 624 0253 05       		.byte	5
+ 625 0254 50       		.byte	80
+ 626 0255 08       		.byte	8
+ 627 0256 58       		.byte	88
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 12
+
+
+ 628 0257 04       		.byte	4
+ 629 0258 59       		.byte	89
+ 630 0259 04       		.byte	4
+ 631 025a 5A       		.byte	90
+ 632 025b 04       		.byte	4
+ 633 025c 5F       		.byte	95
+ 634 025d 01       		.byte	1
+ 635 025e 60       		.byte	96
+ 636 025f 40       		.byte	64
+ 637 0260 61       		.byte	97
+ 638 0261 A8       		.byte	-88
+ 639 0262 62       		.byte	98
+ 640 0263 40       		.byte	64
+ 641 0264 63       		.byte	99
+ 642 0265 20       		.byte	32
+ 643 0266 84       		.byte	-124
+ 644 0267 60       		.byte	96
+ 645 0268 85       		.byte	-123
+ 646 0269 28       		.byte	40
+ 647 026a 86       		.byte	-122
+ 648 026b 80       		.byte	-128
+ 649 026c 88       		.byte	-120
+ 650 026d 61       		.byte	97
+ 651 026e 8A       		.byte	-118
+ 652 026f 96       		.byte	-106
+ 653 0270 8B       		.byte	-117
+ 654 0271 01       		.byte	1
+ 655 0272 8C       		.byte	-116
+ 656 0273 5C       		.byte	92
+ 657 0274 8E       		.byte	-114
+ 658 0275 83       		.byte	-125
+ 659 0276 92       		.byte	-110
+ 660 0277 A3       		.byte	-93
+ 661 0278 93       		.byte	-109
+ 662 0279 01       		.byte	1
+ 663 027a 94       		.byte	-108
+ 664 027b 61       		.byte	97
+ 665 027c 95       		.byte	-107
+ 666 027d 12       		.byte	18
+ 667 027e 96       		.byte	-106
+ 668 027f 8E       		.byte	-114
+ 669 0280 97       		.byte	-105
+ 670 0281 20       		.byte	32
+ 671 0282 9A       		.byte	-102
+ 672 0283 1C       		.byte	28
+ 673 0284 9B       		.byte	-101
+ 674 0285 06       		.byte	6
+ 675 0286 9D       		.byte	-99
+ 676 0287 40       		.byte	64
+ 677 0288 A1       		.byte	-95
+ 678 0289 38       		.byte	56
+ 679 028a A3       		.byte	-93
+ 680 028b 05       		.byte	5
+ 681 028c A5       		.byte	-91
+ 682 028d 21       		.byte	33
+ 683 028e A7       		.byte	-89
+ 684 028f 18       		.byte	24
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 13
+
+
+ 685 0290 A9       		.byte	-87
+ 686 0291 19       		.byte	25
+ 687 0292 AA       		.byte	-86
+ 688 0293 08       		.byte	8
+ 689 0294 AB       		.byte	-85
+ 690 0295 22       		.byte	34
+ 691 0296 AD       		.byte	-83
+ 692 0297 20       		.byte	32
+ 693 0298 B2       		.byte	-78
+ 694 0299 1A       		.byte	26
+ 695 029a B3       		.byte	-77
+ 696 029b 3E       		.byte	62
+ 697 029c B4       		.byte	-76
+ 698 029d F0       		.byte	-16
+ 699 029e B5       		.byte	-75
+ 700 029f 40       		.byte	64
+ 701 02a0 B6       		.byte	-74
+ 702 02a1 0F       		.byte	15
+ 703 02a2 B7       		.byte	-73
+ 704 02a3 01       		.byte	1
+ 705 02a4 BA       		.byte	-70
+ 706 02a5 A8       		.byte	-88
+ 707 02a6 BF       		.byte	-65
+ 708 02a7 50       		.byte	80
+ 709 02a8 C0       		.byte	-64
+ 710 02a9 25       		.byte	37
+ 711 02aa C1       		.byte	-63
+ 712 02ab 03       		.byte	3
+ 713 02ac C5       		.byte	-59
+ 714 02ad EB       		.byte	-21
+ 715 02ae C6       		.byte	-58
+ 716 02af C0       		.byte	-64
+ 717 02b0 C8       		.byte	-56
+ 718 02b1 0B       		.byte	11
+ 719 02b2 C9       		.byte	-55
+ 720 02b3 FF       		.byte	-1
+ 721 02b4 CA       		.byte	-54
+ 722 02b5 FF       		.byte	-1
+ 723 02b6 CB       		.byte	-53
+ 724 02b7 FF       		.byte	-1
+ 725 02b8 CE       		.byte	-50
+ 726 02b9 F0       		.byte	-16
+ 727 02ba CF       		.byte	-49
+ 728 02bb 44       		.byte	68
+ 729 02bc D0       		.byte	-48
+ 730 02bd 0C       		.byte	12
+ 731 02be D4       		.byte	-44
+ 732 02bf 01       		.byte	1
+ 733 02c0 D8       		.byte	-40
+ 734 02c1 04       		.byte	4
+ 735 02c2 D9       		.byte	-39
+ 736 02c3 04       		.byte	4
+ 737 02c4 DA       		.byte	-38
+ 738 02c5 04       		.byte	4
+ 739 02c6 DB       		.byte	-37
+ 740 02c7 04       		.byte	4
+ 741 02c8 DF       		.byte	-33
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 14
+
+
+ 742 02c9 01       		.byte	1
+ 743 02ca E6       		.byte	-26
+ 744 02cb C0       		.byte	-64
+ 745 02cc EA       		.byte	-22
+ 746 02cd 40       		.byte	64
+ 747 02ce EB       		.byte	-21
+ 748 02cf 02       		.byte	2
+ 749 02d0 05       		.byte	5
+ 750 02d1 50       		.byte	80
+ 751 02d2 06       		.byte	6
+ 752 02d3 10       		.byte	16
+ 753 02d4 07       		.byte	7
+ 754 02d5 20       		.byte	32
+ 755 02d6 09       		.byte	9
+ 756 02d7 28       		.byte	40
+ 757 02d8 0B       		.byte	11
+ 758 02d9 80       		.byte	-128
+ 759 02da 0C       		.byte	12
+ 760 02db 02       		.byte	2
+ 761 02dc 0D       		.byte	13
+ 762 02dd 08       		.byte	8
+ 763 02de 0F       		.byte	15
+ 764 02df 08       		.byte	8
+ 765 02e0 10       		.byte	16
+ 766 02e1 02       		.byte	2
+ 767 02e2 15       		.byte	21
+ 768 02e3 20       		.byte	32
+ 769 02e4 18       		.byte	24
+ 770 02e5 04       		.byte	4
+ 771 02e6 19       		.byte	25
+ 772 02e7 04       		.byte	4
+ 773 02e8 1B       		.byte	27
+ 774 02e9 04       		.byte	4
+ 775 02ea 1D       		.byte	29
+ 776 02eb 78       		.byte	120
+ 777 02ec 1F       		.byte	31
+ 778 02ed 54       		.byte	84
+ 779 02ee 20       		.byte	32
+ 780 02ef 20       		.byte	32
+ 781 02f0 22       		.byte	34
+ 782 02f1 44       		.byte	68
+ 783 02f2 26       		.byte	38
+ 784 02f3 40       		.byte	64
+ 785 02f4 27       		.byte	39
+ 786 02f5 18       		.byte	24
+ 787 02f6 2E       		.byte	46
+ 788 02f7 80       		.byte	-128
+ 789 02f8 2F       		.byte	47
+ 790 02f9 54       		.byte	84
+ 791 02fa 32       		.byte	50
+ 792 02fb 44       		.byte	68
+ 793 02fc 34       		.byte	52
+ 794 02fd 10       		.byte	16
+ 795 02fe 35       		.byte	53
+ 796 02ff 04       		.byte	4
+ 797 0300 36       		.byte	54
+ 798 0301 82       		.byte	-126
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 15
+
+
+ 799 0302 37       		.byte	55
+ 800 0303 10       		.byte	16
+ 801 0304 39       		.byte	57
+ 802 0305 14       		.byte	20
+ 803 0306 3A       		.byte	58
+ 804 0307 02       		.byte	2
+ 805 0308 3F       		.byte	63
+ 806 0309 24       		.byte	36
+ 807 030a 40       		.byte	64
+ 808 030b 04       		.byte	4
+ 809 030c 45       		.byte	69
+ 810 030d 28       		.byte	40
+ 811 030e 4C       		.byte	76
+ 812 030f 02       		.byte	2
+ 813 0310 4D       		.byte	77
+ 814 0311 01       		.byte	1
+ 815 0312 4E       		.byte	78
+ 816 0313 80       		.byte	-128
+ 817 0314 4F       		.byte	79
+ 818 0315 04       		.byte	4
+ 819 0316 50       		.byte	80
+ 820 0317 02       		.byte	2
+ 821 0318 51       		.byte	81
+ 822 0319 10       		.byte	16
+ 823 031a 52       		.byte	82
+ 824 031b 02       		.byte	2
+ 825 031c 56       		.byte	86
+ 826 031d 10       		.byte	16
+ 827 031e 57       		.byte	87
+ 828 031f 10       		.byte	16
+ 829 0320 5D       		.byte	93
+ 830 0321 01       		.byte	1
+ 831 0322 5E       		.byte	94
+ 832 0323 80       		.byte	-128
+ 833 0324 5F       		.byte	95
+ 834 0325 28       		.byte	40
+ 835 0326 88       		.byte	-120
+ 836 0327 01       		.byte	1
+ 837 0328 89       		.byte	-119
+ 838 0329 10       		.byte	16
+ 839 032a 8A       		.byte	-118
+ 840 032b 82       		.byte	-126
+ 841 032c 91       		.byte	-111
+ 842 032d 14       		.byte	20
+ 843 032e 96       		.byte	-106
+ 844 032f 80       		.byte	-128
+ 845 0330 9C       		.byte	-100
+ 846 0331 10       		.byte	16
+ 847 0332 9E       		.byte	-98
+ 848 0333 02       		.byte	2
+ 849 0334 A4       		.byte	-92
+ 850 0335 11       		.byte	17
+ 851 0336 B4       		.byte	-76
+ 852 0337 48       		.byte	72
+ 853 0338 C0       		.byte	-64
+ 854 0339 E0       		.byte	-32
+ 855 033a C2       		.byte	-62
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 16
+
+
+ 856 033b 7E       		.byte	126
+ 857 033c C4       		.byte	-60
+ 858 033d 41       		.byte	65
+ 859 033e CA       		.byte	-54
+ 860 033f F0       		.byte	-16
+ 861 0340 CC       		.byte	-52
+ 862 0341 FA       		.byte	-6
+ 863 0342 CE       		.byte	-50
+ 864 0343 67       		.byte	103
+ 865 0344 D0       		.byte	-48
+ 866 0345 64       		.byte	100
+ 867 0346 D2       		.byte	-46
+ 868 0347 10       		.byte	16
+ 869 0348 D6       		.byte	-42
+ 870 0349 F0       		.byte	-16
+ 871 034a 32       		.byte	50
+ 872 034b 20       		.byte	32
+ 873 034c 35       		.byte	53
+ 874 034d 80       		.byte	-128
+ 875 034e CC       		.byte	-52
+ 876 034f 30       		.byte	48
+ 877 0350 9D       		.byte	-99
+ 878 0351 80       		.byte	-128
+ 879 0352 A6       		.byte	-90
+ 880 0353 20       		.byte	32
+ 881 0354 5B       		.byte	91
+ 882 0355 08       		.byte	8
+ 883 0356 9B       		.byte	-101
+ 884 0357 08       		.byte	8
+ 885 0358 9D       		.byte	-99
+ 886 0359 80       		.byte	-128
+ 887 035a A6       		.byte	-90
+ 888 035b 20       		.byte	32
+ 889 035c AF       		.byte	-81
+ 890 035d 08       		.byte	8
+ 891 035e D6       		.byte	-42
+ 892 035f 40       		.byte	64
+ 893 0360 EA       		.byte	-22
+ 894 0361 10       		.byte	16
+ 895 0362 86       		.byte	-122
+ 896 0363 20       		.byte	32
+ 897 0364 9D       		.byte	-99
+ 898 0365 80       		.byte	-128
+ 899 0366 A6       		.byte	-90
+ 900 0367 20       		.byte	32
+ 901 0368 E6       		.byte	-26
+ 902 0369 40       		.byte	64
+ 903 036a 5D       		.byte	93
+ 904 036b 80       		.byte	-128
+ 905 036c D6       		.byte	-42
+ 906 036d 04       		.byte	4
+ 907 036e 9D       		.byte	-99
+ 908 036f 80       		.byte	-128
+ 909 0370 81       		.byte	-127
+ 910 0371 80       		.byte	-128
+ 911 0372 9D       		.byte	-99
+ 912 0373 80       		.byte	-128
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 17
+
+
+ 913 0374 85       		.byte	-123
+ 914 0375 80       		.byte	-128
+ 915 0376 9D       		.byte	-99
+ 916 0377 80       		.byte	-128
+ 917 0378 E2       		.byte	-30
+ 918 0379 10       		.byte	16
+ 919 037a 81       		.byte	-127
+ 920 037b 02       		.byte	2
+ 921 037c 10       		.byte	16
+ 922 037d 40       		.byte	64
+ 923 037e 75       		.byte	117
+ 924 037f 02       		.byte	2
+ 925 0380 88       		.byte	-120
+ 926 0381 40       		.byte	64
+ 927 0382 99       		.byte	-103
+ 928 0383 02       		.byte	2
+ 929 0384 C4       		.byte	-60
+ 930 0385 08       		.byte	8
+ 931 0386 DE       		.byte	-34
+ 932 0387 04       		.byte	4
+ 933 0388 E2       		.byte	-30
+ 934 0389 01       		.byte	1
+ 935 038a 00       		.byte	0
+ 936 038b 03       		.byte	3
+ 937 038c 0C       		.byte	12
+ 938 038d 03       		.byte	3
+ 939 038e 10       		.byte	16
+ 940 038f 03       		.byte	3
+ 941 0390 1C       		.byte	28
+ 942 0391 03       		.byte	3
+ 943 0392 00       		.byte	0
+ 944 0393 0F       		.byte	15
+ 945 0394 80       		.byte	-128
+ 946 0395 80       		.byte	-128
+ 947 0396 00       		.byte	0
+ 948 0397 00       		.byte	0
+ 949 0398 40       		.byte	64
+ 950 0399 00       		.byte	0
+ 951 039a 00       		.byte	0
+ 952 039b 00       		.byte	0
+ 953 039c 01       		.byte	1
+ 954 039d 00       		.byte	0
+ 955 039e A0       		.byte	-96
+ 956 039f 00       		.byte	0
+ 957 03a0 00       		.byte	0
+ 958 03a1 02       		.byte	2
+ 959 03a2 03       		.byte	3
+ 960 03a3 00       		.byte	0
+ 961 03a4 02       		.byte	2
+ 962 03a5 02       		.byte	2
+ 963 03a6 80       		.byte	-128
+ 964 03a7 00       		.byte	0
+ 965 03a8 03       		.byte	3
+ 966 03a9 04       		.byte	4
+ 967 03aa 0C       		.byte	12
+ 968 03ab 00       		.byte	0
+ 969 03ac 03       		.byte	3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 18
+
+
+ 970 03ad 02       		.byte	2
+ 971 03ae 40       		.byte	64
+ 972 03af 00       		.byte	0
+ 973 03b0 0F       		.byte	15
+ 974 03b1 04       		.byte	4
+ 975 03b2 00       		.byte	0
+ 976 03b3 00       		.byte	0
+ 977 03b4 10       		.byte	16
+ 978 03b5 04       		.byte	4
+ 979 03b6 00       		.byte	0
+ 980 03b7 00       		.byte	0
+ 981 03b8 0C       		.byte	12
+ 982 03b9 00       		.byte	0
+ 983 03ba 00       		.byte	0
+ 984 03bb 00       		.byte	0
+ 985 03bc 08       		.byte	8
+ 986 03bd 04       		.byte	4
+ 987 03be 00       		.byte	0
+ 988 03bf 00       		.byte	0
+ 989 03c0 04       		.byte	4
+ 990 03c1 00       		.byte	0
+ 991 03c2 00       		.byte	0
+ 992 03c3 01       		.byte	1
+ 993 03c4 0C       		.byte	12
+ 994 03c5 00       		.byte	0
+ 995 03c6 03       		.byte	3
+ 996 03c7 00       		.byte	0
+ 997 03c8 0F       		.byte	15
+ 998 03c9 00       		.byte	0
+ 999 03ca 00       		.byte	0
+ 1000 03cb 01       		.byte	1
+ 1001 03cc 0F       		.byte	15
+ 1002 03cd 00       		.byte	0
+ 1003 03ce 10       		.byte	16
+ 1004 03cf 04       		.byte	4
+ 1005 03d0 20       		.byte	32
+ 1006 03d1 02       		.byte	2
+ 1007 03d2 C0       		.byte	-64
+ 1008 03d3 01       		.byte	1
+ 1009 03d4 00       		.byte	0
+ 1010 03d5 00       		.byte	0
+ 1011 03d6 02       		.byte	2
+ 1012 03d7 00       		.byte	0
+ 1013 03d8 00       		.byte	0
+ 1014 03d9 00       		.byte	0
+ 1015 03da 44       		.byte	68
+ 1016 03db 44       		.byte	68
+ 1017 03dc 42       		.byte	66
+ 1018 03dd 06       		.byte	6
+ 1019 03de 05       		.byte	5
+ 1020 03df 00       		.byte	0
+ 1021 03e0 01       		.byte	1
+ 1022 03e1 0C       		.byte	12
+ 1023 03e2 00       		.byte	0
+ 1024 03e3 E0       		.byte	-32
+ 1025 03e4 21       		.byte	33
+ 1026 03e5 FF       		.byte	-1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 19
+
+
+ 1027 03e6 FF       		.byte	-1
+ 1028 03e7 FF       		.byte	-1
+ 1029 03e8 62       		.byte	98
+ 1030 03e9 A0       		.byte	-96
+ 1031 03ea F0       		.byte	-16
+ 1032 03eb 41       		.byte	65
+ 1033 03ec 0C       		.byte	12
+ 1034 03ed 00       		.byte	0
+ 1035 03ee 00       		.byte	0
+ 1036 03ef 00       		.byte	0
+ 1037 03f0 00       		.byte	0
+ 1038 03f1 00       		.byte	0
+ 1039 03f2 02       		.byte	2
+ 1040 03f3 12       		.byte	18
+ 1041 03f4 04       		.byte	4
+ 1042 03f5 04       		.byte	4
+ 1043 03f6 04       		.byte	4
+ 1044 03f7 04       		.byte	4
+ 1045 03f8 00       		.byte	0
+ 1046 03f9 00       		.byte	0
+ 1047 03fa 00       		.byte	0
+ 1048 03fb 01       		.byte	1
+ 1049 03fc 00       		.byte	0
+ 1050 03fd 00       		.byte	0
+ 1051 03fe 00       		.byte	0
+ 1052 03ff 00       		.byte	0
+ 1053 0400 00       		.byte	0
+ 1054 0401 00       		.byte	0
+ 1055 0402 40       		.byte	64
+ 1056 0403 02       		.byte	2
+ 1057 0404 00       		.byte	0
+ 1058 0405 10       		.byte	16
+ 1059 0406 30       		.byte	48
+ 1060 0407 10       		.byte	16
+ 1061 0408 00       		.byte	0
+ 1062 0409 10       		.byte	16
+ 1063 040a 10       		.byte	16
+ 1064 040b 12       		.byte	18
+ 1065 040c 00       		.byte	0
+ 1066 040d 00       		.byte	0
+ 1067 040e 00       		.byte	0
+ 1068 040f 00       		.byte	0
+ 1069 0410 00       		.byte	0
+ 1070 0411 00       		.byte	0
+ 1071 0412 00       		.byte	0
+ 1072 0413 00       		.byte	0
+ 1073 0414 00       		.byte	0
+ 1074 0415 00       		.byte	0
+ 1075 0416 00       		.byte	0
+ 1076 0417 00       		.byte	0
+ 1077 0418 00       		.byte	0
+ 1078 0419 00       		.byte	0
+ 1079 041a 00       		.byte	0
+ 1080 041b 00       		.byte	0
+ 1081 041c 00       		.byte	0
+ 1082 041d CF       		.byte	-49
+ 1083 041e CF       		.byte	-49
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 20
+
+
+ 1084 041f 00       		.byte	0
+ 1085 0420 00       		.byte	0
+ 1086 0421 00       		.byte	0
+ 1087 0422 00       		.byte	0
+ 1088 0423 00       		.byte	0
+ 1089 0424 80       		.byte	-128
+ 1090 0425 00       		.byte	0
+ 1091 0426 40       		.byte	64
+ 1092 0427 80       		.byte	-128
+ 1093 0428 80       		.byte	-128
+ 1094 0429 00       		.byte	0
+ 1095 042a 80       		.byte	-128
+ 1096 042b 00       		.byte	0
+ 1097 042c 00       		.byte	0
+ 1098 042d 00       		.byte	0
+ 1099 042e 00       		.byte	0
+ 1100 042f 00       		.byte	0
+ 1101 0430 00       		.byte	0
+ 1102 0431 0B       		.byte	11
+ 1103 0432 0B       		.byte	11
+ 1104 0433 00       		.byte	0
+ 1105 0434 00       		.byte	0
+ 1106 0435 00       		.byte	0
+ 1107 0436 00       		.byte	0
+ 1108 0437 00       		.byte	0
+ 1109 0438 00       		.byte	0
+ 1110 0439 03       		.byte	3
+ 1111 043a 03       		.byte	3
+ 1112 043b 00       		.byte	0
+ 1113 043c 02       		.byte	2
+ 1114 043d 00       		.byte	0
+ 1115 043e 00       		.byte	0
+ 1116 043f 00       		.byte	0
+ 1117              		.section	.cywolatch,"a",%progbits
+ 1118              		.align	2
+ 1119              		.type	cy_meta_wonvl, %object
+ 1120              		.size	cy_meta_wonvl, 4
+ 1121              	cy_meta_wonvl:
+ 1122 0000 BC       		.byte	-68
+ 1123 0001 90       		.byte	-112
+ 1124 0002 AC       		.byte	-84
+ 1125 0003 AF       		.byte	-81
+ 1126              		.section	.cycustnvl,"a",%progbits
+ 1127              		.align	2
+ 1128              		.type	cy_meta_custnvl, %object
+ 1129              		.size	cy_meta_custnvl, 4
+ 1130              	cy_meta_custnvl:
+ 1131 0000 00       		.byte	0
+ 1132 0001 00       		.byte	0
+ 1133 0002 40       		.byte	64
+ 1134 0003 05       		.byte	5
+ 1135              		.section	.cymeta,"a",%progbits
+ 1136              		.align	2
+ 1137              		.type	cy_metadata, %object
+ 1138              		.size	cy_metadata, 12
+ 1139              	cy_metadata:
+ 1140 0000 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 21
+
+
+ 1141 0001 01       		.byte	1
+ 1142 0002 2E       		.byte	46
+ 1143 0003 16       		.byte	22
+ 1144 0004 10       		.byte	16
+ 1145 0005 69       		.byte	105
+ 1146 0006 00       		.byte	0
+ 1147 0007 01       		.byte	1
+ 1148 0008 00       		.byte	0
+ 1149 0009 00       		.byte	0
+ 1150 000a 00       		.byte	0
+ 1151 000b 00       		.byte	0
+ 1152              		.section	.cyflashprotect,"a",%progbits
+ 1153              		.align	2
+ 1154              		.type	cy_meta_flashprotect, %object
+ 1155              		.size	cy_meta_flashprotect, 256
+ 1156              	cy_meta_flashprotect:
+ 1157 0000 00000000 		.space	256
+ 1157      00000000 
+ 1157      00000000 
+ 1157      00000000 
+ 1157      00000000 
+ 1158              		.text
+ 1159              	.Letext0:
+ 1160              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1161              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1162              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 1163              		.section	.debug_info,"",%progbits
+ 1164              	.Ldebug_info0:
+ 1165 0000 31010000 		.4byte	0x131
+ 1166 0004 0400     		.2byte	0x4
+ 1167 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1168 000a 04       		.byte	0x4
+ 1169 000b 01       		.uleb128 0x1
+ 1170 000c 56000000 		.4byte	.LASF17
+ 1171 0010 0C       		.byte	0xc
+ 1172 0011 B0010000 		.4byte	.LASF18
+ 1173 0015 0A000000 		.4byte	.LASF19
+ 1174 0019 00000000 		.4byte	.Ldebug_line0
+ 1175 001d 02       		.uleb128 0x2
+ 1176 001e 01       		.byte	0x1
+ 1177 001f 06       		.byte	0x6
+ 1178 0020 A4010000 		.4byte	.LASF0
+ 1179 0024 03       		.uleb128 0x3
+ 1180 0025 00000000 		.4byte	.LASF9
+ 1181 0029 01       		.byte	0x1
+ 1182 002a 1D       		.byte	0x1d
+ 1183 002b 2F000000 		.4byte	0x2f
+ 1184 002f 02       		.uleb128 0x2
+ 1185 0030 01       		.byte	0x1
+ 1186 0031 08       		.byte	0x8
+ 1187 0032 48000000 		.4byte	.LASF1
+ 1188 0036 02       		.uleb128 0x2
+ 1189 0037 02       		.byte	0x2
+ 1190 0038 05       		.byte	0x5
+ 1191 0039 91010000 		.4byte	.LASF2
+ 1192 003d 02       		.uleb128 0x2
+ 1193 003e 02       		.byte	0x2
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 22
+
+
+ 1194 003f 07       		.byte	0x7
+ 1195 0040 F6000000 		.4byte	.LASF3
+ 1196 0044 02       		.uleb128 0x2
+ 1197 0045 04       		.byte	0x4
+ 1198 0046 05       		.byte	0x5
+ 1199 0047 9B010000 		.4byte	.LASF4
+ 1200 004b 02       		.uleb128 0x2
+ 1201 004c 04       		.byte	0x4
+ 1202 004d 07       		.byte	0x7
+ 1203 004e E4000000 		.4byte	.LASF5
+ 1204 0052 02       		.uleb128 0x2
+ 1205 0053 08       		.byte	0x8
+ 1206 0054 05       		.byte	0x5
+ 1207 0055 83010000 		.4byte	.LASF6
+ 1208 0059 02       		.uleb128 0x2
+ 1209 005a 08       		.byte	0x8
+ 1210 005b 07       		.byte	0x7
+ 1211 005c 38010000 		.4byte	.LASF7
+ 1212 0060 04       		.uleb128 0x4
+ 1213 0061 04       		.byte	0x4
+ 1214 0062 05       		.byte	0x5
+ 1215 0063 696E7400 		.ascii	"int\000"
+ 1216 0067 02       		.uleb128 0x2
+ 1217 0068 04       		.byte	0x4
+ 1218 0069 07       		.byte	0x7
+ 1219 006a 2B010000 		.4byte	.LASF8
+ 1220 006e 03       		.uleb128 0x3
+ 1221 006f 4F010000 		.4byte	.LASF10
+ 1222 0073 02       		.byte	0x2
+ 1223 0074 18       		.byte	0x18
+ 1224 0075 24000000 		.4byte	0x24
+ 1225 0079 05       		.uleb128 0x5
+ 1226 007a 91000000 		.4byte	0x91
+ 1227 007e 8A000000 		.4byte	0x8a
+ 1228 0082 06       		.uleb128 0x6
+ 1229 0083 8A000000 		.4byte	0x8a
+ 1230 0087 3F04     		.2byte	0x43f
+ 1231 0089 00       		.byte	0
+ 1232 008a 02       		.uleb128 0x2
+ 1233 008b 04       		.byte	0x4
+ 1234 008c 07       		.byte	0x7
+ 1235 008d 7A010000 		.4byte	.LASF11
+ 1236 0091 07       		.uleb128 0x7
+ 1237 0092 6E000000 		.4byte	0x6e
+ 1238 0096 08       		.uleb128 0x8
+ 1239 0097 19010000 		.4byte	.LASF12
+ 1240 009b 03       		.byte	0x3
+ 1241 009c 1F       		.byte	0x1f
+ 1242 009d A7000000 		.4byte	0xa7
+ 1243 00a1 05       		.uleb128 0x5
+ 1244 00a2 03       		.byte	0x3
+ 1245 00a3 00000000 		.4byte	cy_meta_configecc
+ 1246 00a7 07       		.uleb128 0x7
+ 1247 00a8 79000000 		.4byte	0x79
+ 1248 00ac 05       		.uleb128 0x5
+ 1249 00ad 91000000 		.4byte	0x91
+ 1250 00b1 BC000000 		.4byte	0xbc
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 23
+
+
+ 1251 00b5 09       		.uleb128 0x9
+ 1252 00b6 8A000000 		.4byte	0x8a
+ 1253 00ba 03       		.byte	0x3
+ 1254 00bb 00       		.byte	0
+ 1255 00bc 08       		.uleb128 0x8
+ 1256 00bd 09010000 		.4byte	.LASF13
+ 1257 00c1 03       		.byte	0x3
+ 1258 00c2 B4       		.byte	0xb4
+ 1259 00c3 CD000000 		.4byte	0xcd
+ 1260 00c7 05       		.uleb128 0x5
+ 1261 00c8 03       		.byte	0x3
+ 1262 00c9 00000000 		.4byte	cy_meta_custnvl
+ 1263 00cd 07       		.uleb128 0x7
+ 1264 00ce AC000000 		.4byte	0xac
+ 1265 00d2 08       		.uleb128 0x8
+ 1266 00d3 6C010000 		.4byte	.LASF14
+ 1267 00d7 03       		.byte	0x3
+ 1268 00d8 C2       		.byte	0xc2
+ 1269 00d9 E3000000 		.4byte	0xe3
+ 1270 00dd 05       		.uleb128 0x5
+ 1271 00de 03       		.byte	0x3
+ 1272 00df 00000000 		.4byte	cy_meta_wonvl
+ 1273 00e3 07       		.uleb128 0x7
+ 1274 00e4 AC000000 		.4byte	0xac
+ 1275 00e8 05       		.uleb128 0x5
+ 1276 00e9 91000000 		.4byte	0x91
+ 1277 00ed F8000000 		.4byte	0xf8
+ 1278 00f1 09       		.uleb128 0x9
+ 1279 00f2 8A000000 		.4byte	0x8a
+ 1280 00f6 FF       		.byte	0xff
+ 1281 00f7 00       		.byte	0
+ 1282 00f8 08       		.uleb128 0x8
+ 1283 00f9 57010000 		.4byte	.LASF15
+ 1284 00fd 03       		.byte	0x3
+ 1285 00fe D0       		.byte	0xd0
+ 1286 00ff 09010000 		.4byte	0x109
+ 1287 0103 05       		.uleb128 0x5
+ 1288 0104 03       		.byte	0x3
+ 1289 0105 00000000 		.4byte	cy_meta_flashprotect
+ 1290 0109 07       		.uleb128 0x7
+ 1291 010a E8000000 		.4byte	0xe8
+ 1292 010e 05       		.uleb128 0x5
+ 1293 010f 91000000 		.4byte	0x91
+ 1294 0113 1E010000 		.4byte	0x11e
+ 1295 0117 09       		.uleb128 0x9
+ 1296 0118 8A000000 		.4byte	0x8a
+ 1297 011c 0B       		.byte	0xb
+ 1298 011d 00       		.byte	0
+ 1299 011e 08       		.uleb128 0x8
+ 1300 011f 3C000000 		.4byte	.LASF16
+ 1301 0123 03       		.byte	0x3
+ 1302 0124 FD       		.byte	0xfd
+ 1303 0125 2F010000 		.4byte	0x12f
+ 1304 0129 05       		.uleb128 0x5
+ 1305 012a 03       		.byte	0x3
+ 1306 012b 00000000 		.4byte	cy_metadata
+ 1307 012f 07       		.uleb128 0x7
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 24
+
+
+ 1308 0130 0E010000 		.4byte	0x10e
+ 1309 0134 00       		.byte	0
+ 1310              		.section	.debug_abbrev,"",%progbits
+ 1311              	.Ldebug_abbrev0:
+ 1312 0000 01       		.uleb128 0x1
+ 1313 0001 11       		.uleb128 0x11
+ 1314 0002 01       		.byte	0x1
+ 1315 0003 25       		.uleb128 0x25
+ 1316 0004 0E       		.uleb128 0xe
+ 1317 0005 13       		.uleb128 0x13
+ 1318 0006 0B       		.uleb128 0xb
+ 1319 0007 03       		.uleb128 0x3
+ 1320 0008 0E       		.uleb128 0xe
+ 1321 0009 1B       		.uleb128 0x1b
+ 1322 000a 0E       		.uleb128 0xe
+ 1323 000b 10       		.uleb128 0x10
+ 1324 000c 17       		.uleb128 0x17
+ 1325 000d 00       		.byte	0
+ 1326 000e 00       		.byte	0
+ 1327 000f 02       		.uleb128 0x2
+ 1328 0010 24       		.uleb128 0x24
+ 1329 0011 00       		.byte	0
+ 1330 0012 0B       		.uleb128 0xb
+ 1331 0013 0B       		.uleb128 0xb
+ 1332 0014 3E       		.uleb128 0x3e
+ 1333 0015 0B       		.uleb128 0xb
+ 1334 0016 03       		.uleb128 0x3
+ 1335 0017 0E       		.uleb128 0xe
+ 1336 0018 00       		.byte	0
+ 1337 0019 00       		.byte	0
+ 1338 001a 03       		.uleb128 0x3
+ 1339 001b 16       		.uleb128 0x16
+ 1340 001c 00       		.byte	0
+ 1341 001d 03       		.uleb128 0x3
+ 1342 001e 0E       		.uleb128 0xe
+ 1343 001f 3A       		.uleb128 0x3a
+ 1344 0020 0B       		.uleb128 0xb
+ 1345 0021 3B       		.uleb128 0x3b
+ 1346 0022 0B       		.uleb128 0xb
+ 1347 0023 49       		.uleb128 0x49
+ 1348 0024 13       		.uleb128 0x13
+ 1349 0025 00       		.byte	0
+ 1350 0026 00       		.byte	0
+ 1351 0027 04       		.uleb128 0x4
+ 1352 0028 24       		.uleb128 0x24
+ 1353 0029 00       		.byte	0
+ 1354 002a 0B       		.uleb128 0xb
+ 1355 002b 0B       		.uleb128 0xb
+ 1356 002c 3E       		.uleb128 0x3e
+ 1357 002d 0B       		.uleb128 0xb
+ 1358 002e 03       		.uleb128 0x3
+ 1359 002f 08       		.uleb128 0x8
+ 1360 0030 00       		.byte	0
+ 1361 0031 00       		.byte	0
+ 1362 0032 05       		.uleb128 0x5
+ 1363 0033 01       		.uleb128 0x1
+ 1364 0034 01       		.byte	0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 25
+
+
+ 1365 0035 49       		.uleb128 0x49
+ 1366 0036 13       		.uleb128 0x13
+ 1367 0037 01       		.uleb128 0x1
+ 1368 0038 13       		.uleb128 0x13
+ 1369 0039 00       		.byte	0
+ 1370 003a 00       		.byte	0
+ 1371 003b 06       		.uleb128 0x6
+ 1372 003c 21       		.uleb128 0x21
+ 1373 003d 00       		.byte	0
+ 1374 003e 49       		.uleb128 0x49
+ 1375 003f 13       		.uleb128 0x13
+ 1376 0040 2F       		.uleb128 0x2f
+ 1377 0041 05       		.uleb128 0x5
+ 1378 0042 00       		.byte	0
+ 1379 0043 00       		.byte	0
+ 1380 0044 07       		.uleb128 0x7
+ 1381 0045 26       		.uleb128 0x26
+ 1382 0046 00       		.byte	0
+ 1383 0047 49       		.uleb128 0x49
+ 1384 0048 13       		.uleb128 0x13
+ 1385 0049 00       		.byte	0
+ 1386 004a 00       		.byte	0
+ 1387 004b 08       		.uleb128 0x8
+ 1388 004c 34       		.uleb128 0x34
+ 1389 004d 00       		.byte	0
+ 1390 004e 03       		.uleb128 0x3
+ 1391 004f 0E       		.uleb128 0xe
+ 1392 0050 3A       		.uleb128 0x3a
+ 1393 0051 0B       		.uleb128 0xb
+ 1394 0052 3B       		.uleb128 0x3b
+ 1395 0053 0B       		.uleb128 0xb
+ 1396 0054 49       		.uleb128 0x49
+ 1397 0055 13       		.uleb128 0x13
+ 1398 0056 3F       		.uleb128 0x3f
+ 1399 0057 19       		.uleb128 0x19
+ 1400 0058 02       		.uleb128 0x2
+ 1401 0059 18       		.uleb128 0x18
+ 1402 005a 00       		.byte	0
+ 1403 005b 00       		.byte	0
+ 1404 005c 09       		.uleb128 0x9
+ 1405 005d 21       		.uleb128 0x21
+ 1406 005e 00       		.byte	0
+ 1407 005f 49       		.uleb128 0x49
+ 1408 0060 13       		.uleb128 0x13
+ 1409 0061 2F       		.uleb128 0x2f
+ 1410 0062 0B       		.uleb128 0xb
+ 1411 0063 00       		.byte	0
+ 1412 0064 00       		.byte	0
+ 1413 0065 00       		.byte	0
+ 1414              		.section	.debug_aranges,"",%progbits
+ 1415 0000 14000000 		.4byte	0x14
+ 1416 0004 0200     		.2byte	0x2
+ 1417 0006 00000000 		.4byte	.Ldebug_info0
+ 1418 000a 04       		.byte	0x4
+ 1419 000b 00       		.byte	0
+ 1420 000c 0000     		.2byte	0
+ 1421 000e 0000     		.2byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 26
+
+
+ 1422 0010 00000000 		.4byte	0
+ 1423 0014 00000000 		.4byte	0
+ 1424              		.section	.debug_line,"",%progbits
+ 1425              	.Ldebug_line0:
+ 1426 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 1426      02003701 
+ 1426      00000201 
+ 1426      FB0E0D00 
+ 1426      01010101 
+ 1427              	.LASF9:
+ 1428 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1428      6E74385F 
+ 1428      7400
+ 1429              	.LASF19:
+ 1430 000a 433A5C33 		.ascii	"C:\\3. semester\\GFV\\kode\\LAB1-3\\DC-Motor-PWM.cy"
+ 1430      2E207365 
+ 1430      6D657374 
+ 1430      65725C47 
+ 1430      46565C6B 
+ 1431 0038 64736E00 		.ascii	"dsn\000"
+ 1432              	.LASF16:
+ 1433 003c 63795F6D 		.ascii	"cy_metadata\000"
+ 1433      65746164 
+ 1433      61746100 
+ 1434              	.LASF1:
+ 1435 0048 756E7369 		.ascii	"unsigned char\000"
+ 1435      676E6564 
+ 1435      20636861 
+ 1435      7200
+ 1436              	.LASF17:
+ 1437 0056 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1437      43313120 
+ 1437      352E342E 
+ 1437      31203230 
+ 1437      31363036 
+ 1438 0089 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1438      20726576 
+ 1438      6973696F 
+ 1438      6E203233 
+ 1438      37373135 
+ 1439 00bc 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1439      66756E63 
+ 1439      74696F6E 
+ 1439      2D736563 
+ 1439      74696F6E 
+ 1440              	.LASF5:
+ 1441 00e4 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1441      20756E73 
+ 1441      69676E65 
+ 1441      6420696E 
+ 1441      7400
+ 1442              	.LASF3:
+ 1443 00f6 73686F72 		.ascii	"short unsigned int\000"
+ 1443      7420756E 
+ 1443      7369676E 
+ 1443      65642069 
+ 1443      6E7400
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 27
+
+
+ 1444              	.LASF13:
+ 1445 0109 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 1445      6574615F 
+ 1445      63757374 
+ 1445      6E766C00 
+ 1446              	.LASF12:
+ 1447 0119 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 1447      6574615F 
+ 1447      636F6E66 
+ 1447      69676563 
+ 1447      6300
+ 1448              	.LASF8:
+ 1449 012b 756E7369 		.ascii	"unsigned int\000"
+ 1449      676E6564 
+ 1449      20696E74 
+ 1449      00
+ 1450              	.LASF7:
+ 1451 0138 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1451      206C6F6E 
+ 1451      6720756E 
+ 1451      7369676E 
+ 1451      65642069 
+ 1452              	.LASF10:
+ 1453 014f 75696E74 		.ascii	"uint8_t\000"
+ 1453      385F7400 
+ 1454              	.LASF15:
+ 1455 0157 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 1455      6574615F 
+ 1455      666C6173 
+ 1455      6870726F 
+ 1455      74656374 
+ 1456              	.LASF14:
+ 1457 016c 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 1457      6574615F 
+ 1457      776F6E76 
+ 1457      6C00
+ 1458              	.LASF11:
+ 1459 017a 73697A65 		.ascii	"sizetype\000"
+ 1459      74797065 
+ 1459      00
+ 1460              	.LASF6:
+ 1461 0183 6C6F6E67 		.ascii	"long long int\000"
+ 1461      206C6F6E 
+ 1461      6720696E 
+ 1461      7400
+ 1462              	.LASF2:
+ 1463 0191 73686F72 		.ascii	"short int\000"
+ 1463      7420696E 
+ 1463      7400
+ 1464              	.LASF4:
+ 1465 019b 6C6F6E67 		.ascii	"long int\000"
+ 1465      20696E74 
+ 1465      00
+ 1466              	.LASF0:
+ 1467 01a4 7369676E 		.ascii	"signed char\000"
+ 1467      65642063 
+ 1467      68617200 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccRQy0uE.s 			page 28
+
+
+ 1468              	.LASF18:
+ 1469 01b0 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 1469      72617465 
+ 1469      645F536F 
+ 1469      75726365 
+ 1469      5C50536F 
+ 1470              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

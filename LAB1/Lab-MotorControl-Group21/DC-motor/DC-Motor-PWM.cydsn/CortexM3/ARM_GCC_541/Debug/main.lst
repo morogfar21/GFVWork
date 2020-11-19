@@ -1,0 +1,2567 @@
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** 
+  14:main.c        **** CY_ISR_PROTO(ISR_UART_rx_handler);
+  15:main.c        **** void handleByteReceived(uint8_t byteReceived);
+  16:main.c        **** void decreaseSpeed(void); //funktion til sænk fart
+  17:main.c        **** void increaseSpeed(void); //funktion til forøg fart
+  18:main.c        **** void driveForwards(void); //funktion til at køre bagud
+  19:main.c        **** void driveBackwards(void); //funktion til at køre frem
+  20:main.c        **** void stop(void); //funktion til at stoppe DC motor
+  21:main.c        **** void driveRight();
+  22:main.c        **** void driveLeft();
+  23:main.c        **** static int speed = 0; //global variable til at styre værdi on Compare Match, så duty cycle ændre
+  24:main.c        **** int main(void)
+  25:main.c        **** {
+  28              		.loc 1 25 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 2
+
+
+  33 0000 08B5     		push	{r3, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  26:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  37              		.loc 1 26 0
+  38              		.syntax unified
+  39              	@ 26 "main.c" 1
+  40 0002 62B6     		CPSIE   i
+  41              	@ 0 "" 2
+  27:main.c        **** 
+  28:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  29:main.c        ****     isr_uart_rx_StartEx(ISR_UART_rx_handler); //UART interrupt initialiseres
+  42              		.loc 1 29 0
+  43              		.thumb
+  44              		.syntax unified
+  45 0004 0F48     		ldr	r0, .L4
+  46 0006 FFF7FEFF 		bl	isr_uart_rx_StartEx
+  47              	.LVL0:
+  30:main.c        ****     UART_1_Start(); //UART initialiseres
+  48              		.loc 1 30 0
+  49 000a FFF7FEFF 		bl	UART_1_Start
+  50              	.LVL1:
+  31:main.c        ****     PWM_1_Start(); //PWM initialiseres
+  51              		.loc 1 31 0
+  52 000e FFF7FEFF 		bl	PWM_1_Start
+  53              	.LVL2:
+  32:main.c        ****     
+  33:main.c        ****     //beskrivelse til styring af DC motor via terminal
+  34:main.c        ****     UART_1_PutString("DC-Motor-PWM application started\r\n");
+  54              		.loc 1 34 0
+  55 0012 0D48     		ldr	r0, .L4+4
+  56 0014 FFF7FEFF 		bl	UART_1_PutString
+  57              	.LVL3:
+  35:main.c        ****     UART_1_PutString("0: Stop\r\n");
+  58              		.loc 1 35 0
+  59 0018 0C48     		ldr	r0, .L4+8
+  60 001a FFF7FEFF 		bl	UART_1_PutString
+  61              	.LVL4:
+  36:main.c        ****     UART_1_PutString("1: Drive forwards\r\n");
+  62              		.loc 1 36 0
+  63 001e 0C48     		ldr	r0, .L4+12
+  64 0020 FFF7FEFF 		bl	UART_1_PutString
+  65              	.LVL5:
+  37:main.c        ****     UART_1_PutString("2: Drive backwards\r\n");
+  66              		.loc 1 37 0
+  67 0024 0B48     		ldr	r0, .L4+16
+  68 0026 FFF7FEFF 		bl	UART_1_PutString
+  69              	.LVL6:
+  38:main.c        ****     UART_1_PutString("q: Decrease speed\r\n");
+  70              		.loc 1 38 0
+  71 002a 0B48     		ldr	r0, .L4+20
+  72 002c FFF7FEFF 		bl	UART_1_PutString
+  73              	.LVL7:
+  39:main.c        ****     UART_1_PutString("w: Increase speed\r\n");
+  74              		.loc 1 39 0
+  75 0030 0A48     		ldr	r0, .L4+24
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 3
+
+
+  76 0032 FFF7FEFF 		bl	UART_1_PutString
+  77              	.LVL8:
+  40:main.c        ****     UART_1_PutString("o: Drive Left\r\n");
+  78              		.loc 1 40 0
+  79 0036 0A48     		ldr	r0, .L4+28
+  80 0038 FFF7FEFF 		bl	UART_1_PutString
+  81              	.LVL9:
+  41:main.c        ****     UART_1_PutString("p: Drive Right\r\n");
+  82              		.loc 1 41 0
+  83 003c 0948     		ldr	r0, .L4+32
+  84 003e FFF7FEFF 		bl	UART_1_PutString
+  85              	.LVL10:
+  86              	.L2:
+  87 0042 FEE7     		b	.L2
+  88              	.L5:
+  89              		.align	2
+  90              	.L4:
+  91 0044 00000000 		.word	ISR_UART_rx_handler
+  92 0048 00000000 		.word	.LC0
+  93 004c 24000000 		.word	.LC1
+  94 0050 30000000 		.word	.LC2
+  95 0054 44000000 		.word	.LC3
+  96 0058 5C000000 		.word	.LC4
+  97 005c 70000000 		.word	.LC5
+  98 0060 84000000 		.word	.LC6
+  99 0064 94000000 		.word	.LC7
+ 100              		.cfi_endproc
+ 101              	.LFE63:
+ 102              		.size	main, .-main
+ 103              		.section	.text.decreaseSpeed,"ax",%progbits
+ 104              		.align	2
+ 105              		.global	decreaseSpeed
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.type	decreaseSpeed, %function
+ 109              	decreaseSpeed:
+ 110              	.LFB66:
+  42:main.c        **** 
+  43:main.c        ****     for(;;)
+  44:main.c        ****     {
+  45:main.c        ****         /* Place your application code here. */
+  46:main.c        ****     }
+  47:main.c        **** }
+  48:main.c        **** 
+  49:main.c        **** CY_ISR(ISR_UART_rx_handler)
+  50:main.c        **** {
+  51:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+  52:main.c        ****     while (bytesToRead > 0)
+  53:main.c        ****     {
+  54:main.c        ****         uint8_t byteReceived = UART_1_ReadRxData();
+  55:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+  56:main.c        ****         
+  57:main.c        ****         handleByteReceived(byteReceived);
+  58:main.c        ****         
+  59:main.c        ****         bytesToRead--;
+  60:main.c        ****     }
+  61:main.c        **** }
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 4
+
+
+  62:main.c        **** 
+  63:main.c        **** void handleByteReceived(uint8_t byteReceived)
+  64:main.c        **** {
+  65:main.c        ****     //Ved at taste disse tegn i terminalen kaldes de respektive metoder
+  66:main.c        ****     switch(byteReceived)
+  67:main.c        ****     {
+  68:main.c        ****         case 'q' :
+  69:main.c        ****         {
+  70:main.c        ****             decreaseSpeed();
+  71:main.c        ****         }
+  72:main.c        ****         break;
+  73:main.c        ****         case 'w' :
+  74:main.c        ****         {
+  75:main.c        ****             increaseSpeed();
+  76:main.c        ****         }
+  77:main.c        ****         break;
+  78:main.c        ****         case '1' :
+  79:main.c        ****         {
+  80:main.c        ****             driveForwards();
+  81:main.c        ****         }
+  82:main.c        ****         break;
+  83:main.c        ****         case '2' :
+  84:main.c        ****         {
+  85:main.c        ****             driveBackwards();
+  86:main.c        ****         }
+  87:main.c        ****         break;
+  88:main.c        ****         case '0' :
+  89:main.c        ****         {
+  90:main.c        ****             stop();
+  91:main.c        ****             
+  92:main.c        ****         }
+  93:main.c        ****         break;
+  94:main.c        ****         case 'o':
+  95:main.c        ****         {
+  96:main.c        ****             driveLeft();
+  97:main.c        ****         }
+  98:main.c        ****         break;
+  99:main.c        ****         case 'p':
+ 100:main.c        ****         {
+ 101:main.c        ****             driveRight();
+ 102:main.c        ****         }
+ 103:main.c        ****         break;
+ 104:main.c        ****         default :
+ 105:main.c        ****         {
+ 106:main.c        ****             // nothing
+ 107:main.c        ****         }
+ 108:main.c        ****         break;
+ 109:main.c        ****     }
+ 110:main.c        **** }
+ 111:main.c        **** 
+ 112:main.c        **** void decreaseSpeed()
+ 113:main.c        **** {
+ 111              		.loc 1 113 0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 5
+
+
+ 116              		.cfi_def_cfa_offset 8
+ 117              		.cfi_offset 3, -8
+ 118              		.cfi_offset 14, -4
+ 114:main.c        ****     UART_1_PutString("Decreasing speed\r\n");
+ 119              		.loc 1 114 0
+ 120 0002 0648     		ldr	r0, .L9
+ 121 0004 FFF7FEFF 		bl	UART_1_PutString
+ 122              	.LVL11:
+ 115:main.c        ****     if(speed>0) {
+ 123              		.loc 1 115 0
+ 124 0008 054B     		ldr	r3, .L9+4
+ 125 000a 1868     		ldr	r0, [r3]
+ 126 000c 0028     		cmp	r0, #0
+ 127 000e 04DD     		ble	.L6
+ 116:main.c        ****     speed=speed-1;
+ 128              		.loc 1 116 0
+ 129 0010 0138     		subs	r0, r0, #1
+ 130 0012 1860     		str	r0, [r3]
+ 117:main.c        ****     //toggle on compare match af speed
+ 118:main.c        ****     PWM_1_WriteCompare(speed);
+ 131              		.loc 1 118 0
+ 132 0014 C0B2     		uxtb	r0, r0
+ 133 0016 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 134              	.LVL12:
+ 135              	.L6:
+ 136 001a 08BD     		pop	{r3, pc}
+ 137              	.L10:
+ 138              		.align	2
+ 139              	.L9:
+ 140 001c A8000000 		.word	.LC8
+ 141 0020 00000000 		.word	.LANCHOR0
+ 142              		.cfi_endproc
+ 143              	.LFE66:
+ 144              		.size	decreaseSpeed, .-decreaseSpeed
+ 145              		.section	.text.increaseSpeed,"ax",%progbits
+ 146              		.align	2
+ 147              		.global	increaseSpeed
+ 148              		.thumb
+ 149              		.thumb_func
+ 150              		.type	increaseSpeed, %function
+ 151              	increaseSpeed:
+ 152              	.LFB67:
+ 119:main.c        ****     }
+ 120:main.c        ****     
+ 121:main.c        **** }
+ 122:main.c        **** 
+ 123:main.c        **** void increaseSpeed()
+ 124:main.c        **** {
+ 153              		.loc 1 124 0
+ 154              		.cfi_startproc
+ 155              		@ args = 0, pretend = 0, frame = 0
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157 0000 08B5     		push	{r3, lr}
+ 158              		.cfi_def_cfa_offset 8
+ 159              		.cfi_offset 3, -8
+ 160              		.cfi_offset 14, -4
+ 125:main.c        ****     UART_1_PutString("Increasing speed\r\n");
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 6
+
+
+ 161              		.loc 1 125 0
+ 162 0002 0648     		ldr	r0, .L14
+ 163 0004 FFF7FEFF 		bl	UART_1_PutString
+ 164              	.LVL13:
+ 126:main.c        ****     if(speed<10) {
+ 165              		.loc 1 126 0
+ 166 0008 054B     		ldr	r3, .L14+4
+ 167 000a 1868     		ldr	r0, [r3]
+ 168 000c 0928     		cmp	r0, #9
+ 169 000e 04DC     		bgt	.L11
+ 127:main.c        ****     speed=speed+1;
+ 170              		.loc 1 127 0
+ 171 0010 0130     		adds	r0, r0, #1
+ 172 0012 1860     		str	r0, [r3]
+ 128:main.c        ****     //toggle on compare match af speed
+ 129:main.c        ****     PWM_1_WriteCompare(speed);
+ 173              		.loc 1 129 0
+ 174 0014 C0B2     		uxtb	r0, r0
+ 175 0016 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 176              	.LVL14:
+ 177              	.L11:
+ 178 001a 08BD     		pop	{r3, pc}
+ 179              	.L15:
+ 180              		.align	2
+ 181              	.L14:
+ 182 001c BC000000 		.word	.LC9
+ 183 0020 00000000 		.word	.LANCHOR0
+ 184              		.cfi_endproc
+ 185              	.LFE67:
+ 186              		.size	increaseSpeed, .-increaseSpeed
+ 187              		.section	.text.driveForwards,"ax",%progbits
+ 188              		.align	2
+ 189              		.global	driveForwards
+ 190              		.thumb
+ 191              		.thumb_func
+ 192              		.type	driveForwards, %function
+ 193              	driveForwards:
+ 194              	.LFB68:
+ 130:main.c        ****     }
+ 131:main.c        **** 
+ 132:main.c        **** }
+ 133:main.c        **** 
+ 134:main.c        **** void driveForwards()
+ 135:main.c        **** {
+ 195              		.loc 1 135 0
+ 196              		.cfi_startproc
+ 197              		@ args = 0, pretend = 0, frame = 0
+ 198              		@ frame_needed = 0, uses_anonymous_args = 0
+ 199 0000 08B5     		push	{r3, lr}
+ 200              		.cfi_def_cfa_offset 8
+ 201              		.cfi_offset 3, -8
+ 202              		.cfi_offset 14, -4
+ 136:main.c        ****     UART_1_PutString("Set direction: forwards\r\n");
+ 203              		.loc 1 136 0
+ 204 0002 0B48     		ldr	r0, .L18
+ 205 0004 FFF7FEFF 		bl	UART_1_PutString
+ 206              	.LVL15:
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 7
+
+
+ 137:main.c        ****     //EN og IN1 sættes til høj for at køre fremad
+ 138:main.c        ****     Pin_EN_Write(1);
+ 207              		.loc 1 138 0
+ 208 0008 0120     		movs	r0, #1
+ 209 000a FFF7FEFF 		bl	Pin_EN_Write
+ 210              	.LVL16:
+ 139:main.c        ****     Pin_LN1_Write(1);
+ 211              		.loc 1 139 0
+ 212 000e 0120     		movs	r0, #1
+ 213 0010 FFF7FEFF 		bl	Pin_LN1_Write
+ 214              	.LVL17:
+ 140:main.c        ****     Pin_LN2_Write(0);
+ 215              		.loc 1 140 0
+ 216 0014 0020     		movs	r0, #0
+ 217 0016 FFF7FEFF 		bl	Pin_LN2_Write
+ 218              	.LVL18:
+ 141:main.c        ****     Pin_EN2_Write(1);
+ 219              		.loc 1 141 0
+ 220 001a 0120     		movs	r0, #1
+ 221 001c FFF7FEFF 		bl	Pin_EN2_Write
+ 222              	.LVL19:
+ 142:main.c        ****     Pin_LN3_Write(1);
+ 223              		.loc 1 142 0
+ 224 0020 0120     		movs	r0, #1
+ 225 0022 FFF7FEFF 		bl	Pin_LN3_Write
+ 226              	.LVL20:
+ 143:main.c        ****     Pin_LN4_Write(0);
+ 227              		.loc 1 143 0
+ 228 0026 0020     		movs	r0, #0
+ 229 0028 FFF7FEFF 		bl	Pin_LN4_Write
+ 230              	.LVL21:
+ 231 002c 08BD     		pop	{r3, pc}
+ 232              	.L19:
+ 233 002e 00BF     		.align	2
+ 234              	.L18:
+ 235 0030 D0000000 		.word	.LC10
+ 236              		.cfi_endproc
+ 237              	.LFE68:
+ 238              		.size	driveForwards, .-driveForwards
+ 239              		.section	.text.driveLeft,"ax",%progbits
+ 240              		.align	2
+ 241              		.global	driveLeft
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.type	driveLeft, %function
+ 245              	driveLeft:
+ 246              	.LFB69:
+ 144:main.c        ****     
+ 145:main.c        **** }
+ 146:main.c        **** 
+ 147:main.c        **** void driveLeft()
+ 148:main.c        **** {
+ 247              		.loc 1 148 0
+ 248              		.cfi_startproc
+ 249              		@ args = 0, pretend = 0, frame = 0
+ 250              		@ frame_needed = 0, uses_anonymous_args = 0
+ 251 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 8
+
+
+ 252              		.cfi_def_cfa_offset 8
+ 253              		.cfi_offset 3, -8
+ 254              		.cfi_offset 14, -4
+ 149:main.c        ****     UART_1_PutString("Set direction: Left\r\n");
+ 255              		.loc 1 149 0
+ 256 0002 0B48     		ldr	r0, .L22
+ 257 0004 FFF7FEFF 		bl	UART_1_PutString
+ 258              	.LVL22:
+ 150:main.c        ****     //EN og IN1 sættes til høj for at køre fremad
+ 151:main.c        ****     Pin_EN_Write(1);
+ 259              		.loc 1 151 0
+ 260 0008 0120     		movs	r0, #1
+ 261 000a FFF7FEFF 		bl	Pin_EN_Write
+ 262              	.LVL23:
+ 152:main.c        ****     Pin_LN1_Write(1);
+ 263              		.loc 1 152 0
+ 264 000e 0120     		movs	r0, #1
+ 265 0010 FFF7FEFF 		bl	Pin_LN1_Write
+ 266              	.LVL24:
+ 153:main.c        ****     Pin_LN2_Write(0);
+ 267              		.loc 1 153 0
+ 268 0014 0020     		movs	r0, #0
+ 269 0016 FFF7FEFF 		bl	Pin_LN2_Write
+ 270              	.LVL25:
+ 154:main.c        ****     
+ 155:main.c        ****     Pin_EN2_Write(0);
+ 271              		.loc 1 155 0
+ 272 001a 0020     		movs	r0, #0
+ 273 001c FFF7FEFF 		bl	Pin_EN2_Write
+ 274              	.LVL26:
+ 156:main.c        ****     Pin_LN3_Write(0);
+ 275              		.loc 1 156 0
+ 276 0020 0020     		movs	r0, #0
+ 277 0022 FFF7FEFF 		bl	Pin_LN3_Write
+ 278              	.LVL27:
+ 157:main.c        ****     Pin_LN4_Write(0);
+ 279              		.loc 1 157 0
+ 280 0026 0020     		movs	r0, #0
+ 281 0028 FFF7FEFF 		bl	Pin_LN4_Write
+ 282              	.LVL28:
+ 283 002c 08BD     		pop	{r3, pc}
+ 284              	.L23:
+ 285 002e 00BF     		.align	2
+ 286              	.L22:
+ 287 0030 EC000000 		.word	.LC11
+ 288              		.cfi_endproc
+ 289              	.LFE69:
+ 290              		.size	driveLeft, .-driveLeft
+ 291              		.section	.text.driveRight,"ax",%progbits
+ 292              		.align	2
+ 293              		.global	driveRight
+ 294              		.thumb
+ 295              		.thumb_func
+ 296              		.type	driveRight, %function
+ 297              	driveRight:
+ 298              	.LFB70:
+ 158:main.c        ****     
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 9
+
+
+ 159:main.c        **** }
+ 160:main.c        **** 
+ 161:main.c        **** void driveRight()
+ 162:main.c        **** {
+ 299              		.loc 1 162 0
+ 300              		.cfi_startproc
+ 301              		@ args = 0, pretend = 0, frame = 0
+ 302              		@ frame_needed = 0, uses_anonymous_args = 0
+ 303 0000 08B5     		push	{r3, lr}
+ 304              		.cfi_def_cfa_offset 8
+ 305              		.cfi_offset 3, -8
+ 306              		.cfi_offset 14, -4
+ 163:main.c        ****     UART_1_PutString("Set direction: Right\r\n");
+ 307              		.loc 1 163 0
+ 308 0002 0B48     		ldr	r0, .L26
+ 309 0004 FFF7FEFF 		bl	UART_1_PutString
+ 310              	.LVL29:
+ 164:main.c        ****     //EN og IN1 sættes til høj for at køre fremad
+ 165:main.c        ****     Pin_EN_Write(0);
+ 311              		.loc 1 165 0
+ 312 0008 0020     		movs	r0, #0
+ 313 000a FFF7FEFF 		bl	Pin_EN_Write
+ 314              	.LVL30:
+ 166:main.c        ****     Pin_LN1_Write(0);
+ 315              		.loc 1 166 0
+ 316 000e 0020     		movs	r0, #0
+ 317 0010 FFF7FEFF 		bl	Pin_LN1_Write
+ 318              	.LVL31:
+ 167:main.c        ****     Pin_LN2_Write(0);
+ 319              		.loc 1 167 0
+ 320 0014 0020     		movs	r0, #0
+ 321 0016 FFF7FEFF 		bl	Pin_LN2_Write
+ 322              	.LVL32:
+ 168:main.c        ****     
+ 169:main.c        ****     Pin_EN2_Write(1);
+ 323              		.loc 1 169 0
+ 324 001a 0120     		movs	r0, #1
+ 325 001c FFF7FEFF 		bl	Pin_EN2_Write
+ 326              	.LVL33:
+ 170:main.c        ****     Pin_LN3_Write(1);
+ 327              		.loc 1 170 0
+ 328 0020 0120     		movs	r0, #1
+ 329 0022 FFF7FEFF 		bl	Pin_LN3_Write
+ 330              	.LVL34:
+ 171:main.c        ****     Pin_LN4_Write(0);
+ 331              		.loc 1 171 0
+ 332 0026 0020     		movs	r0, #0
+ 333 0028 FFF7FEFF 		bl	Pin_LN4_Write
+ 334              	.LVL35:
+ 335 002c 08BD     		pop	{r3, pc}
+ 336              	.L27:
+ 337 002e 00BF     		.align	2
+ 338              	.L26:
+ 339 0030 04010000 		.word	.LC12
+ 340              		.cfi_endproc
+ 341              	.LFE70:
+ 342              		.size	driveRight, .-driveRight
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 10
+
+
+ 343              		.section	.text.driveBackwards,"ax",%progbits
+ 344              		.align	2
+ 345              		.global	driveBackwards
+ 346              		.thumb
+ 347              		.thumb_func
+ 348              		.type	driveBackwards, %function
+ 349              	driveBackwards:
+ 350              	.LFB71:
+ 172:main.c        ****     
+ 173:main.c        **** }
+ 174:main.c        **** 
+ 175:main.c        **** void driveBackwards()
+ 176:main.c        **** {
+ 351              		.loc 1 176 0
+ 352              		.cfi_startproc
+ 353              		@ args = 0, pretend = 0, frame = 0
+ 354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 355 0000 08B5     		push	{r3, lr}
+ 356              		.cfi_def_cfa_offset 8
+ 357              		.cfi_offset 3, -8
+ 358              		.cfi_offset 14, -4
+ 177:main.c        ****     UART_1_PutString("Set direction: backwards\r\n");
+ 359              		.loc 1 177 0
+ 360 0002 0B48     		ldr	r0, .L30
+ 361 0004 FFF7FEFF 		bl	UART_1_PutString
+ 362              	.LVL36:
+ 178:main.c        ****     //EN og IN2 sættes til høj for at køre bagud
+ 179:main.c        ****     Pin_EN_Write(1);
+ 363              		.loc 1 179 0
+ 364 0008 0120     		movs	r0, #1
+ 365 000a FFF7FEFF 		bl	Pin_EN_Write
+ 366              	.LVL37:
+ 180:main.c        ****     Pin_LN1_Write(0);
+ 367              		.loc 1 180 0
+ 368 000e 0020     		movs	r0, #0
+ 369 0010 FFF7FEFF 		bl	Pin_LN1_Write
+ 370              	.LVL38:
+ 181:main.c        ****     Pin_LN2_Write(1);
+ 371              		.loc 1 181 0
+ 372 0014 0120     		movs	r0, #1
+ 373 0016 FFF7FEFF 		bl	Pin_LN2_Write
+ 374              	.LVL39:
+ 182:main.c        ****     Pin_EN2_Write(1);
+ 375              		.loc 1 182 0
+ 376 001a 0120     		movs	r0, #1
+ 377 001c FFF7FEFF 		bl	Pin_EN2_Write
+ 378              	.LVL40:
+ 183:main.c        ****     Pin_LN3_Write(0);
+ 379              		.loc 1 183 0
+ 380 0020 0020     		movs	r0, #0
+ 381 0022 FFF7FEFF 		bl	Pin_LN3_Write
+ 382              	.LVL41:
+ 184:main.c        ****     Pin_LN4_Write(1);
+ 383              		.loc 1 184 0
+ 384 0026 0120     		movs	r0, #1
+ 385 0028 FFF7FEFF 		bl	Pin_LN4_Write
+ 386              	.LVL42:
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 11
+
+
+ 387 002c 08BD     		pop	{r3, pc}
+ 388              	.L31:
+ 389 002e 00BF     		.align	2
+ 390              	.L30:
+ 391 0030 1C010000 		.word	.LC13
+ 392              		.cfi_endproc
+ 393              	.LFE71:
+ 394              		.size	driveBackwards, .-driveBackwards
+ 395              		.section	.text.stop,"ax",%progbits
+ 396              		.align	2
+ 397              		.global	stop
+ 398              		.thumb
+ 399              		.thumb_func
+ 400              		.type	stop, %function
+ 401              	stop:
+ 402              	.LFB72:
+ 185:main.c        **** }
+ 186:main.c        **** 
+ 187:main.c        **** void stop()
+ 188:main.c        **** {
+ 403              		.loc 1 188 0
+ 404              		.cfi_startproc
+ 405              		@ args = 0, pretend = 0, frame = 0
+ 406              		@ frame_needed = 0, uses_anonymous_args = 0
+ 407 0000 08B5     		push	{r3, lr}
+ 408              		.cfi_def_cfa_offset 8
+ 409              		.cfi_offset 3, -8
+ 410              		.cfi_offset 14, -4
+ 189:main.c        ****     
+ 190:main.c        ****     UART_1_PutString("Stop\r\n");
+ 411              		.loc 1 190 0
+ 412 0002 0B48     		ldr	r0, .L34
+ 413 0004 FFF7FEFF 		bl	UART_1_PutString
+ 414              	.LVL43:
+ 191:main.c        ****     Pin_EN_Write(1);
+ 415              		.loc 1 191 0
+ 416 0008 0120     		movs	r0, #1
+ 417 000a FFF7FEFF 		bl	Pin_EN_Write
+ 418              	.LVL44:
+ 192:main.c        ****     //break mode er sat ved IN1 og IN2 til høj
+ 193:main.c        ****     Pin_LN1_Write(1);
+ 419              		.loc 1 193 0
+ 420 000e 0120     		movs	r0, #1
+ 421 0010 FFF7FEFF 		bl	Pin_LN1_Write
+ 422              	.LVL45:
+ 194:main.c        ****     Pin_LN2_Write(1);
+ 423              		.loc 1 194 0
+ 424 0014 0120     		movs	r0, #1
+ 425 0016 FFF7FEFF 		bl	Pin_LN2_Write
+ 426              	.LVL46:
+ 195:main.c        ****     Pin_EN2_Write(1);
+ 427              		.loc 1 195 0
+ 428 001a 0120     		movs	r0, #1
+ 429 001c FFF7FEFF 		bl	Pin_EN2_Write
+ 430              	.LVL47:
+ 196:main.c        ****     Pin_LN3_Write(1);
+ 431              		.loc 1 196 0
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 12
+
+
+ 432 0020 0120     		movs	r0, #1
+ 433 0022 FFF7FEFF 		bl	Pin_LN3_Write
+ 434              	.LVL48:
+ 197:main.c        ****     Pin_LN4_Write(1);
+ 435              		.loc 1 197 0
+ 436 0026 0120     		movs	r0, #1
+ 437 0028 FFF7FEFF 		bl	Pin_LN4_Write
+ 438              	.LVL49:
+ 439 002c 08BD     		pop	{r3, pc}
+ 440              	.L35:
+ 441 002e 00BF     		.align	2
+ 442              	.L34:
+ 443 0030 38010000 		.word	.LC14
+ 444              		.cfi_endproc
+ 445              	.LFE72:
+ 446              		.size	stop, .-stop
+ 447              		.section	.text.handleByteReceived,"ax",%progbits
+ 448              		.align	2
+ 449              		.global	handleByteReceived
+ 450              		.thumb
+ 451              		.thumb_func
+ 452              		.type	handleByteReceived, %function
+ 453              	handleByteReceived:
+ 454              	.LFB65:
+  64:main.c        ****     //Ved at taste disse tegn i terminalen kaldes de respektive metoder
+ 455              		.loc 1 64 0
+ 456              		.cfi_startproc
+ 457              		@ args = 0, pretend = 0, frame = 0
+ 458              		@ frame_needed = 0, uses_anonymous_args = 0
+ 459              	.LVL50:
+ 460 0000 08B5     		push	{r3, lr}
+ 461              		.cfi_def_cfa_offset 8
+ 462              		.cfi_offset 3, -8
+ 463              		.cfi_offset 14, -4
+  66:main.c        ****     {
+ 464              		.loc 1 66 0
+ 465 0002 6F28     		cmp	r0, #111
+ 466 0004 1CD0     		beq	.L38
+ 467 0006 06D8     		bhi	.L39
+ 468 0008 3128     		cmp	r0, #49
+ 469 000a 10D0     		beq	.L40
+ 470 000c 3228     		cmp	r0, #50
+ 471 000e 11D0     		beq	.L41
+ 472 0010 3028     		cmp	r0, #48
+ 473 0012 1AD1     		bne	.L36
+ 474 0014 11E0     		b	.L42
+ 475              	.L39:
+ 476 0016 7128     		cmp	r0, #113
+ 477 0018 03D0     		beq	.L43
+ 478 001a 14D3     		bcc	.L44
+ 479 001c 7728     		cmp	r0, #119
+ 480 001e 03D0     		beq	.L45
+ 481 0020 08BD     		pop	{r3, pc}
+ 482              	.L43:
+  70:main.c        ****         }
+ 483              		.loc 1 70 0
+ 484 0022 FFF7FEFF 		bl	decreaseSpeed
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 13
+
+
+ 485              	.LVL51:
+  72:main.c        ****         case 'w' :
+ 486              		.loc 1 72 0
+ 487 0026 08BD     		pop	{r3, pc}
+ 488              	.LVL52:
+ 489              	.L45:
+  75:main.c        ****         }
+ 490              		.loc 1 75 0
+ 491 0028 FFF7FEFF 		bl	increaseSpeed
+ 492              	.LVL53:
+  77:main.c        ****         case '1' :
+ 493              		.loc 1 77 0
+ 494 002c 08BD     		pop	{r3, pc}
+ 495              	.LVL54:
+ 496              	.L40:
+  80:main.c        ****         }
+ 497              		.loc 1 80 0
+ 498 002e FFF7FEFF 		bl	driveForwards
+ 499              	.LVL55:
+  82:main.c        ****         case '2' :
+ 500              		.loc 1 82 0
+ 501 0032 08BD     		pop	{r3, pc}
+ 502              	.LVL56:
+ 503              	.L41:
+  85:main.c        ****         }
+ 504              		.loc 1 85 0
+ 505 0034 FFF7FEFF 		bl	driveBackwards
+ 506              	.LVL57:
+  87:main.c        ****         case '0' :
+ 507              		.loc 1 87 0
+ 508 0038 08BD     		pop	{r3, pc}
+ 509              	.LVL58:
+ 510              	.L42:
+  90:main.c        ****             
+ 511              		.loc 1 90 0
+ 512 003a FFF7FEFF 		bl	stop
+ 513              	.LVL59:
+  93:main.c        ****         case 'o':
+ 514              		.loc 1 93 0
+ 515 003e 08BD     		pop	{r3, pc}
+ 516              	.LVL60:
+ 517              	.L38:
+  96:main.c        ****         }
+ 518              		.loc 1 96 0
+ 519 0040 FFF7FEFF 		bl	driveLeft
+ 520              	.LVL61:
+  98:main.c        ****         case 'p':
+ 521              		.loc 1 98 0
+ 522 0044 08BD     		pop	{r3, pc}
+ 523              	.LVL62:
+ 524              	.L44:
+ 101:main.c        ****         }
+ 525              		.loc 1 101 0
+ 526 0046 FFF7FEFF 		bl	driveRight
+ 527              	.LVL63:
+ 528              	.L36:
+ 529 004a 08BD     		pop	{r3, pc}
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 14
+
+
+ 530              		.cfi_endproc
+ 531              	.LFE65:
+ 532              		.size	handleByteReceived, .-handleByteReceived
+ 533              		.section	.text.ISR_UART_rx_handler,"ax",%progbits
+ 534              		.align	2
+ 535              		.global	ISR_UART_rx_handler
+ 536              		.thumb
+ 537              		.thumb_func
+ 538              		.type	ISR_UART_rx_handler, %function
+ 539              	ISR_UART_rx_handler:
+ 540              	.LFB64:
+  50:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+ 541              		.loc 1 50 0
+ 542              		.cfi_startproc
+ 543              		@ args = 0, pretend = 0, frame = 0
+ 544              		@ frame_needed = 0, uses_anonymous_args = 0
+ 545 0000 38B5     		push	{r3, r4, r5, lr}
+ 546              		.cfi_def_cfa_offset 16
+ 547              		.cfi_offset 3, -16
+ 548              		.cfi_offset 4, -12
+ 549              		.cfi_offset 5, -8
+ 550              		.cfi_offset 14, -4
+  51:main.c        ****     while (bytesToRead > 0)
+ 551              		.loc 1 51 0
+ 552 0002 FFF7FEFF 		bl	UART_1_GetRxBufferSize
+ 553              	.LVL64:
+ 554 0006 0446     		mov	r4, r0
+ 555              	.LVL65:
+  52:main.c        ****     {
+ 556              		.loc 1 52 0
+ 557 0008 09E0     		b	.L48
+ 558              	.L49:
+ 559              	.LBB2:
+  54:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+ 560              		.loc 1 54 0
+ 561 000a FFF7FEFF 		bl	UART_1_ReadRxData
+ 562              	.LVL66:
+ 563 000e 0546     		mov	r5, r0
+ 564              	.LVL67:
+  55:main.c        ****         
+ 565              		.loc 1 55 0
+ 566 0010 FFF7FEFF 		bl	UART_1_WriteTxData
+ 567              	.LVL68:
+  57:main.c        ****         
+ 568              		.loc 1 57 0
+ 569 0014 2846     		mov	r0, r5
+ 570 0016 FFF7FEFF 		bl	handleByteReceived
+ 571              	.LVL69:
+  59:main.c        ****     }
+ 572              		.loc 1 59 0
+ 573 001a 013C     		subs	r4, r4, #1
+ 574              	.LVL70:
+ 575 001c E4B2     		uxtb	r4, r4
+ 576              	.LVL71:
+ 577              	.L48:
+ 578              	.LBE2:
+  52:main.c        ****     {
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 15
+
+
+ 579              		.loc 1 52 0
+ 580 001e 002C     		cmp	r4, #0
+ 581 0020 F3D1     		bne	.L49
+  61:main.c        **** 
+ 582              		.loc 1 61 0
+ 583 0022 38BD     		pop	{r3, r4, r5, pc}
+ 584              		.cfi_endproc
+ 585              	.LFE64:
+ 586              		.size	ISR_UART_rx_handler, .-ISR_UART_rx_handler
+ 587              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 588              		.align	2
+ 589              	.LC0:
+ 590 0000 44432D4D 		.ascii	"DC-Motor-PWM application started\015\012\000"
+ 590      6F746F72 
+ 590      2D50574D 
+ 590      20617070 
+ 590      6C696361 
+ 591 0023 00       		.space	1
+ 592              	.LC1:
+ 593 0024 303A2053 		.ascii	"0: Stop\015\012\000"
+ 593      746F700D 
+ 593      0A00
+ 594 002e 0000     		.space	2
+ 595              	.LC2:
+ 596 0030 313A2044 		.ascii	"1: Drive forwards\015\012\000"
+ 596      72697665 
+ 596      20666F72 
+ 596      77617264 
+ 596      730D0A00 
+ 597              	.LC3:
+ 598 0044 323A2044 		.ascii	"2: Drive backwards\015\012\000"
+ 598      72697665 
+ 598      20626163 
+ 598      6B776172 
+ 598      64730D0A 
+ 599 0059 000000   		.space	3
+ 600              	.LC4:
+ 601 005c 713A2044 		.ascii	"q: Decrease speed\015\012\000"
+ 601      65637265 
+ 601      61736520 
+ 601      73706565 
+ 601      640D0A00 
+ 602              	.LC5:
+ 603 0070 773A2049 		.ascii	"w: Increase speed\015\012\000"
+ 603      6E637265 
+ 603      61736520 
+ 603      73706565 
+ 603      640D0A00 
+ 604              	.LC6:
+ 605 0084 6F3A2044 		.ascii	"o: Drive Left\015\012\000"
+ 605      72697665 
+ 605      204C6566 
+ 605      740D0A00 
+ 606              	.LC7:
+ 607 0094 703A2044 		.ascii	"p: Drive Right\015\012\000"
+ 607      72697665 
+ 607      20526967 
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 16
+
+
+ 607      68740D0A 
+ 607      00
+ 608 00a5 000000   		.space	3
+ 609              	.LC8:
+ 610 00a8 44656372 		.ascii	"Decreasing speed\015\012\000"
+ 610      65617369 
+ 610      6E672073 
+ 610      70656564 
+ 610      0D0A00
+ 611 00bb 00       		.space	1
+ 612              	.LC9:
+ 613 00bc 496E6372 		.ascii	"Increasing speed\015\012\000"
+ 613      65617369 
+ 613      6E672073 
+ 613      70656564 
+ 613      0D0A00
+ 614 00cf 00       		.space	1
+ 615              	.LC10:
+ 616 00d0 53657420 		.ascii	"Set direction: forwards\015\012\000"
+ 616      64697265 
+ 616      6374696F 
+ 616      6E3A2066 
+ 616      6F727761 
+ 617 00ea 0000     		.space	2
+ 618              	.LC11:
+ 619 00ec 53657420 		.ascii	"Set direction: Left\015\012\000"
+ 619      64697265 
+ 619      6374696F 
+ 619      6E3A204C 
+ 619      6566740D 
+ 620 0102 0000     		.space	2
+ 621              	.LC12:
+ 622 0104 53657420 		.ascii	"Set direction: Right\015\012\000"
+ 622      64697265 
+ 622      6374696F 
+ 622      6E3A2052 
+ 622      69676874 
+ 623 011b 00       		.space	1
+ 624              	.LC13:
+ 625 011c 53657420 		.ascii	"Set direction: backwards\015\012\000"
+ 625      64697265 
+ 625      6374696F 
+ 625      6E3A2062 
+ 625      61636B77 
+ 626 0137 00       		.space	1
+ 627              	.LC14:
+ 628 0138 53746F70 		.ascii	"Stop\015\012\000"
+ 628      0D0A00
+ 629              		.bss
+ 630              		.align	2
+ 631              		.set	.LANCHOR0,. + 0
+ 632              		.type	speed, %object
+ 633              		.size	speed, 4
+ 634              	speed:
+ 635 0000 00000000 		.space	4
+ 636              		.text
+ 637              	.Letext0:
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 17
+
+
+ 638              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 639              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 640              		.file 4 "Generated_Source\\PSoC5/isr_uart_rx.h"
+ 641              		.file 5 "Generated_Source\\PSoC5/UART_1.h"
+ 642              		.file 6 "Generated_Source\\PSoC5/PWM_1.h"
+ 643              		.file 7 "Generated_Source\\PSoC5/Pin_EN.h"
+ 644              		.file 8 "Generated_Source\\PSoC5/Pin_LN1.h"
+ 645              		.file 9 "Generated_Source\\PSoC5/Pin_LN2.h"
+ 646              		.file 10 "Generated_Source\\PSoC5/Pin_EN2.h"
+ 647              		.file 11 "Generated_Source\\PSoC5/Pin_LN3.h"
+ 648              		.file 12 "Generated_Source\\PSoC5/Pin_LN4.h"
+ 649              		.file 13 "Generated_Source\\PSoC5/core_cm3.h"
+ 650              		.section	.debug_info,"",%progbits
+ 651              	.Ldebug_info0:
+ 652 0000 B9060000 		.4byte	0x6b9
+ 653 0004 0400     		.2byte	0x4
+ 654 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 655 000a 04       		.byte	0x4
+ 656 000b 01       		.uleb128 0x1
+ 657 000c A1000000 		.4byte	.LASF44
+ 658 0010 0C       		.byte	0xc
+ 659 0011 7F020000 		.4byte	.LASF45
+ 660 0015 BA020000 		.4byte	.LASF46
+ 661 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 662 001d 00000000 		.4byte	0
+ 663 0021 00000000 		.4byte	.Ldebug_line0
+ 664 0025 02       		.uleb128 0x2
+ 665 0026 01       		.byte	0x1
+ 666 0027 06       		.byte	0x6
+ 667 0028 3C030000 		.4byte	.LASF0
+ 668 002c 03       		.uleb128 0x3
+ 669 002d 21000000 		.4byte	.LASF4
+ 670 0031 02       		.byte	0x2
+ 671 0032 1D       		.byte	0x1d
+ 672 0033 37000000 		.4byte	0x37
+ 673 0037 02       		.uleb128 0x2
+ 674 0038 01       		.byte	0x1
+ 675 0039 08       		.byte	0x8
+ 676 003a 93000000 		.4byte	.LASF1
+ 677 003e 02       		.uleb128 0x2
+ 678 003f 02       		.byte	0x2
+ 679 0040 05       		.byte	0x5
+ 680 0041 99020000 		.4byte	.LASF2
+ 681 0045 02       		.uleb128 0x2
+ 682 0046 02       		.byte	0x2
+ 683 0047 07       		.byte	0x7
+ 684 0048 43000000 		.4byte	.LASF3
+ 685 004c 03       		.uleb128 0x3
+ 686 004d 2B000000 		.4byte	.LASF5
+ 687 0051 02       		.byte	0x2
+ 688 0052 3F       		.byte	0x3f
+ 689 0053 57000000 		.4byte	0x57
+ 690 0057 02       		.uleb128 0x2
+ 691 0058 04       		.byte	0x4
+ 692 0059 05       		.byte	0x5
+ 693 005a A3020000 		.4byte	.LASF6
+ 694 005e 02       		.uleb128 0x2
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 18
+
+
+ 695 005f 04       		.byte	0x4
+ 696 0060 07       		.byte	0x7
+ 697 0061 43010000 		.4byte	.LASF7
+ 698 0065 02       		.uleb128 0x2
+ 699 0066 08       		.byte	0x8
+ 700 0067 05       		.byte	0x5
+ 701 0068 68020000 		.4byte	.LASF8
+ 702 006c 02       		.uleb128 0x2
+ 703 006d 08       		.byte	0x8
+ 704 006e 07       		.byte	0x7
+ 705 006f 13020000 		.4byte	.LASF9
+ 706 0073 04       		.uleb128 0x4
+ 707 0074 04       		.byte	0x4
+ 708 0075 05       		.byte	0x5
+ 709 0076 696E7400 		.ascii	"int\000"
+ 710 007a 02       		.uleb128 0x2
+ 711 007b 04       		.byte	0x4
+ 712 007c 07       		.byte	0x7
+ 713 007d F8010000 		.4byte	.LASF10
+ 714 0081 03       		.uleb128 0x3
+ 715 0082 2A020000 		.4byte	.LASF11
+ 716 0086 03       		.byte	0x3
+ 717 0087 18       		.byte	0x18
+ 718 0088 2C000000 		.4byte	0x2c
+ 719 008c 03       		.uleb128 0x3
+ 720 008d 77000000 		.4byte	.LASF12
+ 721 0091 03       		.byte	0x3
+ 722 0092 2C       		.byte	0x2c
+ 723 0093 4C000000 		.4byte	0x4c
+ 724 0097 02       		.uleb128 0x2
+ 725 0098 04       		.byte	0x4
+ 726 0099 04       		.byte	0x4
+ 727 009a 8D000000 		.4byte	.LASF13
+ 728 009e 02       		.uleb128 0x2
+ 729 009f 08       		.byte	0x8
+ 730 00a0 04       		.byte	0x4
+ 731 00a1 56000000 		.4byte	.LASF14
+ 732 00a5 02       		.uleb128 0x2
+ 733 00a6 01       		.byte	0x1
+ 734 00a7 08       		.byte	0x8
+ 735 00a8 86020000 		.4byte	.LASF15
+ 736 00ac 02       		.uleb128 0x2
+ 737 00ad 08       		.byte	0x8
+ 738 00ae 04       		.byte	0x4
+ 739 00af B0010000 		.4byte	.LASF16
+ 740 00b3 02       		.uleb128 0x2
+ 741 00b4 04       		.byte	0x4
+ 742 00b5 07       		.byte	0x7
+ 743 00b6 76020000 		.4byte	.LASF17
+ 744 00ba 05       		.uleb128 0x5
+ 745 00bb BC010000 		.4byte	.LASF47
+ 746 00bf 01       		.byte	0x1
+ 747 00c0 18       		.byte	0x18
+ 748 00c1 73000000 		.4byte	0x73
+ 749 00c5 00000000 		.4byte	.LFB63
+ 750 00c9 68000000 		.4byte	.LFE63-.LFB63
+ 751 00cd 01       		.uleb128 0x1
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 19
+
+
+ 752 00ce 9C       		.byte	0x9c
+ 753 00cf B1010000 		.4byte	0x1b1
+ 754 00d3 06       		.uleb128 0x6
+ 755 00d4 0A000000 		.4byte	.LVL0
+ 756 00d8 22060000 		.4byte	0x622
+ 757 00dc EA000000 		.4byte	0xea
+ 758 00e0 07       		.uleb128 0x7
+ 759 00e1 01       		.uleb128 0x1
+ 760 00e2 50       		.byte	0x50
+ 761 00e3 05       		.uleb128 0x5
+ 762 00e4 03       		.byte	0x3
+ 763 00e5 00000000 		.4byte	ISR_UART_rx_handler
+ 764 00e9 00       		.byte	0
+ 765 00ea 08       		.uleb128 0x8
+ 766 00eb 0E000000 		.4byte	.LVL1
+ 767 00ef 2D060000 		.4byte	0x62d
+ 768 00f3 08       		.uleb128 0x8
+ 769 00f4 12000000 		.4byte	.LVL2
+ 770 00f8 38060000 		.4byte	0x638
+ 771 00fc 06       		.uleb128 0x6
+ 772 00fd 18000000 		.4byte	.LVL3
+ 773 0101 43060000 		.4byte	0x643
+ 774 0105 13010000 		.4byte	0x113
+ 775 0109 07       		.uleb128 0x7
+ 776 010a 01       		.uleb128 0x1
+ 777 010b 50       		.byte	0x50
+ 778 010c 05       		.uleb128 0x5
+ 779 010d 03       		.byte	0x3
+ 780 010e 00000000 		.4byte	.LC0
+ 781 0112 00       		.byte	0
+ 782 0113 06       		.uleb128 0x6
+ 783 0114 1E000000 		.4byte	.LVL4
+ 784 0118 43060000 		.4byte	0x643
+ 785 011c 2A010000 		.4byte	0x12a
+ 786 0120 07       		.uleb128 0x7
+ 787 0121 01       		.uleb128 0x1
+ 788 0122 50       		.byte	0x50
+ 789 0123 05       		.uleb128 0x5
+ 790 0124 03       		.byte	0x3
+ 791 0125 24000000 		.4byte	.LC1
+ 792 0129 00       		.byte	0
+ 793 012a 06       		.uleb128 0x6
+ 794 012b 24000000 		.4byte	.LVL5
+ 795 012f 43060000 		.4byte	0x643
+ 796 0133 41010000 		.4byte	0x141
+ 797 0137 07       		.uleb128 0x7
+ 798 0138 01       		.uleb128 0x1
+ 799 0139 50       		.byte	0x50
+ 800 013a 05       		.uleb128 0x5
+ 801 013b 03       		.byte	0x3
+ 802 013c 30000000 		.4byte	.LC2
+ 803 0140 00       		.byte	0
+ 804 0141 06       		.uleb128 0x6
+ 805 0142 2A000000 		.4byte	.LVL6
+ 806 0146 43060000 		.4byte	0x643
+ 807 014a 58010000 		.4byte	0x158
+ 808 014e 07       		.uleb128 0x7
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 20
+
+
+ 809 014f 01       		.uleb128 0x1
+ 810 0150 50       		.byte	0x50
+ 811 0151 05       		.uleb128 0x5
+ 812 0152 03       		.byte	0x3
+ 813 0153 44000000 		.4byte	.LC3
+ 814 0157 00       		.byte	0
+ 815 0158 06       		.uleb128 0x6
+ 816 0159 30000000 		.4byte	.LVL7
+ 817 015d 43060000 		.4byte	0x643
+ 818 0161 6F010000 		.4byte	0x16f
+ 819 0165 07       		.uleb128 0x7
+ 820 0166 01       		.uleb128 0x1
+ 821 0167 50       		.byte	0x50
+ 822 0168 05       		.uleb128 0x5
+ 823 0169 03       		.byte	0x3
+ 824 016a 5C000000 		.4byte	.LC4
+ 825 016e 00       		.byte	0
+ 826 016f 06       		.uleb128 0x6
+ 827 0170 36000000 		.4byte	.LVL8
+ 828 0174 43060000 		.4byte	0x643
+ 829 0178 86010000 		.4byte	0x186
+ 830 017c 07       		.uleb128 0x7
+ 831 017d 01       		.uleb128 0x1
+ 832 017e 50       		.byte	0x50
+ 833 017f 05       		.uleb128 0x5
+ 834 0180 03       		.byte	0x3
+ 835 0181 70000000 		.4byte	.LC5
+ 836 0185 00       		.byte	0
+ 837 0186 06       		.uleb128 0x6
+ 838 0187 3C000000 		.4byte	.LVL9
+ 839 018b 43060000 		.4byte	0x643
+ 840 018f 9D010000 		.4byte	0x19d
+ 841 0193 07       		.uleb128 0x7
+ 842 0194 01       		.uleb128 0x1
+ 843 0195 50       		.byte	0x50
+ 844 0196 05       		.uleb128 0x5
+ 845 0197 03       		.byte	0x3
+ 846 0198 84000000 		.4byte	.LC6
+ 847 019c 00       		.byte	0
+ 848 019d 09       		.uleb128 0x9
+ 849 019e 42000000 		.4byte	.LVL10
+ 850 01a2 43060000 		.4byte	0x643
+ 851 01a6 07       		.uleb128 0x7
+ 852 01a7 01       		.uleb128 0x1
+ 853 01a8 50       		.byte	0x50
+ 854 01a9 05       		.uleb128 0x5
+ 855 01aa 03       		.byte	0x3
+ 856 01ab 94000000 		.4byte	.LC7
+ 857 01af 00       		.byte	0
+ 858 01b0 00       		.byte	0
+ 859 01b1 0A       		.uleb128 0xa
+ 860 01b2 8B020000 		.4byte	.LASF18
+ 861 01b6 01       		.byte	0x1
+ 862 01b7 70       		.byte	0x70
+ 863 01b8 00000000 		.4byte	.LFB66
+ 864 01bc 24000000 		.4byte	.LFE66-.LFB66
+ 865 01c0 01       		.uleb128 0x1
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 21
+
+
+ 866 01c1 9C       		.byte	0x9c
+ 867 01c2 E7010000 		.4byte	0x1e7
+ 868 01c6 06       		.uleb128 0x6
+ 869 01c7 08000000 		.4byte	.LVL11
+ 870 01cb 43060000 		.4byte	0x643
+ 871 01cf DD010000 		.4byte	0x1dd
+ 872 01d3 07       		.uleb128 0x7
+ 873 01d4 01       		.uleb128 0x1
+ 874 01d5 50       		.byte	0x50
+ 875 01d6 05       		.uleb128 0x5
+ 876 01d7 03       		.byte	0x3
+ 877 01d8 A8000000 		.4byte	.LC8
+ 878 01dc 00       		.byte	0
+ 879 01dd 08       		.uleb128 0x8
+ 880 01de 1A000000 		.4byte	.LVL12
+ 881 01e2 4E060000 		.4byte	0x64e
+ 882 01e6 00       		.byte	0
+ 883 01e7 0A       		.uleb128 0xa
+ 884 01e8 35000000 		.4byte	.LASF19
+ 885 01ec 01       		.byte	0x1
+ 886 01ed 7B       		.byte	0x7b
+ 887 01ee 00000000 		.4byte	.LFB67
+ 888 01f2 24000000 		.4byte	.LFE67-.LFB67
+ 889 01f6 01       		.uleb128 0x1
+ 890 01f7 9C       		.byte	0x9c
+ 891 01f8 1D020000 		.4byte	0x21d
+ 892 01fc 06       		.uleb128 0x6
+ 893 01fd 08000000 		.4byte	.LVL13
+ 894 0201 43060000 		.4byte	0x643
+ 895 0205 13020000 		.4byte	0x213
+ 896 0209 07       		.uleb128 0x7
+ 897 020a 01       		.uleb128 0x1
+ 898 020b 50       		.byte	0x50
+ 899 020c 05       		.uleb128 0x5
+ 900 020d 03       		.byte	0x3
+ 901 020e BC000000 		.4byte	.LC9
+ 902 0212 00       		.byte	0
+ 903 0213 08       		.uleb128 0x8
+ 904 0214 1A000000 		.4byte	.LVL14
+ 905 0218 4E060000 		.4byte	0x64e
+ 906 021c 00       		.byte	0
+ 907 021d 0A       		.uleb128 0xa
+ 908 021e 05020000 		.4byte	.LASF20
+ 909 0222 01       		.byte	0x1
+ 910 0223 86       		.byte	0x86
+ 911 0224 00000000 		.4byte	.LFB68
+ 912 0228 34000000 		.4byte	.LFE68-.LFB68
+ 913 022c 01       		.uleb128 0x1
+ 914 022d 9C       		.byte	0x9c
+ 915 022e B8020000 		.4byte	0x2b8
+ 916 0232 06       		.uleb128 0x6
+ 917 0233 08000000 		.4byte	.LVL15
+ 918 0237 43060000 		.4byte	0x643
+ 919 023b 49020000 		.4byte	0x249
+ 920 023f 07       		.uleb128 0x7
+ 921 0240 01       		.uleb128 0x1
+ 922 0241 50       		.byte	0x50
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 22
+
+
+ 923 0242 05       		.uleb128 0x5
+ 924 0243 03       		.byte	0x3
+ 925 0244 D0000000 		.4byte	.LC10
+ 926 0248 00       		.byte	0
+ 927 0249 06       		.uleb128 0x6
+ 928 024a 0E000000 		.4byte	.LVL16
+ 929 024e 59060000 		.4byte	0x659
+ 930 0252 5C020000 		.4byte	0x25c
+ 931 0256 07       		.uleb128 0x7
+ 932 0257 01       		.uleb128 0x1
+ 933 0258 50       		.byte	0x50
+ 934 0259 01       		.uleb128 0x1
+ 935 025a 31       		.byte	0x31
+ 936 025b 00       		.byte	0
+ 937 025c 06       		.uleb128 0x6
+ 938 025d 14000000 		.4byte	.LVL17
+ 939 0261 64060000 		.4byte	0x664
+ 940 0265 6F020000 		.4byte	0x26f
+ 941 0269 07       		.uleb128 0x7
+ 942 026a 01       		.uleb128 0x1
+ 943 026b 50       		.byte	0x50
+ 944 026c 01       		.uleb128 0x1
+ 945 026d 31       		.byte	0x31
+ 946 026e 00       		.byte	0
+ 947 026f 06       		.uleb128 0x6
+ 948 0270 1A000000 		.4byte	.LVL18
+ 949 0274 6F060000 		.4byte	0x66f
+ 950 0278 82020000 		.4byte	0x282
+ 951 027c 07       		.uleb128 0x7
+ 952 027d 01       		.uleb128 0x1
+ 953 027e 50       		.byte	0x50
+ 954 027f 01       		.uleb128 0x1
+ 955 0280 30       		.byte	0x30
+ 956 0281 00       		.byte	0
+ 957 0282 06       		.uleb128 0x6
+ 958 0283 20000000 		.4byte	.LVL19
+ 959 0287 7A060000 		.4byte	0x67a
+ 960 028b 95020000 		.4byte	0x295
+ 961 028f 07       		.uleb128 0x7
+ 962 0290 01       		.uleb128 0x1
+ 963 0291 50       		.byte	0x50
+ 964 0292 01       		.uleb128 0x1
+ 965 0293 31       		.byte	0x31
+ 966 0294 00       		.byte	0
+ 967 0295 06       		.uleb128 0x6
+ 968 0296 26000000 		.4byte	.LVL20
+ 969 029a 85060000 		.4byte	0x685
+ 970 029e A8020000 		.4byte	0x2a8
+ 971 02a2 07       		.uleb128 0x7
+ 972 02a3 01       		.uleb128 0x1
+ 973 02a4 50       		.byte	0x50
+ 974 02a5 01       		.uleb128 0x1
+ 975 02a6 31       		.byte	0x31
+ 976 02a7 00       		.byte	0
+ 977 02a8 09       		.uleb128 0x9
+ 978 02a9 2C000000 		.4byte	.LVL21
+ 979 02ad 90060000 		.4byte	0x690
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 23
+
+
+ 980 02b1 07       		.uleb128 0x7
+ 981 02b2 01       		.uleb128 0x1
+ 982 02b3 50       		.byte	0x50
+ 983 02b4 01       		.uleb128 0x1
+ 984 02b5 30       		.byte	0x30
+ 985 02b6 00       		.byte	0
+ 986 02b7 00       		.byte	0
+ 987 02b8 0B       		.uleb128 0xb
+ 988 02b9 EE010000 		.4byte	.LASF21
+ 989 02bd 01       		.byte	0x1
+ 990 02be 93       		.byte	0x93
+ 991 02bf 00000000 		.4byte	.LFB69
+ 992 02c3 34000000 		.4byte	.LFE69-.LFB69
+ 993 02c7 01       		.uleb128 0x1
+ 994 02c8 9C       		.byte	0x9c
+ 995 02c9 53030000 		.4byte	0x353
+ 996 02cd 06       		.uleb128 0x6
+ 997 02ce 08000000 		.4byte	.LVL22
+ 998 02d2 43060000 		.4byte	0x643
+ 999 02d6 E4020000 		.4byte	0x2e4
+ 1000 02da 07       		.uleb128 0x7
+ 1001 02db 01       		.uleb128 0x1
+ 1002 02dc 50       		.byte	0x50
+ 1003 02dd 05       		.uleb128 0x5
+ 1004 02de 03       		.byte	0x3
+ 1005 02df EC000000 		.4byte	.LC11
+ 1006 02e3 00       		.byte	0
+ 1007 02e4 06       		.uleb128 0x6
+ 1008 02e5 0E000000 		.4byte	.LVL23
+ 1009 02e9 59060000 		.4byte	0x659
+ 1010 02ed F7020000 		.4byte	0x2f7
+ 1011 02f1 07       		.uleb128 0x7
+ 1012 02f2 01       		.uleb128 0x1
+ 1013 02f3 50       		.byte	0x50
+ 1014 02f4 01       		.uleb128 0x1
+ 1015 02f5 31       		.byte	0x31
+ 1016 02f6 00       		.byte	0
+ 1017 02f7 06       		.uleb128 0x6
+ 1018 02f8 14000000 		.4byte	.LVL24
+ 1019 02fc 64060000 		.4byte	0x664
+ 1020 0300 0A030000 		.4byte	0x30a
+ 1021 0304 07       		.uleb128 0x7
+ 1022 0305 01       		.uleb128 0x1
+ 1023 0306 50       		.byte	0x50
+ 1024 0307 01       		.uleb128 0x1
+ 1025 0308 31       		.byte	0x31
+ 1026 0309 00       		.byte	0
+ 1027 030a 06       		.uleb128 0x6
+ 1028 030b 1A000000 		.4byte	.LVL25
+ 1029 030f 6F060000 		.4byte	0x66f
+ 1030 0313 1D030000 		.4byte	0x31d
+ 1031 0317 07       		.uleb128 0x7
+ 1032 0318 01       		.uleb128 0x1
+ 1033 0319 50       		.byte	0x50
+ 1034 031a 01       		.uleb128 0x1
+ 1035 031b 30       		.byte	0x30
+ 1036 031c 00       		.byte	0
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 24
+
+
+ 1037 031d 06       		.uleb128 0x6
+ 1038 031e 20000000 		.4byte	.LVL26
+ 1039 0322 7A060000 		.4byte	0x67a
+ 1040 0326 30030000 		.4byte	0x330
+ 1041 032a 07       		.uleb128 0x7
+ 1042 032b 01       		.uleb128 0x1
+ 1043 032c 50       		.byte	0x50
+ 1044 032d 01       		.uleb128 0x1
+ 1045 032e 30       		.byte	0x30
+ 1046 032f 00       		.byte	0
+ 1047 0330 06       		.uleb128 0x6
+ 1048 0331 26000000 		.4byte	.LVL27
+ 1049 0335 85060000 		.4byte	0x685
+ 1050 0339 43030000 		.4byte	0x343
+ 1051 033d 07       		.uleb128 0x7
+ 1052 033e 01       		.uleb128 0x1
+ 1053 033f 50       		.byte	0x50
+ 1054 0340 01       		.uleb128 0x1
+ 1055 0341 30       		.byte	0x30
+ 1056 0342 00       		.byte	0
+ 1057 0343 09       		.uleb128 0x9
+ 1058 0344 2C000000 		.4byte	.LVL28
+ 1059 0348 90060000 		.4byte	0x690
+ 1060 034c 07       		.uleb128 0x7
+ 1061 034d 01       		.uleb128 0x1
+ 1062 034e 50       		.byte	0x50
+ 1063 034f 01       		.uleb128 0x1
+ 1064 0350 30       		.byte	0x30
+ 1065 0351 00       		.byte	0
+ 1066 0352 00       		.byte	0
+ 1067 0353 0B       		.uleb128 0xb
+ 1068 0354 66030000 		.4byte	.LASF22
+ 1069 0358 01       		.byte	0x1
+ 1070 0359 A1       		.byte	0xa1
+ 1071 035a 00000000 		.4byte	.LFB70
+ 1072 035e 34000000 		.4byte	.LFE70-.LFB70
+ 1073 0362 01       		.uleb128 0x1
+ 1074 0363 9C       		.byte	0x9c
+ 1075 0364 EE030000 		.4byte	0x3ee
+ 1076 0368 06       		.uleb128 0x6
+ 1077 0369 08000000 		.4byte	.LVL29
+ 1078 036d 43060000 		.4byte	0x643
+ 1079 0371 7F030000 		.4byte	0x37f
+ 1080 0375 07       		.uleb128 0x7
+ 1081 0376 01       		.uleb128 0x1
+ 1082 0377 50       		.byte	0x50
+ 1083 0378 05       		.uleb128 0x5
+ 1084 0379 03       		.byte	0x3
+ 1085 037a 04010000 		.4byte	.LC12
+ 1086 037e 00       		.byte	0
+ 1087 037f 06       		.uleb128 0x6
+ 1088 0380 0E000000 		.4byte	.LVL30
+ 1089 0384 59060000 		.4byte	0x659
+ 1090 0388 92030000 		.4byte	0x392
+ 1091 038c 07       		.uleb128 0x7
+ 1092 038d 01       		.uleb128 0x1
+ 1093 038e 50       		.byte	0x50
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 25
+
+
+ 1094 038f 01       		.uleb128 0x1
+ 1095 0390 30       		.byte	0x30
+ 1096 0391 00       		.byte	0
+ 1097 0392 06       		.uleb128 0x6
+ 1098 0393 14000000 		.4byte	.LVL31
+ 1099 0397 64060000 		.4byte	0x664
+ 1100 039b A5030000 		.4byte	0x3a5
+ 1101 039f 07       		.uleb128 0x7
+ 1102 03a0 01       		.uleb128 0x1
+ 1103 03a1 50       		.byte	0x50
+ 1104 03a2 01       		.uleb128 0x1
+ 1105 03a3 30       		.byte	0x30
+ 1106 03a4 00       		.byte	0
+ 1107 03a5 06       		.uleb128 0x6
+ 1108 03a6 1A000000 		.4byte	.LVL32
+ 1109 03aa 6F060000 		.4byte	0x66f
+ 1110 03ae B8030000 		.4byte	0x3b8
+ 1111 03b2 07       		.uleb128 0x7
+ 1112 03b3 01       		.uleb128 0x1
+ 1113 03b4 50       		.byte	0x50
+ 1114 03b5 01       		.uleb128 0x1
+ 1115 03b6 30       		.byte	0x30
+ 1116 03b7 00       		.byte	0
+ 1117 03b8 06       		.uleb128 0x6
+ 1118 03b9 20000000 		.4byte	.LVL33
+ 1119 03bd 7A060000 		.4byte	0x67a
+ 1120 03c1 CB030000 		.4byte	0x3cb
+ 1121 03c5 07       		.uleb128 0x7
+ 1122 03c6 01       		.uleb128 0x1
+ 1123 03c7 50       		.byte	0x50
+ 1124 03c8 01       		.uleb128 0x1
+ 1125 03c9 31       		.byte	0x31
+ 1126 03ca 00       		.byte	0
+ 1127 03cb 06       		.uleb128 0x6
+ 1128 03cc 26000000 		.4byte	.LVL34
+ 1129 03d0 85060000 		.4byte	0x685
+ 1130 03d4 DE030000 		.4byte	0x3de
+ 1131 03d8 07       		.uleb128 0x7
+ 1132 03d9 01       		.uleb128 0x1
+ 1133 03da 50       		.byte	0x50
+ 1134 03db 01       		.uleb128 0x1
+ 1135 03dc 31       		.byte	0x31
+ 1136 03dd 00       		.byte	0
+ 1137 03de 09       		.uleb128 0x9
+ 1138 03df 2C000000 		.4byte	.LVL35
+ 1139 03e3 90060000 		.4byte	0x690
+ 1140 03e7 07       		.uleb128 0x7
+ 1141 03e8 01       		.uleb128 0x1
+ 1142 03e9 50       		.byte	0x50
+ 1143 03ea 01       		.uleb128 0x1
+ 1144 03eb 30       		.byte	0x30
+ 1145 03ec 00       		.byte	0
+ 1146 03ed 00       		.byte	0
+ 1147 03ee 0A       		.uleb128 0xa
+ 1148 03ef 46020000 		.4byte	.LASF23
+ 1149 03f3 01       		.byte	0x1
+ 1150 03f4 AF       		.byte	0xaf
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 26
+
+
+ 1151 03f5 00000000 		.4byte	.LFB71
+ 1152 03f9 34000000 		.4byte	.LFE71-.LFB71
+ 1153 03fd 01       		.uleb128 0x1
+ 1154 03fe 9C       		.byte	0x9c
+ 1155 03ff 89040000 		.4byte	0x489
+ 1156 0403 06       		.uleb128 0x6
+ 1157 0404 08000000 		.4byte	.LVL36
+ 1158 0408 43060000 		.4byte	0x643
+ 1159 040c 1A040000 		.4byte	0x41a
+ 1160 0410 07       		.uleb128 0x7
+ 1161 0411 01       		.uleb128 0x1
+ 1162 0412 50       		.byte	0x50
+ 1163 0413 05       		.uleb128 0x5
+ 1164 0414 03       		.byte	0x3
+ 1165 0415 1C010000 		.4byte	.LC13
+ 1166 0419 00       		.byte	0
+ 1167 041a 06       		.uleb128 0x6
+ 1168 041b 0E000000 		.4byte	.LVL37
+ 1169 041f 59060000 		.4byte	0x659
+ 1170 0423 2D040000 		.4byte	0x42d
+ 1171 0427 07       		.uleb128 0x7
+ 1172 0428 01       		.uleb128 0x1
+ 1173 0429 50       		.byte	0x50
+ 1174 042a 01       		.uleb128 0x1
+ 1175 042b 31       		.byte	0x31
+ 1176 042c 00       		.byte	0
+ 1177 042d 06       		.uleb128 0x6
+ 1178 042e 14000000 		.4byte	.LVL38
+ 1179 0432 64060000 		.4byte	0x664
+ 1180 0436 40040000 		.4byte	0x440
+ 1181 043a 07       		.uleb128 0x7
+ 1182 043b 01       		.uleb128 0x1
+ 1183 043c 50       		.byte	0x50
+ 1184 043d 01       		.uleb128 0x1
+ 1185 043e 30       		.byte	0x30
+ 1186 043f 00       		.byte	0
+ 1187 0440 06       		.uleb128 0x6
+ 1188 0441 1A000000 		.4byte	.LVL39
+ 1189 0445 6F060000 		.4byte	0x66f
+ 1190 0449 53040000 		.4byte	0x453
+ 1191 044d 07       		.uleb128 0x7
+ 1192 044e 01       		.uleb128 0x1
+ 1193 044f 50       		.byte	0x50
+ 1194 0450 01       		.uleb128 0x1
+ 1195 0451 31       		.byte	0x31
+ 1196 0452 00       		.byte	0
+ 1197 0453 06       		.uleb128 0x6
+ 1198 0454 20000000 		.4byte	.LVL40
+ 1199 0458 7A060000 		.4byte	0x67a
+ 1200 045c 66040000 		.4byte	0x466
+ 1201 0460 07       		.uleb128 0x7
+ 1202 0461 01       		.uleb128 0x1
+ 1203 0462 50       		.byte	0x50
+ 1204 0463 01       		.uleb128 0x1
+ 1205 0464 31       		.byte	0x31
+ 1206 0465 00       		.byte	0
+ 1207 0466 06       		.uleb128 0x6
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 27
+
+
+ 1208 0467 26000000 		.4byte	.LVL41
+ 1209 046b 85060000 		.4byte	0x685
+ 1210 046f 79040000 		.4byte	0x479
+ 1211 0473 07       		.uleb128 0x7
+ 1212 0474 01       		.uleb128 0x1
+ 1213 0475 50       		.byte	0x50
+ 1214 0476 01       		.uleb128 0x1
+ 1215 0477 30       		.byte	0x30
+ 1216 0478 00       		.byte	0
+ 1217 0479 09       		.uleb128 0x9
+ 1218 047a 2C000000 		.4byte	.LVL42
+ 1219 047e 90060000 		.4byte	0x690
+ 1220 0482 07       		.uleb128 0x7
+ 1221 0483 01       		.uleb128 0x1
+ 1222 0484 50       		.byte	0x50
+ 1223 0485 01       		.uleb128 0x1
+ 1224 0486 31       		.byte	0x31
+ 1225 0487 00       		.byte	0
+ 1226 0488 00       		.byte	0
+ 1227 0489 0A       		.uleb128 0xa
+ 1228 048a 73010000 		.4byte	.LASF24
+ 1229 048e 01       		.byte	0x1
+ 1230 048f BB       		.byte	0xbb
+ 1231 0490 00000000 		.4byte	.LFB72
+ 1232 0494 34000000 		.4byte	.LFE72-.LFB72
+ 1233 0498 01       		.uleb128 0x1
+ 1234 0499 9C       		.byte	0x9c
+ 1235 049a 24050000 		.4byte	0x524
+ 1236 049e 06       		.uleb128 0x6
+ 1237 049f 08000000 		.4byte	.LVL43
+ 1238 04a3 43060000 		.4byte	0x643
+ 1239 04a7 B5040000 		.4byte	0x4b5
+ 1240 04ab 07       		.uleb128 0x7
+ 1241 04ac 01       		.uleb128 0x1
+ 1242 04ad 50       		.byte	0x50
+ 1243 04ae 05       		.uleb128 0x5
+ 1244 04af 03       		.byte	0x3
+ 1245 04b0 38010000 		.4byte	.LC14
+ 1246 04b4 00       		.byte	0
+ 1247 04b5 06       		.uleb128 0x6
+ 1248 04b6 0E000000 		.4byte	.LVL44
+ 1249 04ba 59060000 		.4byte	0x659
+ 1250 04be C8040000 		.4byte	0x4c8
+ 1251 04c2 07       		.uleb128 0x7
+ 1252 04c3 01       		.uleb128 0x1
+ 1253 04c4 50       		.byte	0x50
+ 1254 04c5 01       		.uleb128 0x1
+ 1255 04c6 31       		.byte	0x31
+ 1256 04c7 00       		.byte	0
+ 1257 04c8 06       		.uleb128 0x6
+ 1258 04c9 14000000 		.4byte	.LVL45
+ 1259 04cd 64060000 		.4byte	0x664
+ 1260 04d1 DB040000 		.4byte	0x4db
+ 1261 04d5 07       		.uleb128 0x7
+ 1262 04d6 01       		.uleb128 0x1
+ 1263 04d7 50       		.byte	0x50
+ 1264 04d8 01       		.uleb128 0x1
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 28
+
+
+ 1265 04d9 31       		.byte	0x31
+ 1266 04da 00       		.byte	0
+ 1267 04db 06       		.uleb128 0x6
+ 1268 04dc 1A000000 		.4byte	.LVL46
+ 1269 04e0 6F060000 		.4byte	0x66f
+ 1270 04e4 EE040000 		.4byte	0x4ee
+ 1271 04e8 07       		.uleb128 0x7
+ 1272 04e9 01       		.uleb128 0x1
+ 1273 04ea 50       		.byte	0x50
+ 1274 04eb 01       		.uleb128 0x1
+ 1275 04ec 31       		.byte	0x31
+ 1276 04ed 00       		.byte	0
+ 1277 04ee 06       		.uleb128 0x6
+ 1278 04ef 20000000 		.4byte	.LVL47
+ 1279 04f3 7A060000 		.4byte	0x67a
+ 1280 04f7 01050000 		.4byte	0x501
+ 1281 04fb 07       		.uleb128 0x7
+ 1282 04fc 01       		.uleb128 0x1
+ 1283 04fd 50       		.byte	0x50
+ 1284 04fe 01       		.uleb128 0x1
+ 1285 04ff 31       		.byte	0x31
+ 1286 0500 00       		.byte	0
+ 1287 0501 06       		.uleb128 0x6
+ 1288 0502 26000000 		.4byte	.LVL48
+ 1289 0506 85060000 		.4byte	0x685
+ 1290 050a 14050000 		.4byte	0x514
+ 1291 050e 07       		.uleb128 0x7
+ 1292 050f 01       		.uleb128 0x1
+ 1293 0510 50       		.byte	0x50
+ 1294 0511 01       		.uleb128 0x1
+ 1295 0512 31       		.byte	0x31
+ 1296 0513 00       		.byte	0
+ 1297 0514 09       		.uleb128 0x9
+ 1298 0515 2C000000 		.4byte	.LVL49
+ 1299 0519 90060000 		.4byte	0x690
+ 1300 051d 07       		.uleb128 0x7
+ 1301 051e 01       		.uleb128 0x1
+ 1302 051f 50       		.byte	0x50
+ 1303 0520 01       		.uleb128 0x1
+ 1304 0521 31       		.byte	0x31
+ 1305 0522 00       		.byte	0
+ 1306 0523 00       		.byte	0
+ 1307 0524 0A       		.uleb128 0xa
+ 1308 0525 C1010000 		.4byte	.LASF25
+ 1309 0529 01       		.byte	0x1
+ 1310 052a 3F       		.byte	0x3f
+ 1311 052b 00000000 		.4byte	.LFB65
+ 1312 052f 4C000000 		.4byte	.LFE65-.LFB65
+ 1313 0533 01       		.uleb128 0x1
+ 1314 0534 9C       		.byte	0x9c
+ 1315 0535 88050000 		.4byte	0x588
+ 1316 0539 0C       		.uleb128 0xc
+ 1317 053a 59030000 		.4byte	.LASF28
+ 1318 053e 01       		.byte	0x1
+ 1319 053f 3F       		.byte	0x3f
+ 1320 0540 81000000 		.4byte	0x81
+ 1321 0544 00000000 		.4byte	.LLST0
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 29
+
+
+ 1322 0548 08       		.uleb128 0x8
+ 1323 0549 26000000 		.4byte	.LVL51
+ 1324 054d B1010000 		.4byte	0x1b1
+ 1325 0551 08       		.uleb128 0x8
+ 1326 0552 2C000000 		.4byte	.LVL53
+ 1327 0556 E7010000 		.4byte	0x1e7
+ 1328 055a 08       		.uleb128 0x8
+ 1329 055b 32000000 		.4byte	.LVL55
+ 1330 055f 1D020000 		.4byte	0x21d
+ 1331 0563 08       		.uleb128 0x8
+ 1332 0564 38000000 		.4byte	.LVL57
+ 1333 0568 EE030000 		.4byte	0x3ee
+ 1334 056c 08       		.uleb128 0x8
+ 1335 056d 3E000000 		.4byte	.LVL59
+ 1336 0571 89040000 		.4byte	0x489
+ 1337 0575 08       		.uleb128 0x8
+ 1338 0576 44000000 		.4byte	.LVL61
+ 1339 057a B8020000 		.4byte	0x2b8
+ 1340 057e 08       		.uleb128 0x8
+ 1341 057f 4A000000 		.4byte	.LVL63
+ 1342 0583 53030000 		.4byte	0x353
+ 1343 0587 00       		.byte	0
+ 1344 0588 0A       		.uleb128 0xa
+ 1345 0589 2F010000 		.4byte	.LASF26
+ 1346 058d 01       		.byte	0x1
+ 1347 058e 31       		.byte	0x31
+ 1348 058f 00000000 		.4byte	.LFB64
+ 1349 0593 24000000 		.4byte	.LFE64-.LFB64
+ 1350 0597 01       		.uleb128 0x1
+ 1351 0598 9C       		.byte	0x9c
+ 1352 0599 00060000 		.4byte	0x600
+ 1353 059d 0D       		.uleb128 0xd
+ 1354 059e 5D000000 		.4byte	.LASF27
+ 1355 05a2 01       		.byte	0x1
+ 1356 05a3 33       		.byte	0x33
+ 1357 05a4 81000000 		.4byte	0x81
+ 1358 05a8 B7000000 		.4byte	.LLST1
+ 1359 05ac 0E       		.uleb128 0xe
+ 1360 05ad 0A000000 		.4byte	.LBB2
+ 1361 05b1 14000000 		.4byte	.LBE2-.LBB2
+ 1362 05b5 F6050000 		.4byte	0x5f6
+ 1363 05b9 0D       		.uleb128 0xd
+ 1364 05ba 59030000 		.4byte	.LASF28
+ 1365 05be 01       		.byte	0x1
+ 1366 05bf 36       		.byte	0x36
+ 1367 05c0 81000000 		.4byte	0x81
+ 1368 05c4 D5000000 		.4byte	.LLST2
+ 1369 05c8 08       		.uleb128 0x8
+ 1370 05c9 0E000000 		.4byte	.LVL66
+ 1371 05cd 9B060000 		.4byte	0x69b
+ 1372 05d1 06       		.uleb128 0x6
+ 1373 05d2 14000000 		.4byte	.LVL68
+ 1374 05d6 A6060000 		.4byte	0x6a6
+ 1375 05da E5050000 		.4byte	0x5e5
+ 1376 05de 07       		.uleb128 0x7
+ 1377 05df 01       		.uleb128 0x1
+ 1378 05e0 50       		.byte	0x50
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 30
+
+
+ 1379 05e1 02       		.uleb128 0x2
+ 1380 05e2 75       		.byte	0x75
+ 1381 05e3 00       		.sleb128 0
+ 1382 05e4 00       		.byte	0
+ 1383 05e5 09       		.uleb128 0x9
+ 1384 05e6 1A000000 		.4byte	.LVL69
+ 1385 05ea 24050000 		.4byte	0x524
+ 1386 05ee 07       		.uleb128 0x7
+ 1387 05ef 01       		.uleb128 0x1
+ 1388 05f0 50       		.byte	0x50
+ 1389 05f1 02       		.uleb128 0x2
+ 1390 05f2 75       		.byte	0x75
+ 1391 05f3 00       		.sleb128 0
+ 1392 05f4 00       		.byte	0
+ 1393 05f5 00       		.byte	0
+ 1394 05f6 08       		.uleb128 0x8
+ 1395 05f7 06000000 		.4byte	.LVL64
+ 1396 05fb B1060000 		.4byte	0x6b1
+ 1397 05ff 00       		.byte	0
+ 1398 0600 0F       		.uleb128 0xf
+ 1399 0601 40020000 		.4byte	.LASF29
+ 1400 0605 01       		.byte	0x1
+ 1401 0606 17       		.byte	0x17
+ 1402 0607 73000000 		.4byte	0x73
+ 1403 060b 05       		.uleb128 0x5
+ 1404 060c 03       		.byte	0x3
+ 1405 060d 00000000 		.4byte	speed
+ 1406 0611 10       		.uleb128 0x10
+ 1407 0612 E1010000 		.4byte	.LASF48
+ 1408 0616 0D       		.byte	0xd
+ 1409 0617 9606     		.2byte	0x696
+ 1410 0619 1D060000 		.4byte	0x61d
+ 1411 061d 11       		.uleb128 0x11
+ 1412 061e 8C000000 		.4byte	0x8c
+ 1413 0622 12       		.uleb128 0x12
+ 1414 0623 00000000 		.4byte	.LASF30
+ 1415 0627 00000000 		.4byte	.LASF30
+ 1416 062b 04       		.byte	0x4
+ 1417 062c 18       		.byte	0x18
+ 1418 062d 12       		.uleb128 0x12
+ 1419 062e 14000000 		.4byte	.LASF31
+ 1420 0632 14000000 		.4byte	.LASF31
+ 1421 0636 05       		.byte	0x5
+ 1422 0637 54       		.byte	0x54
+ 1423 0638 12       		.uleb128 0x12
+ 1424 0639 67010000 		.4byte	.LASF32
+ 1425 063d 67010000 		.4byte	.LASF32
+ 1426 0641 06       		.byte	0x6
+ 1427 0642 92       		.byte	0x92
+ 1428 0643 12       		.uleb128 0x12
+ 1429 0644 48030000 		.4byte	.LASF33
+ 1430 0648 48030000 		.4byte	.LASF33
+ 1431 064c 05       		.byte	0x5
+ 1432 064d 8B       		.byte	0x8b
+ 1433 064e 12       		.uleb128 0x12
+ 1434 064f 55020000 		.4byte	.LASF34
+ 1435 0653 55020000 		.4byte	.LASF34
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 31
+
+
+ 1436 0657 06       		.byte	0x6
+ 1437 0658 C3       		.byte	0xc3
+ 1438 0659 12       		.uleb128 0x12
+ 1439 065a D4010000 		.4byte	.LASF35
+ 1440 065e D4010000 		.4byte	.LASF35
+ 1441 0662 07       		.byte	0x7
+ 1442 0663 26       		.byte	0x26
+ 1443 0664 12       		.uleb128 0x12
+ 1444 0665 69000000 		.4byte	.LASF36
+ 1445 0669 69000000 		.4byte	.LASF36
+ 1446 066d 08       		.byte	0x8
+ 1447 066e 26       		.byte	0x26
+ 1448 066f 12       		.uleb128 0x12
+ 1449 0670 7F000000 		.4byte	.LASF37
+ 1450 0674 7F000000 		.4byte	.LASF37
+ 1451 0678 09       		.byte	0x9
+ 1452 0679 26       		.byte	0x26
+ 1453 067a 12       		.uleb128 0x12
+ 1454 067b 32020000 		.4byte	.LASF38
+ 1455 067f 32020000 		.4byte	.LASF38
+ 1456 0683 0A       		.byte	0xa
+ 1457 0684 26       		.byte	0x26
+ 1458 0685 12       		.uleb128 0x12
+ 1459 0686 78010000 		.4byte	.LASF39
+ 1460 068a 78010000 		.4byte	.LASF39
+ 1461 068e 0B       		.byte	0xb
+ 1462 068f 26       		.byte	0x26
+ 1463 0690 12       		.uleb128 0x12
+ 1464 0691 AC020000 		.4byte	.LASF40
+ 1465 0695 AC020000 		.4byte	.LASF40
+ 1466 0699 0C       		.byte	0xc
+ 1467 069a 26       		.byte	0x26
+ 1468 069b 12       		.uleb128 0x12
+ 1469 069c 55010000 		.4byte	.LASF41
+ 1470 06a0 55010000 		.4byte	.LASF41
+ 1471 06a4 05       		.byte	0x5
+ 1472 06a5 6F       		.byte	0x6f
+ 1473 06a6 12       		.uleb128 0x12
+ 1474 06a7 86010000 		.4byte	.LASF42
+ 1475 06ab 86010000 		.4byte	.LASF42
+ 1476 06af 05       		.byte	0x5
+ 1477 06b0 88       		.byte	0x88
+ 1478 06b1 12       		.uleb128 0x12
+ 1479 06b2 99010000 		.4byte	.LASF43
+ 1480 06b6 99010000 		.4byte	.LASF43
+ 1481 06ba 05       		.byte	0x5
+ 1482 06bb 73       		.byte	0x73
+ 1483 06bc 00       		.byte	0
+ 1484              		.section	.debug_abbrev,"",%progbits
+ 1485              	.Ldebug_abbrev0:
+ 1486 0000 01       		.uleb128 0x1
+ 1487 0001 11       		.uleb128 0x11
+ 1488 0002 01       		.byte	0x1
+ 1489 0003 25       		.uleb128 0x25
+ 1490 0004 0E       		.uleb128 0xe
+ 1491 0005 13       		.uleb128 0x13
+ 1492 0006 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 32
+
+
+ 1493 0007 03       		.uleb128 0x3
+ 1494 0008 0E       		.uleb128 0xe
+ 1495 0009 1B       		.uleb128 0x1b
+ 1496 000a 0E       		.uleb128 0xe
+ 1497 000b 55       		.uleb128 0x55
+ 1498 000c 17       		.uleb128 0x17
+ 1499 000d 11       		.uleb128 0x11
+ 1500 000e 01       		.uleb128 0x1
+ 1501 000f 10       		.uleb128 0x10
+ 1502 0010 17       		.uleb128 0x17
+ 1503 0011 00       		.byte	0
+ 1504 0012 00       		.byte	0
+ 1505 0013 02       		.uleb128 0x2
+ 1506 0014 24       		.uleb128 0x24
+ 1507 0015 00       		.byte	0
+ 1508 0016 0B       		.uleb128 0xb
+ 1509 0017 0B       		.uleb128 0xb
+ 1510 0018 3E       		.uleb128 0x3e
+ 1511 0019 0B       		.uleb128 0xb
+ 1512 001a 03       		.uleb128 0x3
+ 1513 001b 0E       		.uleb128 0xe
+ 1514 001c 00       		.byte	0
+ 1515 001d 00       		.byte	0
+ 1516 001e 03       		.uleb128 0x3
+ 1517 001f 16       		.uleb128 0x16
+ 1518 0020 00       		.byte	0
+ 1519 0021 03       		.uleb128 0x3
+ 1520 0022 0E       		.uleb128 0xe
+ 1521 0023 3A       		.uleb128 0x3a
+ 1522 0024 0B       		.uleb128 0xb
+ 1523 0025 3B       		.uleb128 0x3b
+ 1524 0026 0B       		.uleb128 0xb
+ 1525 0027 49       		.uleb128 0x49
+ 1526 0028 13       		.uleb128 0x13
+ 1527 0029 00       		.byte	0
+ 1528 002a 00       		.byte	0
+ 1529 002b 04       		.uleb128 0x4
+ 1530 002c 24       		.uleb128 0x24
+ 1531 002d 00       		.byte	0
+ 1532 002e 0B       		.uleb128 0xb
+ 1533 002f 0B       		.uleb128 0xb
+ 1534 0030 3E       		.uleb128 0x3e
+ 1535 0031 0B       		.uleb128 0xb
+ 1536 0032 03       		.uleb128 0x3
+ 1537 0033 08       		.uleb128 0x8
+ 1538 0034 00       		.byte	0
+ 1539 0035 00       		.byte	0
+ 1540 0036 05       		.uleb128 0x5
+ 1541 0037 2E       		.uleb128 0x2e
+ 1542 0038 01       		.byte	0x1
+ 1543 0039 3F       		.uleb128 0x3f
+ 1544 003a 19       		.uleb128 0x19
+ 1545 003b 03       		.uleb128 0x3
+ 1546 003c 0E       		.uleb128 0xe
+ 1547 003d 3A       		.uleb128 0x3a
+ 1548 003e 0B       		.uleb128 0xb
+ 1549 003f 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 33
+
+
+ 1550 0040 0B       		.uleb128 0xb
+ 1551 0041 27       		.uleb128 0x27
+ 1552 0042 19       		.uleb128 0x19
+ 1553 0043 49       		.uleb128 0x49
+ 1554 0044 13       		.uleb128 0x13
+ 1555 0045 8701     		.uleb128 0x87
+ 1556 0047 19       		.uleb128 0x19
+ 1557 0048 11       		.uleb128 0x11
+ 1558 0049 01       		.uleb128 0x1
+ 1559 004a 12       		.uleb128 0x12
+ 1560 004b 06       		.uleb128 0x6
+ 1561 004c 40       		.uleb128 0x40
+ 1562 004d 18       		.uleb128 0x18
+ 1563 004e 9742     		.uleb128 0x2117
+ 1564 0050 19       		.uleb128 0x19
+ 1565 0051 01       		.uleb128 0x1
+ 1566 0052 13       		.uleb128 0x13
+ 1567 0053 00       		.byte	0
+ 1568 0054 00       		.byte	0
+ 1569 0055 06       		.uleb128 0x6
+ 1570 0056 898201   		.uleb128 0x4109
+ 1571 0059 01       		.byte	0x1
+ 1572 005a 11       		.uleb128 0x11
+ 1573 005b 01       		.uleb128 0x1
+ 1574 005c 31       		.uleb128 0x31
+ 1575 005d 13       		.uleb128 0x13
+ 1576 005e 01       		.uleb128 0x1
+ 1577 005f 13       		.uleb128 0x13
+ 1578 0060 00       		.byte	0
+ 1579 0061 00       		.byte	0
+ 1580 0062 07       		.uleb128 0x7
+ 1581 0063 8A8201   		.uleb128 0x410a
+ 1582 0066 00       		.byte	0
+ 1583 0067 02       		.uleb128 0x2
+ 1584 0068 18       		.uleb128 0x18
+ 1585 0069 9142     		.uleb128 0x2111
+ 1586 006b 18       		.uleb128 0x18
+ 1587 006c 00       		.byte	0
+ 1588 006d 00       		.byte	0
+ 1589 006e 08       		.uleb128 0x8
+ 1590 006f 898201   		.uleb128 0x4109
+ 1591 0072 00       		.byte	0
+ 1592 0073 11       		.uleb128 0x11
+ 1593 0074 01       		.uleb128 0x1
+ 1594 0075 31       		.uleb128 0x31
+ 1595 0076 13       		.uleb128 0x13
+ 1596 0077 00       		.byte	0
+ 1597 0078 00       		.byte	0
+ 1598 0079 09       		.uleb128 0x9
+ 1599 007a 898201   		.uleb128 0x4109
+ 1600 007d 01       		.byte	0x1
+ 1601 007e 11       		.uleb128 0x11
+ 1602 007f 01       		.uleb128 0x1
+ 1603 0080 31       		.uleb128 0x31
+ 1604 0081 13       		.uleb128 0x13
+ 1605 0082 00       		.byte	0
+ 1606 0083 00       		.byte	0
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 34
+
+
+ 1607 0084 0A       		.uleb128 0xa
+ 1608 0085 2E       		.uleb128 0x2e
+ 1609 0086 01       		.byte	0x1
+ 1610 0087 3F       		.uleb128 0x3f
+ 1611 0088 19       		.uleb128 0x19
+ 1612 0089 03       		.uleb128 0x3
+ 1613 008a 0E       		.uleb128 0xe
+ 1614 008b 3A       		.uleb128 0x3a
+ 1615 008c 0B       		.uleb128 0xb
+ 1616 008d 3B       		.uleb128 0x3b
+ 1617 008e 0B       		.uleb128 0xb
+ 1618 008f 27       		.uleb128 0x27
+ 1619 0090 19       		.uleb128 0x19
+ 1620 0091 11       		.uleb128 0x11
+ 1621 0092 01       		.uleb128 0x1
+ 1622 0093 12       		.uleb128 0x12
+ 1623 0094 06       		.uleb128 0x6
+ 1624 0095 40       		.uleb128 0x40
+ 1625 0096 18       		.uleb128 0x18
+ 1626 0097 9742     		.uleb128 0x2117
+ 1627 0099 19       		.uleb128 0x19
+ 1628 009a 01       		.uleb128 0x1
+ 1629 009b 13       		.uleb128 0x13
+ 1630 009c 00       		.byte	0
+ 1631 009d 00       		.byte	0
+ 1632 009e 0B       		.uleb128 0xb
+ 1633 009f 2E       		.uleb128 0x2e
+ 1634 00a0 01       		.byte	0x1
+ 1635 00a1 3F       		.uleb128 0x3f
+ 1636 00a2 19       		.uleb128 0x19
+ 1637 00a3 03       		.uleb128 0x3
+ 1638 00a4 0E       		.uleb128 0xe
+ 1639 00a5 3A       		.uleb128 0x3a
+ 1640 00a6 0B       		.uleb128 0xb
+ 1641 00a7 3B       		.uleb128 0x3b
+ 1642 00a8 0B       		.uleb128 0xb
+ 1643 00a9 11       		.uleb128 0x11
+ 1644 00aa 01       		.uleb128 0x1
+ 1645 00ab 12       		.uleb128 0x12
+ 1646 00ac 06       		.uleb128 0x6
+ 1647 00ad 40       		.uleb128 0x40
+ 1648 00ae 18       		.uleb128 0x18
+ 1649 00af 9742     		.uleb128 0x2117
+ 1650 00b1 19       		.uleb128 0x19
+ 1651 00b2 01       		.uleb128 0x1
+ 1652 00b3 13       		.uleb128 0x13
+ 1653 00b4 00       		.byte	0
+ 1654 00b5 00       		.byte	0
+ 1655 00b6 0C       		.uleb128 0xc
+ 1656 00b7 05       		.uleb128 0x5
+ 1657 00b8 00       		.byte	0
+ 1658 00b9 03       		.uleb128 0x3
+ 1659 00ba 0E       		.uleb128 0xe
+ 1660 00bb 3A       		.uleb128 0x3a
+ 1661 00bc 0B       		.uleb128 0xb
+ 1662 00bd 3B       		.uleb128 0x3b
+ 1663 00be 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 35
+
+
+ 1664 00bf 49       		.uleb128 0x49
+ 1665 00c0 13       		.uleb128 0x13
+ 1666 00c1 02       		.uleb128 0x2
+ 1667 00c2 17       		.uleb128 0x17
+ 1668 00c3 00       		.byte	0
+ 1669 00c4 00       		.byte	0
+ 1670 00c5 0D       		.uleb128 0xd
+ 1671 00c6 34       		.uleb128 0x34
+ 1672 00c7 00       		.byte	0
+ 1673 00c8 03       		.uleb128 0x3
+ 1674 00c9 0E       		.uleb128 0xe
+ 1675 00ca 3A       		.uleb128 0x3a
+ 1676 00cb 0B       		.uleb128 0xb
+ 1677 00cc 3B       		.uleb128 0x3b
+ 1678 00cd 0B       		.uleb128 0xb
+ 1679 00ce 49       		.uleb128 0x49
+ 1680 00cf 13       		.uleb128 0x13
+ 1681 00d0 02       		.uleb128 0x2
+ 1682 00d1 17       		.uleb128 0x17
+ 1683 00d2 00       		.byte	0
+ 1684 00d3 00       		.byte	0
+ 1685 00d4 0E       		.uleb128 0xe
+ 1686 00d5 0B       		.uleb128 0xb
+ 1687 00d6 01       		.byte	0x1
+ 1688 00d7 11       		.uleb128 0x11
+ 1689 00d8 01       		.uleb128 0x1
+ 1690 00d9 12       		.uleb128 0x12
+ 1691 00da 06       		.uleb128 0x6
+ 1692 00db 01       		.uleb128 0x1
+ 1693 00dc 13       		.uleb128 0x13
+ 1694 00dd 00       		.byte	0
+ 1695 00de 00       		.byte	0
+ 1696 00df 0F       		.uleb128 0xf
+ 1697 00e0 34       		.uleb128 0x34
+ 1698 00e1 00       		.byte	0
+ 1699 00e2 03       		.uleb128 0x3
+ 1700 00e3 0E       		.uleb128 0xe
+ 1701 00e4 3A       		.uleb128 0x3a
+ 1702 00e5 0B       		.uleb128 0xb
+ 1703 00e6 3B       		.uleb128 0x3b
+ 1704 00e7 0B       		.uleb128 0xb
+ 1705 00e8 49       		.uleb128 0x49
+ 1706 00e9 13       		.uleb128 0x13
+ 1707 00ea 02       		.uleb128 0x2
+ 1708 00eb 18       		.uleb128 0x18
+ 1709 00ec 00       		.byte	0
+ 1710 00ed 00       		.byte	0
+ 1711 00ee 10       		.uleb128 0x10
+ 1712 00ef 34       		.uleb128 0x34
+ 1713 00f0 00       		.byte	0
+ 1714 00f1 03       		.uleb128 0x3
+ 1715 00f2 0E       		.uleb128 0xe
+ 1716 00f3 3A       		.uleb128 0x3a
+ 1717 00f4 0B       		.uleb128 0xb
+ 1718 00f5 3B       		.uleb128 0x3b
+ 1719 00f6 05       		.uleb128 0x5
+ 1720 00f7 49       		.uleb128 0x49
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 36
+
+
+ 1721 00f8 13       		.uleb128 0x13
+ 1722 00f9 3F       		.uleb128 0x3f
+ 1723 00fa 19       		.uleb128 0x19
+ 1724 00fb 3C       		.uleb128 0x3c
+ 1725 00fc 19       		.uleb128 0x19
+ 1726 00fd 00       		.byte	0
+ 1727 00fe 00       		.byte	0
+ 1728 00ff 11       		.uleb128 0x11
+ 1729 0100 35       		.uleb128 0x35
+ 1730 0101 00       		.byte	0
+ 1731 0102 49       		.uleb128 0x49
+ 1732 0103 13       		.uleb128 0x13
+ 1733 0104 00       		.byte	0
+ 1734 0105 00       		.byte	0
+ 1735 0106 12       		.uleb128 0x12
+ 1736 0107 2E       		.uleb128 0x2e
+ 1737 0108 00       		.byte	0
+ 1738 0109 3F       		.uleb128 0x3f
+ 1739 010a 19       		.uleb128 0x19
+ 1740 010b 3C       		.uleb128 0x3c
+ 1741 010c 19       		.uleb128 0x19
+ 1742 010d 6E       		.uleb128 0x6e
+ 1743 010e 0E       		.uleb128 0xe
+ 1744 010f 03       		.uleb128 0x3
+ 1745 0110 0E       		.uleb128 0xe
+ 1746 0111 3A       		.uleb128 0x3a
+ 1747 0112 0B       		.uleb128 0xb
+ 1748 0113 3B       		.uleb128 0x3b
+ 1749 0114 0B       		.uleb128 0xb
+ 1750 0115 00       		.byte	0
+ 1751 0116 00       		.byte	0
+ 1752 0117 00       		.byte	0
+ 1753              		.section	.debug_loc,"",%progbits
+ 1754              	.Ldebug_loc0:
+ 1755              	.LLST0:
+ 1756 0000 00000000 		.4byte	.LVL50
+ 1757 0004 25000000 		.4byte	.LVL51-1
+ 1758 0008 0100     		.2byte	0x1
+ 1759 000a 50       		.byte	0x50
+ 1760 000b 25000000 		.4byte	.LVL51-1
+ 1761 000f 28000000 		.4byte	.LVL52
+ 1762 0013 0400     		.2byte	0x4
+ 1763 0015 F3       		.byte	0xf3
+ 1764 0016 01       		.uleb128 0x1
+ 1765 0017 50       		.byte	0x50
+ 1766 0018 9F       		.byte	0x9f
+ 1767 0019 28000000 		.4byte	.LVL52
+ 1768 001d 2B000000 		.4byte	.LVL53-1
+ 1769 0021 0100     		.2byte	0x1
+ 1770 0023 50       		.byte	0x50
+ 1771 0024 2B000000 		.4byte	.LVL53-1
+ 1772 0028 2E000000 		.4byte	.LVL54
+ 1773 002c 0400     		.2byte	0x4
+ 1774 002e F3       		.byte	0xf3
+ 1775 002f 01       		.uleb128 0x1
+ 1776 0030 50       		.byte	0x50
+ 1777 0031 9F       		.byte	0x9f
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 37
+
+
+ 1778 0032 2E000000 		.4byte	.LVL54
+ 1779 0036 31000000 		.4byte	.LVL55-1
+ 1780 003a 0100     		.2byte	0x1
+ 1781 003c 50       		.byte	0x50
+ 1782 003d 31000000 		.4byte	.LVL55-1
+ 1783 0041 34000000 		.4byte	.LVL56
+ 1784 0045 0400     		.2byte	0x4
+ 1785 0047 F3       		.byte	0xf3
+ 1786 0048 01       		.uleb128 0x1
+ 1787 0049 50       		.byte	0x50
+ 1788 004a 9F       		.byte	0x9f
+ 1789 004b 34000000 		.4byte	.LVL56
+ 1790 004f 37000000 		.4byte	.LVL57-1
+ 1791 0053 0100     		.2byte	0x1
+ 1792 0055 50       		.byte	0x50
+ 1793 0056 37000000 		.4byte	.LVL57-1
+ 1794 005a 3A000000 		.4byte	.LVL58
+ 1795 005e 0400     		.2byte	0x4
+ 1796 0060 F3       		.byte	0xf3
+ 1797 0061 01       		.uleb128 0x1
+ 1798 0062 50       		.byte	0x50
+ 1799 0063 9F       		.byte	0x9f
+ 1800 0064 3A000000 		.4byte	.LVL58
+ 1801 0068 3D000000 		.4byte	.LVL59-1
+ 1802 006c 0100     		.2byte	0x1
+ 1803 006e 50       		.byte	0x50
+ 1804 006f 3D000000 		.4byte	.LVL59-1
+ 1805 0073 40000000 		.4byte	.LVL60
+ 1806 0077 0400     		.2byte	0x4
+ 1807 0079 F3       		.byte	0xf3
+ 1808 007a 01       		.uleb128 0x1
+ 1809 007b 50       		.byte	0x50
+ 1810 007c 9F       		.byte	0x9f
+ 1811 007d 40000000 		.4byte	.LVL60
+ 1812 0081 43000000 		.4byte	.LVL61-1
+ 1813 0085 0100     		.2byte	0x1
+ 1814 0087 50       		.byte	0x50
+ 1815 0088 43000000 		.4byte	.LVL61-1
+ 1816 008c 46000000 		.4byte	.LVL62
+ 1817 0090 0400     		.2byte	0x4
+ 1818 0092 F3       		.byte	0xf3
+ 1819 0093 01       		.uleb128 0x1
+ 1820 0094 50       		.byte	0x50
+ 1821 0095 9F       		.byte	0x9f
+ 1822 0096 46000000 		.4byte	.LVL62
+ 1823 009a 49000000 		.4byte	.LVL63-1
+ 1824 009e 0100     		.2byte	0x1
+ 1825 00a0 50       		.byte	0x50
+ 1826 00a1 49000000 		.4byte	.LVL63-1
+ 1827 00a5 4C000000 		.4byte	.LFE65
+ 1828 00a9 0400     		.2byte	0x4
+ 1829 00ab F3       		.byte	0xf3
+ 1830 00ac 01       		.uleb128 0x1
+ 1831 00ad 50       		.byte	0x50
+ 1832 00ae 9F       		.byte	0x9f
+ 1833 00af 00000000 		.4byte	0
+ 1834 00b3 00000000 		.4byte	0
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 38
+
+
+ 1835              	.LLST1:
+ 1836 00b7 08000000 		.4byte	.LVL65
+ 1837 00bb 1C000000 		.4byte	.LVL70
+ 1838 00bf 0100     		.2byte	0x1
+ 1839 00c1 54       		.byte	0x54
+ 1840 00c2 1E000000 		.4byte	.LVL71
+ 1841 00c6 24000000 		.4byte	.LFE64
+ 1842 00ca 0100     		.2byte	0x1
+ 1843 00cc 54       		.byte	0x54
+ 1844 00cd 00000000 		.4byte	0
+ 1845 00d1 00000000 		.4byte	0
+ 1846              	.LLST2:
+ 1847 00d5 10000000 		.4byte	.LVL67
+ 1848 00d9 1E000000 		.4byte	.LVL71
+ 1849 00dd 0100     		.2byte	0x1
+ 1850 00df 55       		.byte	0x55
+ 1851 00e0 00000000 		.4byte	0
+ 1852 00e4 00000000 		.4byte	0
+ 1853              		.section	.debug_aranges,"",%progbits
+ 1854 0000 64000000 		.4byte	0x64
+ 1855 0004 0200     		.2byte	0x2
+ 1856 0006 00000000 		.4byte	.Ldebug_info0
+ 1857 000a 04       		.byte	0x4
+ 1858 000b 00       		.byte	0
+ 1859 000c 0000     		.2byte	0
+ 1860 000e 0000     		.2byte	0
+ 1861 0010 00000000 		.4byte	.LFB63
+ 1862 0014 68000000 		.4byte	.LFE63-.LFB63
+ 1863 0018 00000000 		.4byte	.LFB66
+ 1864 001c 24000000 		.4byte	.LFE66-.LFB66
+ 1865 0020 00000000 		.4byte	.LFB67
+ 1866 0024 24000000 		.4byte	.LFE67-.LFB67
+ 1867 0028 00000000 		.4byte	.LFB68
+ 1868 002c 34000000 		.4byte	.LFE68-.LFB68
+ 1869 0030 00000000 		.4byte	.LFB69
+ 1870 0034 34000000 		.4byte	.LFE69-.LFB69
+ 1871 0038 00000000 		.4byte	.LFB70
+ 1872 003c 34000000 		.4byte	.LFE70-.LFB70
+ 1873 0040 00000000 		.4byte	.LFB71
+ 1874 0044 34000000 		.4byte	.LFE71-.LFB71
+ 1875 0048 00000000 		.4byte	.LFB72
+ 1876 004c 34000000 		.4byte	.LFE72-.LFB72
+ 1877 0050 00000000 		.4byte	.LFB65
+ 1878 0054 4C000000 		.4byte	.LFE65-.LFB65
+ 1879 0058 00000000 		.4byte	.LFB64
+ 1880 005c 24000000 		.4byte	.LFE64-.LFB64
+ 1881 0060 00000000 		.4byte	0
+ 1882 0064 00000000 		.4byte	0
+ 1883              		.section	.debug_ranges,"",%progbits
+ 1884              	.Ldebug_ranges0:
+ 1885 0000 00000000 		.4byte	.LFB63
+ 1886 0004 68000000 		.4byte	.LFE63
+ 1887 0008 00000000 		.4byte	.LFB66
+ 1888 000c 24000000 		.4byte	.LFE66
+ 1889 0010 00000000 		.4byte	.LFB67
+ 1890 0014 24000000 		.4byte	.LFE67
+ 1891 0018 00000000 		.4byte	.LFB68
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 39
+
+
+ 1892 001c 34000000 		.4byte	.LFE68
+ 1893 0020 00000000 		.4byte	.LFB69
+ 1894 0024 34000000 		.4byte	.LFE69
+ 1895 0028 00000000 		.4byte	.LFB70
+ 1896 002c 34000000 		.4byte	.LFE70
+ 1897 0030 00000000 		.4byte	.LFB71
+ 1898 0034 34000000 		.4byte	.LFE71
+ 1899 0038 00000000 		.4byte	.LFB72
+ 1900 003c 34000000 		.4byte	.LFE72
+ 1901 0040 00000000 		.4byte	.LFB65
+ 1902 0044 4C000000 		.4byte	.LFE65
+ 1903 0048 00000000 		.4byte	.LFB64
+ 1904 004c 24000000 		.4byte	.LFE64
+ 1905 0050 00000000 		.4byte	0
+ 1906 0054 00000000 		.4byte	0
+ 1907              		.section	.debug_line,"",%progbits
+ 1908              	.Ldebug_line0:
+ 1909 0000 A8020000 		.section	.debug_str,"MS",%progbits,1
+ 1909      0200B401 
+ 1909      00000201 
+ 1909      FB0E0D00 
+ 1909      01010101 
+ 1910              	.LASF30:
+ 1911 0000 6973725F 		.ascii	"isr_uart_rx_StartEx\000"
+ 1911      75617274 
+ 1911      5F72785F 
+ 1911      53746172 
+ 1911      74457800 
+ 1912              	.LASF31:
+ 1913 0014 55415254 		.ascii	"UART_1_Start\000"
+ 1913      5F315F53 
+ 1913      74617274 
+ 1913      00
+ 1914              	.LASF4:
+ 1915 0021 5F5F7569 		.ascii	"__uint8_t\000"
+ 1915      6E74385F 
+ 1915      7400
+ 1916              	.LASF5:
+ 1917 002b 5F5F696E 		.ascii	"__int32_t\000"
+ 1917      7433325F 
+ 1917      7400
+ 1918              	.LASF19:
+ 1919 0035 696E6372 		.ascii	"increaseSpeed\000"
+ 1919      65617365 
+ 1919      53706565 
+ 1919      6400
+ 1920              	.LASF3:
+ 1921 0043 73686F72 		.ascii	"short unsigned int\000"
+ 1921      7420756E 
+ 1921      7369676E 
+ 1921      65642069 
+ 1921      6E7400
+ 1922              	.LASF14:
+ 1923 0056 646F7562 		.ascii	"double\000"
+ 1923      6C6500
+ 1924              	.LASF27:
+ 1925 005d 62797465 		.ascii	"bytesToRead\000"
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 40
+
+
+ 1925      73546F52 
+ 1925      65616400 
+ 1926              	.LASF36:
+ 1927 0069 50696E5F 		.ascii	"Pin_LN1_Write\000"
+ 1927      4C4E315F 
+ 1927      57726974 
+ 1927      6500
+ 1928              	.LASF12:
+ 1929 0077 696E7433 		.ascii	"int32_t\000"
+ 1929      325F7400 
+ 1930              	.LASF37:
+ 1931 007f 50696E5F 		.ascii	"Pin_LN2_Write\000"
+ 1931      4C4E325F 
+ 1931      57726974 
+ 1931      6500
+ 1932              	.LASF13:
+ 1933 008d 666C6F61 		.ascii	"float\000"
+ 1933      7400
+ 1934              	.LASF1:
+ 1935 0093 756E7369 		.ascii	"unsigned char\000"
+ 1935      676E6564 
+ 1935      20636861 
+ 1935      7200
+ 1936              	.LASF44:
+ 1937 00a1 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1937      43313120 
+ 1937      352E342E 
+ 1937      31203230 
+ 1937      31363036 
+ 1938 00d4 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1938      20726576 
+ 1938      6973696F 
+ 1938      6E203233 
+ 1938      37373135 
+ 1939 0107 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1939      66756E63 
+ 1939      74696F6E 
+ 1939      2D736563 
+ 1939      74696F6E 
+ 1940              	.LASF26:
+ 1941 012f 4953525F 		.ascii	"ISR_UART_rx_handler\000"
+ 1941      55415254 
+ 1941      5F72785F 
+ 1941      68616E64 
+ 1941      6C657200 
+ 1942              	.LASF7:
+ 1943 0143 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1943      20756E73 
+ 1943      69676E65 
+ 1943      6420696E 
+ 1943      7400
+ 1944              	.LASF41:
+ 1945 0155 55415254 		.ascii	"UART_1_ReadRxData\000"
+ 1945      5F315F52 
+ 1945      65616452 
+ 1945      78446174 
+ 1945      6100
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 41
+
+
+ 1946              	.LASF32:
+ 1947 0167 50574D5F 		.ascii	"PWM_1_Start\000"
+ 1947      315F5374 
+ 1947      61727400 
+ 1948              	.LASF24:
+ 1949 0173 73746F70 		.ascii	"stop\000"
+ 1949      00
+ 1950              	.LASF39:
+ 1951 0178 50696E5F 		.ascii	"Pin_LN3_Write\000"
+ 1951      4C4E335F 
+ 1951      57726974 
+ 1951      6500
+ 1952              	.LASF42:
+ 1953 0186 55415254 		.ascii	"UART_1_WriteTxData\000"
+ 1953      5F315F57 
+ 1953      72697465 
+ 1953      54784461 
+ 1953      746100
+ 1954              	.LASF43:
+ 1955 0199 55415254 		.ascii	"UART_1_GetRxBufferSize\000"
+ 1955      5F315F47 
+ 1955      65745278 
+ 1955      42756666 
+ 1955      65725369 
+ 1956              	.LASF16:
+ 1957 01b0 6C6F6E67 		.ascii	"long double\000"
+ 1957      20646F75 
+ 1957      626C6500 
+ 1958              	.LASF47:
+ 1959 01bc 6D61696E 		.ascii	"main\000"
+ 1959      00
+ 1960              	.LASF25:
+ 1961 01c1 68616E64 		.ascii	"handleByteReceived\000"
+ 1961      6C654279 
+ 1961      74655265 
+ 1961      63656976 
+ 1961      656400
+ 1962              	.LASF35:
+ 1963 01d4 50696E5F 		.ascii	"Pin_EN_Write\000"
+ 1963      454E5F57 
+ 1963      72697465 
+ 1963      00
+ 1964              	.LASF48:
+ 1965 01e1 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1965      52784275 
+ 1965      66666572 
+ 1965      00
+ 1966              	.LASF21:
+ 1967 01ee 64726976 		.ascii	"driveLeft\000"
+ 1967      654C6566 
+ 1967      7400
+ 1968              	.LASF10:
+ 1969 01f8 756E7369 		.ascii	"unsigned int\000"
+ 1969      676E6564 
+ 1969      20696E74 
+ 1969      00
+ 1970              	.LASF20:
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 42
+
+
+ 1971 0205 64726976 		.ascii	"driveForwards\000"
+ 1971      65466F72 
+ 1971      77617264 
+ 1971      7300
+ 1972              	.LASF9:
+ 1973 0213 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1973      206C6F6E 
+ 1973      6720756E 
+ 1973      7369676E 
+ 1973      65642069 
+ 1974              	.LASF11:
+ 1975 022a 75696E74 		.ascii	"uint8_t\000"
+ 1975      385F7400 
+ 1976              	.LASF38:
+ 1977 0232 50696E5F 		.ascii	"Pin_EN2_Write\000"
+ 1977      454E325F 
+ 1977      57726974 
+ 1977      6500
+ 1978              	.LASF29:
+ 1979 0240 73706565 		.ascii	"speed\000"
+ 1979      6400
+ 1980              	.LASF23:
+ 1981 0246 64726976 		.ascii	"driveBackwards\000"
+ 1981      65426163 
+ 1981      6B776172 
+ 1981      647300
+ 1982              	.LASF34:
+ 1983 0255 50574D5F 		.ascii	"PWM_1_WriteCompare\000"
+ 1983      315F5772 
+ 1983      69746543 
+ 1983      6F6D7061 
+ 1983      726500
+ 1984              	.LASF8:
+ 1985 0268 6C6F6E67 		.ascii	"long long int\000"
+ 1985      206C6F6E 
+ 1985      6720696E 
+ 1985      7400
+ 1986              	.LASF17:
+ 1987 0276 73697A65 		.ascii	"sizetype\000"
+ 1987      74797065 
+ 1987      00
+ 1988              	.LASF45:
+ 1989 027f 6D61696E 		.ascii	"main.c\000"
+ 1989      2E6300
+ 1990              	.LASF15:
+ 1991 0286 63686172 		.ascii	"char\000"
+ 1991      00
+ 1992              	.LASF18:
+ 1993 028b 64656372 		.ascii	"decreaseSpeed\000"
+ 1993      65617365 
+ 1993      53706565 
+ 1993      6400
+ 1994              	.LASF2:
+ 1995 0299 73686F72 		.ascii	"short int\000"
+ 1995      7420696E 
+ 1995      7400
+ 1996              	.LASF6:
+ARM GAS  C:\Users\cendi\AppData\Local\Temp\ccWuoiOU.s 			page 43
+
+
+ 1997 02a3 6C6F6E67 		.ascii	"long int\000"
+ 1997      20696E74 
+ 1997      00
+ 1998              	.LASF40:
+ 1999 02ac 50696E5F 		.ascii	"Pin_LN4_Write\000"
+ 1999      4C4E345F 
+ 1999      57726974 
+ 1999      6500
+ 2000              	.LASF46:
+ 2001 02ba 433A5C55 		.ascii	"C:\\Users\\cendi\\OneDrive\\Dokumenter\\Marcus ting"
+ 2001      73657273 
+ 2001      5C63656E 
+ 2001      64695C4F 
+ 2001      6E654472 
+ 2002 02e8 5C536B6F 		.ascii	"\\Skoleting\\3.Semester\\GFV\\LAB1\\Lab-MotorContro"
+ 2002      6C657469 
+ 2002      6E675C33 
+ 2002      2E53656D 
+ 2002      65737465 
+ 2003 0316 6C2D4772 		.ascii	"l-Group21\\DC-motor\\DC-Motor-PWM.cydsn\000"
+ 2003      6F757032 
+ 2003      315C4443 
+ 2003      2D6D6F74 
+ 2003      6F725C44 
+ 2004              	.LASF0:
+ 2005 033c 7369676E 		.ascii	"signed char\000"
+ 2005      65642063 
+ 2005      68617200 
+ 2006              	.LASF33:
+ 2007 0348 55415254 		.ascii	"UART_1_PutString\000"
+ 2007      5F315F50 
+ 2007      75745374 
+ 2007      72696E67 
+ 2007      00
+ 2008              	.LASF28:
+ 2009 0359 62797465 		.ascii	"byteReceived\000"
+ 2009      52656365 
+ 2009      69766564 
+ 2009      00
+ 2010              	.LASF22:
+ 2011 0366 64726976 		.ascii	"driveRight\000"
+ 2011      65526967 
+ 2011      687400
+ 2012              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

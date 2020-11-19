@@ -1,0 +1,6 @@
+C:\Users\cendi\OneDrive\Dokumenter\Marcus ting\Skoleting\3.Semester\GFV\LAB1\Lab-MotorControl-Group21\DC-motor\DC-Motor-PWM.cydsn\DC-Motor-PWM.cyprj|d3e9f137-7401-4b1f-aa15-c51910bb5c56
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|3d268994-c7a5-4320-97a6-c26c879405cf
+C:\Users\cendi\OneDrive\Dokumenter\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|29bda26a-9a7d-4bd7-9147-2771ee0b3017
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|8d781a97-e773-45c8-842b-eb2ec0590acc
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|b08885e2-eb99-4f95-a2fe-639aacaf96ba
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|cd9e210e-7581-4eb8-b16a-4628a79b5b01

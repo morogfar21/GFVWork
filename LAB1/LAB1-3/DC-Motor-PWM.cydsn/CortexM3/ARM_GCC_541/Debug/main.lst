@@ -1,0 +1,4419 @@
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.isr_timer_handler,"ax",%progbits
+  20              		.align	2
+  21              		.global	isr_timer_handler
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	isr_timer_handler, %function
+  25              	isr_timer_handler:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** 
+  14:main.c        **** CY_ISR_PROTO(ISR_UART_rx_handler);
+  15:main.c        **** CY_ISR_PROTO(isr_timer_handler);
+  16:main.c        **** void handleByteReceived(uint8_t byteReceived);
+  17:main.c        **** void decreaseSpeed(void);
+  18:main.c        **** void increaseSpeed(void);
+  19:main.c        **** void driveForwards(void);
+  20:main.c        **** void driveBackwards(void);
+  21:main.c        **** void oneRotation();
+  22:main.c        **** void stop(void);
+  23:main.c        **** static int speed = 1;
+  24:main.c        **** static int state = 0;
+  25:main.c        **** void wave(void);
+  26:main.c        **** void fullstep(void);
+  27:main.c        **** void halfstep(void);
+  28:main.c        **** void change(void);
+  29:main.c        **** typedef enum
+  30:main.c        **** {
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 2
+
+
+  31:main.c        ****     _0grader,
+  32:main.c        **** 	_45grader,
+  33:main.c        ****     _90grader,
+  34:main.c        ****     _135grader,
+  35:main.c        ****     _180grader,
+  36:main.c        ****     _225grader,
+  37:main.c        ****     _270grader,
+  38:main.c        ****     _315grader
+  39:main.c        **** } POSITION;
+  40:main.c        **** 
+  41:main.c        **** typedef enum
+  42:main.c        **** {
+  43:main.c        **** 	FORWARD,
+  44:main.c        **** 	BACKWARD
+  45:main.c        **** } DIRECTION;
+  46:main.c        **** 
+  47:main.c        **** typedef enum
+  48:main.c        **** {
+  49:main.c        **** 	WAVE,
+  50:main.c        **** 	FULL,
+  51:main.c        ****     HALF
+  52:main.c        **** } MODE;
+  53:main.c        **** 
+  54:main.c        **** static int counter = 0;
+  55:main.c        **** static POSITION position = _0grader;
+  56:main.c        **** static DIRECTION direction = FORWARD;
+  57:main.c        **** static MODE mode = WAVE;
+  58:main.c        **** static int turnOn = 1;
+  59:main.c        **** static int rotate = 0;
+  60:main.c        **** 
+  61:main.c        **** int main(void)
+  62:main.c        **** {
+  63:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  64:main.c        **** 
+  65:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  66:main.c        ****     isr_uart_rx_StartEx(ISR_UART_rx_handler);
+  67:main.c        ****     isr_timer_StartEx(isr_timer_handler);
+  68:main.c        ****     
+  69:main.c        ****     UART_1_Start();
+  70:main.c        ****     PWM_1_Start();
+  71:main.c        ****     Timer_1_Start();
+  72:main.c        ****     
+  73:main.c        ****     
+  74:main.c        ****     UART_1_PutString("DC-Motor-PWM application started\r\n");
+  75:main.c        ****     UART_1_PutString("0: Stop\r\n");
+  76:main.c        ****     UART_1_PutString("1: Drive forwards\r\n");
+  77:main.c        ****     UART_1_PutString("2: Drive backwards\r\n");
+  78:main.c        ****     UART_1_PutString("q: Decrease speed\r\n");
+  79:main.c        ****     UART_1_PutString("w: Increase speed\r\n");
+  80:main.c        ****     
+  81:main.c        ****     UART_1_PutString("6: Wave\r\n");
+  82:main.c        ****     UART_1_PutString("7: fullstep\r\n");
+  83:main.c        ****     UART_1_PutString("8: halfstep\r\n");
+  84:main.c        ****     
+  85:main.c        ****     UART_1_PutString("r: Rotate once\r\n");
+  86:main.c        **** 
+  87:main.c        ****     for(;;)
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 3
+
+
+  88:main.c        ****     {
+  89:main.c        ****         if(rotate) {
+  90:main.c        ****          counter++;
+  91:main.c        ****          if(counter>2000) {
+  92:main.c        ****         turnOn=0;
+  93:main.c        ****         }
+  94:main.c        ****         }
+  95:main.c        ****         if(turnOn) {
+  96:main.c        ****         
+  97:main.c        ****         switch (mode) {
+  98:main.c        ****         case WAVE:
+  99:main.c        ****         {
+ 100:main.c        ****             
+ 101:main.c        ****             switch(direction) {
+ 102:main.c        ****              case FORWARD:
+ 103:main.c        ****                 {
+ 104:main.c        ****                     state++;
+ 105:main.c        ****                     if(state>=4) {
+ 106:main.c        ****                     state=0;
+ 107:main.c        ****                     }
+ 108:main.c        ****                 }
+ 109:main.c        ****             break;
+ 110:main.c        ****              case BACKWARD:
+ 111:main.c        ****                 {
+ 112:main.c        ****                     state--;
+ 113:main.c        ****                     if(state<0) {
+ 114:main.c        ****                     state=3;
+ 115:main.c        ****                     }
+ 116:main.c        ****                 }
+ 117:main.c        ****             break;
+ 118:main.c        ****              default:
+ 119:main.c        ****                 {
+ 120:main.c        ****                     //nothing
+ 121:main.c        ****                 }
+ 122:main.c        ****             break;
+ 123:main.c        ****                 
+ 124:main.c        ****             }
+ 125:main.c        ****             
+ 126:main.c        ****             
+ 127:main.c        ****             
+ 128:main.c        ****             change();
+ 129:main.c        ****             CyDelay(speed);
+ 130:main.c        ****         }
+ 131:main.c        ****         break;
+ 132:main.c        ****         
+ 133:main.c        ****         case FULL:
+ 134:main.c        ****         {
+ 135:main.c        ****             switch(direction) {
+ 136:main.c        ****              case FORWARD:
+ 137:main.c        ****                 {
+ 138:main.c        ****                     state++;
+ 139:main.c        ****                     
+ 140:main.c        ****                     if(state>=4) {
+ 141:main.c        ****                     state=0;
+ 142:main.c        ****                     }
+ 143:main.c        ****                 }
+ 144:main.c        ****             break;
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 4
+
+
+ 145:main.c        ****              case BACKWARD:
+ 146:main.c        ****                 {
+ 147:main.c        ****                     state--;
+ 148:main.c        ****                     if(state<0) {
+ 149:main.c        ****                     state=3;
+ 150:main.c        ****                     }
+ 151:main.c        ****                 }
+ 152:main.c        ****             break;
+ 153:main.c        ****              default:
+ 154:main.c        ****                 {
+ 155:main.c        ****                     //nothing
+ 156:main.c        ****                 }
+ 157:main.c        ****             break;
+ 158:main.c        ****                 
+ 159:main.c        ****             }
+ 160:main.c        ****            
+ 161:main.c        ****             change();
+ 162:main.c        ****             CyDelay(speed);
+ 163:main.c        ****         }
+ 164:main.c        ****         break;
+ 165:main.c        ****         
+ 166:main.c        ****         case HALF:
+ 167:main.c        ****         {
+ 168:main.c        ****             switch(direction) {
+ 169:main.c        ****              case FORWARD:
+ 170:main.c        ****                 {
+ 171:main.c        ****                     state++;
+ 172:main.c        ****                     
+ 173:main.c        ****                     if(state>=8) {
+ 174:main.c        ****                     state=0;
+ 175:main.c        ****                     }
+ 176:main.c        ****                 }
+ 177:main.c        ****             break;
+ 178:main.c        ****              case BACKWARD:
+ 179:main.c        ****                 {
+ 180:main.c        ****                     state--;
+ 181:main.c        ****                     if(state<0) {
+ 182:main.c        ****                     state=7;
+ 183:main.c        ****                     }
+ 184:main.c        ****                 }
+ 185:main.c        ****             break;
+ 186:main.c        ****              default:
+ 187:main.c        ****                 {
+ 188:main.c        ****                     //nothing
+ 189:main.c        ****                 }
+ 190:main.c        ****             break;
+ 191:main.c        ****                 
+ 192:main.c        ****             }
+ 193:main.c        ****             
+ 194:main.c        ****             change();
+ 195:main.c        ****         }
+ 196:main.c        ****         break;
+ 197:main.c        ****         
+ 198:main.c        ****         default:
+ 199:main.c        ****         {
+ 200:main.c        ****             //nothing
+ 201:main.c        ****         }
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 5
+
+
+ 202:main.c        ****         break;
+ 203:main.c        ****     }
+ 204:main.c        ****     //if(state>=8) {
+ 205:main.c        ****     //state=0;
+ 206:main.c        ****     //}
+ 207:main.c        ****         
+ 208:main.c        ****         CyDelay(speed);
+ 209:main.c        ****         /* Place your application code here. */
+ 210:main.c        ****         }
+ 211:main.c        ****     }
+ 212:main.c        **** }
+ 213:main.c        **** 
+ 214:main.c        **** CY_ISR(isr_timer_handler) {
+  28              		.loc 1 214 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 7047     		bx	lr
+  34              		.cfi_endproc
+  35              	.LFE64:
+  36              		.size	isr_timer_handler, .-isr_timer_handler
+  37 0002 00BF     		.section	.text.change,"ax",%progbits
+  38              		.align	2
+  39              		.global	change
+  40              		.thumb
+  41              		.thumb_func
+  42              		.type	change, %function
+  43              	change:
+  44              	.LFB67:
+ 215:main.c        ****     
+ 216:main.c        ****     
+ 217:main.c        ****    
+ 218:main.c        **** }
+ 219:main.c        **** 
+ 220:main.c        **** CY_ISR(ISR_UART_rx_handler)
+ 221:main.c        **** {
+ 222:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+ 223:main.c        ****     while (bytesToRead > 0)
+ 224:main.c        ****     {
+ 225:main.c        ****         uint8_t byteReceived = UART_1_ReadRxData();
+ 226:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+ 227:main.c        ****         
+ 228:main.c        ****         handleByteReceived(byteReceived);
+ 229:main.c        ****         
+ 230:main.c        ****         bytesToRead--;
+ 231:main.c        ****     }
+ 232:main.c        **** }
+ 233:main.c        **** 
+ 234:main.c        **** void handleByteReceived(uint8_t byteReceived)
+ 235:main.c        **** {
+ 236:main.c        ****     switch(byteReceived)
+ 237:main.c        ****     {
+ 238:main.c        ****         case 'q' :
+ 239:main.c        ****         {
+ 240:main.c        ****             decreaseSpeed();
+ 241:main.c        ****         }
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 6
+
+
+ 242:main.c        ****         break;
+ 243:main.c        ****         case 'w' :
+ 244:main.c        ****         {
+ 245:main.c        ****             increaseSpeed();
+ 246:main.c        ****         }
+ 247:main.c        ****         break;
+ 248:main.c        ****         case '1' :
+ 249:main.c        ****         {
+ 250:main.c        ****             driveForwards();
+ 251:main.c        ****         }
+ 252:main.c        ****         break;
+ 253:main.c        ****         case '2' :
+ 254:main.c        ****         {
+ 255:main.c        ****             driveBackwards();
+ 256:main.c        ****         }
+ 257:main.c        ****         break;
+ 258:main.c        ****         case '0' :
+ 259:main.c        ****         {
+ 260:main.c        ****             stop();
+ 261:main.c        ****             
+ 262:main.c        ****         }
+ 263:main.c        ****         break;
+ 264:main.c        ****         
+ 265:main.c        ****         case '6' :
+ 266:main.c        ****         {
+ 267:main.c        ****             wave();
+ 268:main.c        ****             
+ 269:main.c        ****         }
+ 270:main.c        ****         break;
+ 271:main.c        ****         
+ 272:main.c        ****         case '7' :
+ 273:main.c        ****         {
+ 274:main.c        ****             fullstep();
+ 275:main.c        ****             
+ 276:main.c        ****         }
+ 277:main.c        ****         break;
+ 278:main.c        ****         
+ 279:main.c        ****         case '8' :
+ 280:main.c        ****         {
+ 281:main.c        ****             halfstep();
+ 282:main.c        ****             
+ 283:main.c        ****         }
+ 284:main.c        ****         case 'r' :
+ 285:main.c        ****         {
+ 286:main.c        ****             oneRotation();
+ 287:main.c        ****             
+ 288:main.c        ****         }
+ 289:main.c        ****         break;
+ 290:main.c        ****         default :
+ 291:main.c        ****         {
+ 292:main.c        ****             // nothing
+ 293:main.c        ****         }
+ 294:main.c        ****         break;
+ 295:main.c        ****     }
+ 296:main.c        **** }
+ 297:main.c        **** 
+ 298:main.c        **** void change(void) {
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 7
+
+
+  45              		.loc 1 298 0
+  46              		.cfi_startproc
+  47              		@ args = 0, pretend = 0, frame = 0
+  48              		@ frame_needed = 0, uses_anonymous_args = 0
+  49              		.loc 1 298 0
+  50 0000 08B5     		push	{r3, lr}
+  51              		.cfi_def_cfa_offset 8
+  52              		.cfi_offset 3, -8
+  53              		.cfi_offset 14, -4
+ 299:main.c        ****     if(mode==HALF) {
+  54              		.loc 1 299 0
+  55 0002 7A4B     		ldr	r3, .L26
+  56 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  57 0006 022B     		cmp	r3, #2
+  58 0008 70D1     		bne	.L3
+ 300:main.c        ****     switch(state) {
+  59              		.loc 1 300 0
+  60 000a 784B     		ldr	r3, .L26
+  61 000c 5B68     		ldr	r3, [r3, #4]
+  62 000e 072B     		cmp	r3, #7
+  63 0010 6CD8     		bhi	.L3
+  64 0012 DFE803F0 		tbb	[pc, r3]
+  65              	.L5:
+  66 0016 04       		.byte	(.L4-.L5)/2
+  67 0017 11       		.byte	(.L6-.L5)/2
+  68 0018 1E       		.byte	(.L7-.L5)/2
+  69 0019 2B       		.byte	(.L8-.L5)/2
+  70 001a 38       		.byte	(.L9-.L5)/2
+  71 001b 45       		.byte	(.L10-.L5)/2
+  72 001c 52       		.byte	(.L11-.L5)/2
+  73 001d 5F       		.byte	(.L12-.L5)/2
+  74              		.p2align 1
+  75              	.L4:
+ 301:main.c        ****       case 0:
+ 302:main.c        ****         {
+ 303:main.c        ****             Pin_1A_Write(1);
+  76              		.loc 1 303 0
+  77 001e 0120     		movs	r0, #1
+  78 0020 FFF7FEFF 		bl	Pin_1A_Write
+  79              	.LVL0:
+ 304:main.c        ****             Pin_2A_Write(0);
+  80              		.loc 1 304 0
+  81 0024 0020     		movs	r0, #0
+  82 0026 FFF7FEFF 		bl	Pin_2A_Write
+  83              	.LVL1:
+ 305:main.c        ****             Pin_1B_Write(0);
+  84              		.loc 1 305 0
+  85 002a 0020     		movs	r0, #0
+  86 002c FFF7FEFF 		bl	Pin_1B_Write
+  87              	.LVL2:
+ 306:main.c        ****             Pin_2B_Write(0);
+  88              		.loc 1 306 0
+  89 0030 0020     		movs	r0, #0
+  90 0032 FFF7FEFF 		bl	Pin_2B_Write
+  91              	.LVL3:
+ 307:main.c        ****         }
+ 308:main.c        ****         break;
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 8
+
+
+  92              		.loc 1 308 0
+  93 0036 59E0     		b	.L3
+  94              	.L6:
+ 309:main.c        ****       case 1:
+ 310:main.c        ****         {
+ 311:main.c        ****             Pin_1A_Write(1);
+  95              		.loc 1 311 0
+  96 0038 0120     		movs	r0, #1
+  97 003a FFF7FEFF 		bl	Pin_1A_Write
+  98              	.LVL4:
+ 312:main.c        ****             Pin_2A_Write(1);
+  99              		.loc 1 312 0
+ 100 003e 0120     		movs	r0, #1
+ 101 0040 FFF7FEFF 		bl	Pin_2A_Write
+ 102              	.LVL5:
+ 313:main.c        ****             Pin_1B_Write(0);
+ 103              		.loc 1 313 0
+ 104 0044 0020     		movs	r0, #0
+ 105 0046 FFF7FEFF 		bl	Pin_1B_Write
+ 106              	.LVL6:
+ 314:main.c        ****             Pin_2B_Write(0);
+ 107              		.loc 1 314 0
+ 108 004a 0020     		movs	r0, #0
+ 109 004c FFF7FEFF 		bl	Pin_2B_Write
+ 110              	.LVL7:
+ 315:main.c        ****         }
+ 316:main.c        ****       break;
+ 111              		.loc 1 316 0
+ 112 0050 4CE0     		b	.L3
+ 113              	.L7:
+ 317:main.c        ****       case 2:
+ 318:main.c        ****         {
+ 319:main.c        ****             Pin_1A_Write(0);
+ 114              		.loc 1 319 0
+ 115 0052 0020     		movs	r0, #0
+ 116 0054 FFF7FEFF 		bl	Pin_1A_Write
+ 117              	.LVL8:
+ 320:main.c        ****             Pin_2A_Write(1);
+ 118              		.loc 1 320 0
+ 119 0058 0120     		movs	r0, #1
+ 120 005a FFF7FEFF 		bl	Pin_2A_Write
+ 121              	.LVL9:
+ 321:main.c        ****             Pin_1B_Write(0);
+ 122              		.loc 1 321 0
+ 123 005e 0020     		movs	r0, #0
+ 124 0060 FFF7FEFF 		bl	Pin_1B_Write
+ 125              	.LVL10:
+ 322:main.c        ****             Pin_2B_Write(0);
+ 126              		.loc 1 322 0
+ 127 0064 0020     		movs	r0, #0
+ 128 0066 FFF7FEFF 		bl	Pin_2B_Write
+ 129              	.LVL11:
+ 323:main.c        ****         }
+ 324:main.c        ****         break;
+ 130              		.loc 1 324 0
+ 131 006a 3FE0     		b	.L3
+ 132              	.L8:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 9
+
+
+ 325:main.c        ****       case 3:
+ 326:main.c        ****         {
+ 327:main.c        ****             Pin_1A_Write(0);
+ 133              		.loc 1 327 0
+ 134 006c 0020     		movs	r0, #0
+ 135 006e FFF7FEFF 		bl	Pin_1A_Write
+ 136              	.LVL12:
+ 328:main.c        ****             Pin_2A_Write(1);
+ 137              		.loc 1 328 0
+ 138 0072 0120     		movs	r0, #1
+ 139 0074 FFF7FEFF 		bl	Pin_2A_Write
+ 140              	.LVL13:
+ 329:main.c        ****             Pin_1B_Write(1);
+ 141              		.loc 1 329 0
+ 142 0078 0120     		movs	r0, #1
+ 143 007a FFF7FEFF 		bl	Pin_1B_Write
+ 144              	.LVL14:
+ 330:main.c        ****             Pin_2B_Write(0);
+ 145              		.loc 1 330 0
+ 146 007e 0020     		movs	r0, #0
+ 147 0080 FFF7FEFF 		bl	Pin_2B_Write
+ 148              	.LVL15:
+ 331:main.c        ****         }
+ 332:main.c        ****         break;
+ 149              		.loc 1 332 0
+ 150 0084 32E0     		b	.L3
+ 151              	.L9:
+ 333:main.c        ****       case 4:
+ 334:main.c        ****         {
+ 335:main.c        ****             Pin_1A_Write(0);
+ 152              		.loc 1 335 0
+ 153 0086 0020     		movs	r0, #0
+ 154 0088 FFF7FEFF 		bl	Pin_1A_Write
+ 155              	.LVL16:
+ 336:main.c        ****             Pin_2A_Write(0);
+ 156              		.loc 1 336 0
+ 157 008c 0020     		movs	r0, #0
+ 158 008e FFF7FEFF 		bl	Pin_2A_Write
+ 159              	.LVL17:
+ 337:main.c        ****             Pin_1B_Write(1);
+ 160              		.loc 1 337 0
+ 161 0092 0120     		movs	r0, #1
+ 162 0094 FFF7FEFF 		bl	Pin_1B_Write
+ 163              	.LVL18:
+ 338:main.c        ****             Pin_2B_Write(0);
+ 164              		.loc 1 338 0
+ 165 0098 0020     		movs	r0, #0
+ 166 009a FFF7FEFF 		bl	Pin_2B_Write
+ 167              	.LVL19:
+ 339:main.c        ****         }
+ 340:main.c        ****         break;
+ 168              		.loc 1 340 0
+ 169 009e 25E0     		b	.L3
+ 170              	.L10:
+ 341:main.c        ****       case 5:
+ 342:main.c        ****         {
+ 343:main.c        ****             Pin_1A_Write(0);
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 10
+
+
+ 171              		.loc 1 343 0
+ 172 00a0 0020     		movs	r0, #0
+ 173 00a2 FFF7FEFF 		bl	Pin_1A_Write
+ 174              	.LVL20:
+ 344:main.c        ****             Pin_2A_Write(0);
+ 175              		.loc 1 344 0
+ 176 00a6 0020     		movs	r0, #0
+ 177 00a8 FFF7FEFF 		bl	Pin_2A_Write
+ 178              	.LVL21:
+ 345:main.c        ****             Pin_1B_Write(1);
+ 179              		.loc 1 345 0
+ 180 00ac 0120     		movs	r0, #1
+ 181 00ae FFF7FEFF 		bl	Pin_1B_Write
+ 182              	.LVL22:
+ 346:main.c        ****             Pin_2B_Write(1);
+ 183              		.loc 1 346 0
+ 184 00b2 0120     		movs	r0, #1
+ 185 00b4 FFF7FEFF 		bl	Pin_2B_Write
+ 186              	.LVL23:
+ 347:main.c        ****         }
+ 348:main.c        ****         break;
+ 187              		.loc 1 348 0
+ 188 00b8 18E0     		b	.L3
+ 189              	.L11:
+ 349:main.c        ****       case 6:
+ 350:main.c        ****         {
+ 351:main.c        ****             Pin_1A_Write(0);
+ 190              		.loc 1 351 0
+ 191 00ba 0020     		movs	r0, #0
+ 192 00bc FFF7FEFF 		bl	Pin_1A_Write
+ 193              	.LVL24:
+ 352:main.c        ****             Pin_2A_Write(0);
+ 194              		.loc 1 352 0
+ 195 00c0 0020     		movs	r0, #0
+ 196 00c2 FFF7FEFF 		bl	Pin_2A_Write
+ 197              	.LVL25:
+ 353:main.c        ****             Pin_1B_Write(0);
+ 198              		.loc 1 353 0
+ 199 00c6 0020     		movs	r0, #0
+ 200 00c8 FFF7FEFF 		bl	Pin_1B_Write
+ 201              	.LVL26:
+ 354:main.c        ****             Pin_2B_Write(1);
+ 202              		.loc 1 354 0
+ 203 00cc 0120     		movs	r0, #1
+ 204 00ce FFF7FEFF 		bl	Pin_2B_Write
+ 205              	.LVL27:
+ 355:main.c        ****         }
+ 356:main.c        ****         break;
+ 206              		.loc 1 356 0
+ 207 00d2 0BE0     		b	.L3
+ 208              	.L12:
+ 357:main.c        ****       case 7:
+ 358:main.c        ****         {
+ 359:main.c        ****             Pin_1A_Write(1);
+ 209              		.loc 1 359 0
+ 210 00d4 0120     		movs	r0, #1
+ 211 00d6 FFF7FEFF 		bl	Pin_1A_Write
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 11
+
+
+ 212              	.LVL28:
+ 360:main.c        ****             Pin_2A_Write(0);
+ 213              		.loc 1 360 0
+ 214 00da 0020     		movs	r0, #0
+ 215 00dc FFF7FEFF 		bl	Pin_2A_Write
+ 216              	.LVL29:
+ 361:main.c        ****             Pin_1B_Write(0);
+ 217              		.loc 1 361 0
+ 218 00e0 0020     		movs	r0, #0
+ 219 00e2 FFF7FEFF 		bl	Pin_1B_Write
+ 220              	.LVL30:
+ 362:main.c        ****             Pin_2B_Write(1);
+ 221              		.loc 1 362 0
+ 222 00e6 0120     		movs	r0, #1
+ 223 00e8 FFF7FEFF 		bl	Pin_2B_Write
+ 224              	.LVL31:
+ 225              	.L3:
+ 363:main.c        ****         }
+ 364:main.c        ****         break;
+ 365:main.c        ****       default:
+ 366:main.c        ****         {
+ 367:main.c        ****             //nothing
+ 368:main.c        ****         }
+ 369:main.c        ****         break;
+ 370:main.c        ****         
+ 371:main.c        ****     }
+ 372:main.c        ****     }
+ 373:main.c        ****     
+ 374:main.c        ****     if(mode==WAVE) {
+ 226              		.loc 1 374 0
+ 227 00ec 3F4B     		ldr	r3, .L26
+ 228 00ee 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 229 00f0 002B     		cmp	r3, #0
+ 230 00f2 3AD1     		bne	.L13
+ 375:main.c        ****     switch(state) {
+ 231              		.loc 1 375 0
+ 232 00f4 3D4B     		ldr	r3, .L26
+ 233 00f6 5B68     		ldr	r3, [r3, #4]
+ 234 00f8 032B     		cmp	r3, #3
+ 235 00fa 36D8     		bhi	.L13
+ 236 00fc DFE803F0 		tbb	[pc, r3]
+ 237              	.L15:
+ 238 0100 02       		.byte	(.L14-.L15)/2
+ 239 0101 0F       		.byte	(.L16-.L15)/2
+ 240 0102 1C       		.byte	(.L17-.L15)/2
+ 241 0103 29       		.byte	(.L18-.L15)/2
+ 242              		.p2align 1
+ 243              	.L14:
+ 376:main.c        ****         case 0:
+ 377:main.c        ****         {
+ 378:main.c        ****             Pin_1A_Write(1);
+ 244              		.loc 1 378 0
+ 245 0104 0120     		movs	r0, #1
+ 246 0106 FFF7FEFF 		bl	Pin_1A_Write
+ 247              	.LVL32:
+ 379:main.c        ****     Pin_2A_Write(0);
+ 248              		.loc 1 379 0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 12
+
+
+ 249 010a 0020     		movs	r0, #0
+ 250 010c FFF7FEFF 		bl	Pin_2A_Write
+ 251              	.LVL33:
+ 380:main.c        ****     Pin_1B_Write(0);
+ 252              		.loc 1 380 0
+ 253 0110 0020     		movs	r0, #0
+ 254 0112 FFF7FEFF 		bl	Pin_1B_Write
+ 255              	.LVL34:
+ 381:main.c        ****     Pin_2B_Write(0);
+ 256              		.loc 1 381 0
+ 257 0116 0020     		movs	r0, #0
+ 258 0118 FFF7FEFF 		bl	Pin_2B_Write
+ 259              	.LVL35:
+ 382:main.c        ****         }
+ 383:main.c        ****         break;
+ 260              		.loc 1 383 0
+ 261 011c 25E0     		b	.L13
+ 262              	.L16:
+ 384:main.c        ****         case 1:
+ 385:main.c        ****         {
+ 386:main.c        ****             Pin_2A_Write(1);
+ 263              		.loc 1 386 0
+ 264 011e 0120     		movs	r0, #1
+ 265 0120 FFF7FEFF 		bl	Pin_2A_Write
+ 266              	.LVL36:
+ 387:main.c        ****             Pin_1A_Write(0);
+ 267              		.loc 1 387 0
+ 268 0124 0020     		movs	r0, #0
+ 269 0126 FFF7FEFF 		bl	Pin_1A_Write
+ 270              	.LVL37:
+ 388:main.c        ****     Pin_1B_Write(0);
+ 271              		.loc 1 388 0
+ 272 012a 0020     		movs	r0, #0
+ 273 012c FFF7FEFF 		bl	Pin_1B_Write
+ 274              	.LVL38:
+ 389:main.c        ****     Pin_2B_Write(0);
+ 275              		.loc 1 389 0
+ 276 0130 0020     		movs	r0, #0
+ 277 0132 FFF7FEFF 		bl	Pin_2B_Write
+ 278              	.LVL39:
+ 390:main.c        ****         }
+ 391:main.c        ****         break;
+ 279              		.loc 1 391 0
+ 280 0136 18E0     		b	.L13
+ 281              	.L17:
+ 392:main.c        ****         case 2:
+ 393:main.c        ****         {
+ 394:main.c        ****             Pin_1B_Write(1);
+ 282              		.loc 1 394 0
+ 283 0138 0120     		movs	r0, #1
+ 284 013a FFF7FEFF 		bl	Pin_1B_Write
+ 285              	.LVL40:
+ 395:main.c        ****             Pin_1A_Write(0);
+ 286              		.loc 1 395 0
+ 287 013e 0020     		movs	r0, #0
+ 288 0140 FFF7FEFF 		bl	Pin_1A_Write
+ 289              	.LVL41:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 13
+
+
+ 396:main.c        ****     Pin_2A_Write(0);
+ 290              		.loc 1 396 0
+ 291 0144 0020     		movs	r0, #0
+ 292 0146 FFF7FEFF 		bl	Pin_2A_Write
+ 293              	.LVL42:
+ 397:main.c        ****     Pin_2B_Write(0);
+ 294              		.loc 1 397 0
+ 295 014a 0020     		movs	r0, #0
+ 296 014c FFF7FEFF 		bl	Pin_2B_Write
+ 297              	.LVL43:
+ 398:main.c        ****         }
+ 399:main.c        ****         break;
+ 298              		.loc 1 399 0
+ 299 0150 0BE0     		b	.L13
+ 300              	.L18:
+ 400:main.c        ****         case 3:
+ 401:main.c        ****         {
+ 402:main.c        ****             Pin_2B_Write(1);
+ 301              		.loc 1 402 0
+ 302 0152 0120     		movs	r0, #1
+ 303 0154 FFF7FEFF 		bl	Pin_2B_Write
+ 304              	.LVL44:
+ 403:main.c        ****             Pin_1A_Write(0);
+ 305              		.loc 1 403 0
+ 306 0158 0020     		movs	r0, #0
+ 307 015a FFF7FEFF 		bl	Pin_1A_Write
+ 308              	.LVL45:
+ 404:main.c        ****     Pin_2A_Write(0);
+ 309              		.loc 1 404 0
+ 310 015e 0020     		movs	r0, #0
+ 311 0160 FFF7FEFF 		bl	Pin_2A_Write
+ 312              	.LVL46:
+ 405:main.c        ****     Pin_1B_Write(0);
+ 313              		.loc 1 405 0
+ 314 0164 0020     		movs	r0, #0
+ 315 0166 FFF7FEFF 		bl	Pin_1B_Write
+ 316              	.LVL47:
+ 317              	.L13:
+ 406:main.c        ****         }
+ 407:main.c        ****         break;
+ 408:main.c        ****         default :
+ 409:main.c        ****         {
+ 410:main.c        ****             // nothing
+ 411:main.c        ****         }
+ 412:main.c        ****         break;
+ 413:main.c        ****     }
+ 414:main.c        ****     }
+ 415:main.c        ****     
+ 416:main.c        ****     if(mode==FULL) {
+ 318              		.loc 1 416 0
+ 319 016a 204B     		ldr	r3, .L26
+ 320 016c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 321 016e 012B     		cmp	r3, #1
+ 322 0170 3AD1     		bne	.L2
+ 417:main.c        ****         switch(state) {
+ 323              		.loc 1 417 0
+ 324 0172 1E4B     		ldr	r3, .L26
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 14
+
+
+ 325 0174 5B68     		ldr	r3, [r3, #4]
+ 326 0176 032B     		cmp	r3, #3
+ 327 0178 36D8     		bhi	.L2
+ 328 017a DFE803F0 		tbb	[pc, r3]
+ 329              	.L21:
+ 330 017e 02       		.byte	(.L20-.L21)/2
+ 331 017f 0F       		.byte	(.L22-.L21)/2
+ 332 0180 1C       		.byte	(.L23-.L21)/2
+ 333 0181 29       		.byte	(.L24-.L21)/2
+ 334              		.p2align 1
+ 335              	.L20:
+ 418:main.c        ****         case 0:
+ 419:main.c        ****         {
+ 420:main.c        ****             Pin_1A_Write(1);
+ 336              		.loc 1 420 0
+ 337 0182 0120     		movs	r0, #1
+ 338 0184 FFF7FEFF 		bl	Pin_1A_Write
+ 339              	.LVL48:
+ 421:main.c        ****     Pin_2A_Write(0);
+ 340              		.loc 1 421 0
+ 341 0188 0020     		movs	r0, #0
+ 342 018a FFF7FEFF 		bl	Pin_2A_Write
+ 343              	.LVL49:
+ 422:main.c        ****     Pin_1B_Write(0);
+ 344              		.loc 1 422 0
+ 345 018e 0020     		movs	r0, #0
+ 346 0190 FFF7FEFF 		bl	Pin_1B_Write
+ 347              	.LVL50:
+ 423:main.c        ****     Pin_2B_Write(0);
+ 348              		.loc 1 423 0
+ 349 0194 0020     		movs	r0, #0
+ 350 0196 FFF7FEFF 		bl	Pin_2B_Write
+ 351              	.LVL51:
+ 424:main.c        ****         }
+ 425:main.c        ****         break;
+ 352              		.loc 1 425 0
+ 353 019a 08BD     		pop	{r3, pc}
+ 354              	.L22:
+ 426:main.c        ****         case 1:
+ 427:main.c        ****         {
+ 428:main.c        ****             Pin_2A_Write(1);
+ 355              		.loc 1 428 0
+ 356 019c 0120     		movs	r0, #1
+ 357 019e FFF7FEFF 		bl	Pin_2A_Write
+ 358              	.LVL52:
+ 429:main.c        ****             Pin_1A_Write(0);
+ 359              		.loc 1 429 0
+ 360 01a2 0020     		movs	r0, #0
+ 361 01a4 FFF7FEFF 		bl	Pin_1A_Write
+ 362              	.LVL53:
+ 430:main.c        ****     Pin_1B_Write(0);
+ 363              		.loc 1 430 0
+ 364 01a8 0020     		movs	r0, #0
+ 365 01aa FFF7FEFF 		bl	Pin_1B_Write
+ 366              	.LVL54:
+ 431:main.c        ****     Pin_2B_Write(0);
+ 367              		.loc 1 431 0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 15
+
+
+ 368 01ae 0020     		movs	r0, #0
+ 369 01b0 FFF7FEFF 		bl	Pin_2B_Write
+ 370              	.LVL55:
+ 432:main.c        ****         }
+ 433:main.c        ****         break;
+ 371              		.loc 1 433 0
+ 372 01b4 08BD     		pop	{r3, pc}
+ 373              	.L23:
+ 434:main.c        ****         case 2:
+ 435:main.c        ****         {
+ 436:main.c        ****             Pin_1B_Write(1);
+ 374              		.loc 1 436 0
+ 375 01b6 0120     		movs	r0, #1
+ 376 01b8 FFF7FEFF 		bl	Pin_1B_Write
+ 377              	.LVL56:
+ 437:main.c        ****             Pin_1A_Write(0);
+ 378              		.loc 1 437 0
+ 379 01bc 0020     		movs	r0, #0
+ 380 01be FFF7FEFF 		bl	Pin_1A_Write
+ 381              	.LVL57:
+ 438:main.c        ****     Pin_2A_Write(0);
+ 382              		.loc 1 438 0
+ 383 01c2 0020     		movs	r0, #0
+ 384 01c4 FFF7FEFF 		bl	Pin_2A_Write
+ 385              	.LVL58:
+ 439:main.c        ****     Pin_2B_Write(0);
+ 386              		.loc 1 439 0
+ 387 01c8 0020     		movs	r0, #0
+ 388 01ca FFF7FEFF 		bl	Pin_2B_Write
+ 389              	.LVL59:
+ 440:main.c        ****         }
+ 441:main.c        ****         break;
+ 390              		.loc 1 441 0
+ 391 01ce 08BD     		pop	{r3, pc}
+ 392              	.L24:
+ 442:main.c        ****         case 3:
+ 443:main.c        ****         {
+ 444:main.c        ****             Pin_2B_Write(1);
+ 393              		.loc 1 444 0
+ 394 01d0 0120     		movs	r0, #1
+ 395 01d2 FFF7FEFF 		bl	Pin_2B_Write
+ 396              	.LVL60:
+ 445:main.c        ****             Pin_1A_Write(0);
+ 397              		.loc 1 445 0
+ 398 01d6 0020     		movs	r0, #0
+ 399 01d8 FFF7FEFF 		bl	Pin_1A_Write
+ 400              	.LVL61:
+ 446:main.c        ****     Pin_2A_Write(0);
+ 401              		.loc 1 446 0
+ 402 01dc 0020     		movs	r0, #0
+ 403 01de FFF7FEFF 		bl	Pin_2A_Write
+ 404              	.LVL62:
+ 447:main.c        ****     Pin_1B_Write(0);
+ 405              		.loc 1 447 0
+ 406 01e2 0020     		movs	r0, #0
+ 407 01e4 FFF7FEFF 		bl	Pin_1B_Write
+ 408              	.LVL63:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 16
+
+
+ 409              	.L2:
+ 410 01e8 08BD     		pop	{r3, pc}
+ 411              	.L27:
+ 412 01ea 00BF     		.align	2
+ 413              	.L26:
+ 414 01ec 00000000 		.word	.LANCHOR0
+ 415              		.cfi_endproc
+ 416              	.LFE67:
+ 417              		.size	change, .-change
+ 418              		.section	.text.main,"ax",%progbits
+ 419              		.align	2
+ 420              		.global	main
+ 421              		.thumb
+ 422              		.thumb_func
+ 423              		.type	main, %function
+ 424              	main:
+ 425              	.LFB63:
+  62:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 426              		.loc 1 62 0
+ 427              		.cfi_startproc
+ 428              		@ Volatile: function does not return.
+ 429              		@ args = 0, pretend = 0, frame = 0
+ 430              		@ frame_needed = 0, uses_anonymous_args = 0
+ 431 0000 08B5     		push	{r3, lr}
+ 432              		.cfi_def_cfa_offset 8
+ 433              		.cfi_offset 3, -8
+ 434              		.cfi_offset 14, -4
+  63:main.c        **** 
+ 435              		.loc 1 63 0
+ 436              		.syntax unified
+ 437              	@ 63 "main.c" 1
+ 438 0002 62B6     		CPSIE   i
+ 439              	@ 0 "" 2
+  66:main.c        ****     isr_timer_StartEx(isr_timer_handler);
+ 440              		.loc 1 66 0
+ 441              		.thumb
+ 442              		.syntax unified
+ 443 0004 5148     		ldr	r0, .L46
+ 444 0006 FFF7FEFF 		bl	isr_uart_rx_StartEx
+ 445              	.LVL64:
+  67:main.c        ****     
+ 446              		.loc 1 67 0
+ 447 000a 5148     		ldr	r0, .L46+4
+ 448 000c FFF7FEFF 		bl	isr_timer_StartEx
+ 449              	.LVL65:
+  69:main.c        ****     PWM_1_Start();
+ 450              		.loc 1 69 0
+ 451 0010 FFF7FEFF 		bl	UART_1_Start
+ 452              	.LVL66:
+  70:main.c        ****     Timer_1_Start();
+ 453              		.loc 1 70 0
+ 454 0014 FFF7FEFF 		bl	PWM_1_Start
+ 455              	.LVL67:
+  71:main.c        ****     
+ 456              		.loc 1 71 0
+ 457 0018 FFF7FEFF 		bl	Timer_1_Start
+ 458              	.LVL68:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 17
+
+
+  74:main.c        ****     UART_1_PutString("0: Stop\r\n");
+ 459              		.loc 1 74 0
+ 460 001c 4D48     		ldr	r0, .L46+8
+ 461 001e FFF7FEFF 		bl	UART_1_PutString
+ 462              	.LVL69:
+  75:main.c        ****     UART_1_PutString("1: Drive forwards\r\n");
+ 463              		.loc 1 75 0
+ 464 0022 4D48     		ldr	r0, .L46+12
+ 465 0024 FFF7FEFF 		bl	UART_1_PutString
+ 466              	.LVL70:
+  76:main.c        ****     UART_1_PutString("2: Drive backwards\r\n");
+ 467              		.loc 1 76 0
+ 468 0028 4C48     		ldr	r0, .L46+16
+ 469 002a FFF7FEFF 		bl	UART_1_PutString
+ 470              	.LVL71:
+  77:main.c        ****     UART_1_PutString("q: Decrease speed\r\n");
+ 471              		.loc 1 77 0
+ 472 002e 4C48     		ldr	r0, .L46+20
+ 473 0030 FFF7FEFF 		bl	UART_1_PutString
+ 474              	.LVL72:
+  78:main.c        ****     UART_1_PutString("w: Increase speed\r\n");
+ 475              		.loc 1 78 0
+ 476 0034 4B48     		ldr	r0, .L46+24
+ 477 0036 FFF7FEFF 		bl	UART_1_PutString
+ 478              	.LVL73:
+  79:main.c        ****     
+ 479              		.loc 1 79 0
+ 480 003a 4B48     		ldr	r0, .L46+28
+ 481 003c FFF7FEFF 		bl	UART_1_PutString
+ 482              	.LVL74:
+  81:main.c        ****     UART_1_PutString("7: fullstep\r\n");
+ 483              		.loc 1 81 0
+ 484 0040 4A48     		ldr	r0, .L46+32
+ 485 0042 FFF7FEFF 		bl	UART_1_PutString
+ 486              	.LVL75:
+  82:main.c        ****     UART_1_PutString("8: halfstep\r\n");
+ 487              		.loc 1 82 0
+ 488 0046 4A48     		ldr	r0, .L46+36
+ 489 0048 FFF7FEFF 		bl	UART_1_PutString
+ 490              	.LVL76:
+  83:main.c        ****     
+ 491              		.loc 1 83 0
+ 492 004c 4948     		ldr	r0, .L46+40
+ 493 004e FFF7FEFF 		bl	UART_1_PutString
+ 494              	.LVL77:
+  85:main.c        **** 
+ 495              		.loc 1 85 0
+ 496 0052 4948     		ldr	r0, .L46+44
+ 497 0054 FFF7FEFF 		bl	UART_1_PutString
+ 498              	.LVL78:
+ 499              	.L30:
+  89:main.c        ****          counter++;
+ 500              		.loc 1 89 0
+ 501 0058 484B     		ldr	r3, .L46+48
+ 502 005a 9B68     		ldr	r3, [r3, #8]
+ 503 005c 4BB1     		cbz	r3, .L29
+  90:main.c        ****          if(counter>2000) {
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 18
+
+
+ 504              		.loc 1 90 0
+ 505 005e 474A     		ldr	r2, .L46+48
+ 506 0060 D368     		ldr	r3, [r2, #12]
+ 507 0062 0133     		adds	r3, r3, #1
+ 508 0064 D360     		str	r3, [r2, #12]
+  91:main.c        ****         turnOn=0;
+ 509              		.loc 1 91 0
+ 510 0066 B3F5FA6F 		cmp	r3, #2000
+ 511 006a 02DD     		ble	.L29
+  92:main.c        ****         }
+ 512              		.loc 1 92 0
+ 513 006c 0022     		movs	r2, #0
+ 514 006e 444B     		ldr	r3, .L46+52
+ 515 0070 1A60     		str	r2, [r3]
+ 516              	.L29:
+  95:main.c        ****         
+ 517              		.loc 1 95 0
+ 518 0072 434B     		ldr	r3, .L46+52
+ 519 0074 1B68     		ldr	r3, [r3]
+ 520 0076 002B     		cmp	r3, #0
+ 521 0078 EED0     		beq	.L30
+  97:main.c        ****         case WAVE:
+ 522              		.loc 1 97 0
+ 523 007a 404B     		ldr	r3, .L46+48
+ 524 007c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 525 007e 012B     		cmp	r3, #1
+ 526 0080 23D0     		beq	.L32
+ 527 0082 13B1     		cbz	r3, .L33
+ 528 0084 022B     		cmp	r3, #2
+ 529 0086 40D0     		beq	.L34
+ 530 0088 5AE0     		b	.L31
+ 531              	.L33:
+ 101:main.c        ****              case FORWARD:
+ 532              		.loc 1 101 0
+ 533 008a 3C4B     		ldr	r3, .L46+48
+ 534 008c 1B7C     		ldrb	r3, [r3, #16]	@ zero_extendqisi2
+ 535 008e 13B1     		cbz	r3, .L36
+ 536 0090 012B     		cmp	r3, #1
+ 537 0092 0AD0     		beq	.L37
+ 538 0094 12E0     		b	.L35
+ 539              	.L36:
+ 104:main.c        ****                     if(state>=4) {
+ 540              		.loc 1 104 0
+ 541 0096 394A     		ldr	r2, .L46+48
+ 542 0098 5368     		ldr	r3, [r2, #4]
+ 543 009a 0133     		adds	r3, r3, #1
+ 544 009c 5360     		str	r3, [r2, #4]
+ 105:main.c        ****                     state=0;
+ 545              		.loc 1 105 0
+ 546 009e 032B     		cmp	r3, #3
+ 547 00a0 0CDD     		ble	.L35
+ 106:main.c        ****                     }
+ 548              		.loc 1 106 0
+ 549 00a2 0022     		movs	r2, #0
+ 550 00a4 354B     		ldr	r3, .L46+48
+ 551 00a6 5A60     		str	r2, [r3, #4]
+ 552 00a8 08E0     		b	.L35
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 19
+
+
+ 553              	.L37:
+ 112:main.c        ****                     if(state<0) {
+ 554              		.loc 1 112 0
+ 555 00aa 344A     		ldr	r2, .L46+48
+ 556 00ac 5368     		ldr	r3, [r2, #4]
+ 557 00ae 013B     		subs	r3, r3, #1
+ 558 00b0 5360     		str	r3, [r2, #4]
+ 113:main.c        ****                     state=3;
+ 559              		.loc 1 113 0
+ 560 00b2 002B     		cmp	r3, #0
+ 561 00b4 02DA     		bge	.L35
+ 114:main.c        ****                     }
+ 562              		.loc 1 114 0
+ 563 00b6 0322     		movs	r2, #3
+ 564 00b8 304B     		ldr	r3, .L46+48
+ 565 00ba 5A60     		str	r2, [r3, #4]
+ 566              	.L35:
+ 128:main.c        ****             CyDelay(speed);
+ 567              		.loc 1 128 0
+ 568 00bc FFF7FEFF 		bl	change
+ 569              	.LVL79:
+ 129:main.c        ****         }
+ 570              		.loc 1 129 0
+ 571 00c0 2F4B     		ldr	r3, .L46+52
+ 572 00c2 5868     		ldr	r0, [r3, #4]
+ 573 00c4 FFF7FEFF 		bl	CyDelay
+ 574              	.LVL80:
+ 131:main.c        ****         
+ 575              		.loc 1 131 0
+ 576 00c8 3AE0     		b	.L31
+ 577              	.L32:
+ 135:main.c        ****              case FORWARD:
+ 578              		.loc 1 135 0
+ 579 00ca 2C4B     		ldr	r3, .L46+48
+ 580 00cc 1B7C     		ldrb	r3, [r3, #16]	@ zero_extendqisi2
+ 581 00ce 13B1     		cbz	r3, .L39
+ 582 00d0 012B     		cmp	r3, #1
+ 583 00d2 0AD0     		beq	.L40
+ 584 00d4 12E0     		b	.L38
+ 585              	.L39:
+ 138:main.c        ****                     
+ 586              		.loc 1 138 0
+ 587 00d6 294A     		ldr	r2, .L46+48
+ 588 00d8 5368     		ldr	r3, [r2, #4]
+ 589 00da 0133     		adds	r3, r3, #1
+ 590 00dc 5360     		str	r3, [r2, #4]
+ 140:main.c        ****                     state=0;
+ 591              		.loc 1 140 0
+ 592 00de 032B     		cmp	r3, #3
+ 593 00e0 0CDD     		ble	.L38
+ 141:main.c        ****                     }
+ 594              		.loc 1 141 0
+ 595 00e2 0022     		movs	r2, #0
+ 596 00e4 254B     		ldr	r3, .L46+48
+ 597 00e6 5A60     		str	r2, [r3, #4]
+ 598 00e8 08E0     		b	.L38
+ 599              	.L40:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 20
+
+
+ 147:main.c        ****                     if(state<0) {
+ 600              		.loc 1 147 0
+ 601 00ea 244A     		ldr	r2, .L46+48
+ 602 00ec 5368     		ldr	r3, [r2, #4]
+ 603 00ee 013B     		subs	r3, r3, #1
+ 604 00f0 5360     		str	r3, [r2, #4]
+ 148:main.c        ****                     state=3;
+ 605              		.loc 1 148 0
+ 606 00f2 002B     		cmp	r3, #0
+ 607 00f4 02DA     		bge	.L38
+ 149:main.c        ****                     }
+ 608              		.loc 1 149 0
+ 609 00f6 0322     		movs	r2, #3
+ 610 00f8 204B     		ldr	r3, .L46+48
+ 611 00fa 5A60     		str	r2, [r3, #4]
+ 612              	.L38:
+ 161:main.c        ****             CyDelay(speed);
+ 613              		.loc 1 161 0
+ 614 00fc FFF7FEFF 		bl	change
+ 615              	.LVL81:
+ 162:main.c        ****         }
+ 616              		.loc 1 162 0
+ 617 0100 1F4B     		ldr	r3, .L46+52
+ 618 0102 5868     		ldr	r0, [r3, #4]
+ 619 0104 FFF7FEFF 		bl	CyDelay
+ 620              	.LVL82:
+ 164:main.c        ****         
+ 621              		.loc 1 164 0
+ 622 0108 1AE0     		b	.L31
+ 623              	.L34:
+ 168:main.c        ****              case FORWARD:
+ 624              		.loc 1 168 0
+ 625 010a 1C4B     		ldr	r3, .L46+48
+ 626 010c 1B7C     		ldrb	r3, [r3, #16]	@ zero_extendqisi2
+ 627 010e 13B1     		cbz	r3, .L42
+ 628 0110 012B     		cmp	r3, #1
+ 629 0112 0AD0     		beq	.L43
+ 630 0114 12E0     		b	.L41
+ 631              	.L42:
+ 171:main.c        ****                     
+ 632              		.loc 1 171 0
+ 633 0116 194A     		ldr	r2, .L46+48
+ 634 0118 5368     		ldr	r3, [r2, #4]
+ 635 011a 0133     		adds	r3, r3, #1
+ 636 011c 5360     		str	r3, [r2, #4]
+ 173:main.c        ****                     state=0;
+ 637              		.loc 1 173 0
+ 638 011e 072B     		cmp	r3, #7
+ 639 0120 0CDD     		ble	.L41
+ 174:main.c        ****                     }
+ 640              		.loc 1 174 0
+ 641 0122 0022     		movs	r2, #0
+ 642 0124 154B     		ldr	r3, .L46+48
+ 643 0126 5A60     		str	r2, [r3, #4]
+ 644 0128 08E0     		b	.L41
+ 645              	.L43:
+ 180:main.c        ****                     if(state<0) {
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 21
+
+
+ 646              		.loc 1 180 0
+ 647 012a 144A     		ldr	r2, .L46+48
+ 648 012c 5368     		ldr	r3, [r2, #4]
+ 649 012e 013B     		subs	r3, r3, #1
+ 650 0130 5360     		str	r3, [r2, #4]
+ 181:main.c        ****                     state=7;
+ 651              		.loc 1 181 0
+ 652 0132 002B     		cmp	r3, #0
+ 653 0134 02DA     		bge	.L41
+ 182:main.c        ****                     }
+ 654              		.loc 1 182 0
+ 655 0136 0722     		movs	r2, #7
+ 656 0138 104B     		ldr	r3, .L46+48
+ 657 013a 5A60     		str	r2, [r3, #4]
+ 658              	.L41:
+ 194:main.c        ****         }
+ 659              		.loc 1 194 0
+ 660 013c FFF7FEFF 		bl	change
+ 661              	.LVL83:
+ 662              	.L31:
+ 208:main.c        ****         /* Place your application code here. */
+ 663              		.loc 1 208 0
+ 664 0140 0F4B     		ldr	r3, .L46+52
+ 665 0142 5868     		ldr	r0, [r3, #4]
+ 666 0144 FFF7FEFF 		bl	CyDelay
+ 667              	.LVL84:
+ 668 0148 86E7     		b	.L30
+ 669              	.L47:
+ 670 014a 00BF     		.align	2
+ 671              	.L46:
+ 672 014c 00000000 		.word	ISR_UART_rx_handler
+ 673 0150 00000000 		.word	isr_timer_handler
+ 674 0154 00000000 		.word	.LC0
+ 675 0158 24000000 		.word	.LC1
+ 676 015c 30000000 		.word	.LC2
+ 677 0160 44000000 		.word	.LC3
+ 678 0164 5C000000 		.word	.LC4
+ 679 0168 70000000 		.word	.LC5
+ 680 016c 84000000 		.word	.LC6
+ 681 0170 90000000 		.word	.LC7
+ 682 0174 A0000000 		.word	.LC8
+ 683 0178 B0000000 		.word	.LC9
+ 684 017c 00000000 		.word	.LANCHOR0
+ 685 0180 00000000 		.word	.LANCHOR1
+ 686              		.cfi_endproc
+ 687              	.LFE63:
+ 688              		.size	main, .-main
+ 689              		.section	.text.decreaseSpeed,"ax",%progbits
+ 690              		.align	2
+ 691              		.global	decreaseSpeed
+ 692              		.thumb
+ 693              		.thumb_func
+ 694              		.type	decreaseSpeed, %function
+ 695              	decreaseSpeed:
+ 696              	.LFB68:
+ 448:main.c        ****         }
+ 449:main.c        ****         break;
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 22
+
+
+ 450:main.c        ****         default :
+ 451:main.c        ****         {
+ 452:main.c        ****             // nothing
+ 453:main.c        ****         }
+ 454:main.c        ****         break;
+ 455:main.c        ****     }
+ 456:main.c        ****     }
+ 457:main.c        **** }
+ 458:main.c        **** void decreaseSpeed()
+ 459:main.c        **** {
+ 697              		.loc 1 459 0
+ 698              		.cfi_startproc
+ 699              		@ args = 0, pretend = 0, frame = 0
+ 700              		@ frame_needed = 0, uses_anonymous_args = 0
+ 701 0000 08B5     		push	{r3, lr}
+ 702              		.cfi_def_cfa_offset 8
+ 703              		.cfi_offset 3, -8
+ 704              		.cfi_offset 14, -4
+ 460:main.c        ****     UART_1_PutString("Increasing speed\r\n");
+ 705              		.loc 1 460 0
+ 706 0002 0548     		ldr	r0, .L51
+ 707 0004 FFF7FEFF 		bl	UART_1_PutString
+ 708              	.LVL85:
+ 461:main.c        ****     if(speed<20) {
+ 709              		.loc 1 461 0
+ 710 0008 044B     		ldr	r3, .L51+4
+ 711 000a 5B68     		ldr	r3, [r3, #4]
+ 712 000c 132B     		cmp	r3, #19
+ 713 000e 02DC     		bgt	.L48
+ 462:main.c        ****     speed+=1;
+ 714              		.loc 1 462 0
+ 715 0010 0133     		adds	r3, r3, #1
+ 716 0012 024A     		ldr	r2, .L51+4
+ 717 0014 5360     		str	r3, [r2, #4]
+ 718              	.L48:
+ 719 0016 08BD     		pop	{r3, pc}
+ 720              	.L52:
+ 721              		.align	2
+ 722              	.L51:
+ 723 0018 C4000000 		.word	.LC10
+ 724 001c 00000000 		.word	.LANCHOR1
+ 725              		.cfi_endproc
+ 726              	.LFE68:
+ 727              		.size	decreaseSpeed, .-decreaseSpeed
+ 728              		.section	.text.increaseSpeed,"ax",%progbits
+ 729              		.align	2
+ 730              		.global	increaseSpeed
+ 731              		.thumb
+ 732              		.thumb_func
+ 733              		.type	increaseSpeed, %function
+ 734              	increaseSpeed:
+ 735              	.LFB69:
+ 463:main.c        ****     }
+ 464:main.c        ****     
+ 465:main.c        ****     
+ 466:main.c        **** }
+ 467:main.c        **** 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 23
+
+
+ 468:main.c        **** void increaseSpeed()
+ 469:main.c        **** {
+ 736              		.loc 1 469 0
+ 737              		.cfi_startproc
+ 738              		@ args = 0, pretend = 0, frame = 0
+ 739              		@ frame_needed = 0, uses_anonymous_args = 0
+ 740 0000 08B5     		push	{r3, lr}
+ 741              		.cfi_def_cfa_offset 8
+ 742              		.cfi_offset 3, -8
+ 743              		.cfi_offset 14, -4
+ 470:main.c        ****     UART_1_PutString("Decreasing speed\r\n");
+ 744              		.loc 1 470 0
+ 745 0002 0548     		ldr	r0, .L56
+ 746 0004 FFF7FEFF 		bl	UART_1_PutString
+ 747              	.LVL86:
+ 471:main.c        ****     if(speed>1) {
+ 748              		.loc 1 471 0
+ 749 0008 044B     		ldr	r3, .L56+4
+ 750 000a 5B68     		ldr	r3, [r3, #4]
+ 751 000c 012B     		cmp	r3, #1
+ 752 000e 02DD     		ble	.L53
+ 472:main.c        ****     speed-=1;
+ 753              		.loc 1 472 0
+ 754 0010 013B     		subs	r3, r3, #1
+ 755 0012 024A     		ldr	r2, .L56+4
+ 756 0014 5360     		str	r3, [r2, #4]
+ 757              	.L53:
+ 758 0016 08BD     		pop	{r3, pc}
+ 759              	.L57:
+ 760              		.align	2
+ 761              	.L56:
+ 762 0018 D8000000 		.word	.LC11
+ 763 001c 00000000 		.word	.LANCHOR1
+ 764              		.cfi_endproc
+ 765              	.LFE69:
+ 766              		.size	increaseSpeed, .-increaseSpeed
+ 767              		.section	.text.driveForwards,"ax",%progbits
+ 768              		.align	2
+ 769              		.global	driveForwards
+ 770              		.thumb
+ 771              		.thumb_func
+ 772              		.type	driveForwards, %function
+ 773              	driveForwards:
+ 774              	.LFB70:
+ 473:main.c        ****     }
+ 474:main.c        ****     //UART_1_PutString("mere\r\n");
+ 475:main.c        ****     
+ 476:main.c        ****     
+ 477:main.c        **** }
+ 478:main.c        **** 
+ 479:main.c        **** void driveForwards()
+ 480:main.c        **** {
+ 775              		.loc 1 480 0
+ 776              		.cfi_startproc
+ 777              		@ args = 0, pretend = 0, frame = 0
+ 778              		@ frame_needed = 0, uses_anonymous_args = 0
+ 779 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 24
+
+
+ 780              		.cfi_def_cfa_offset 8
+ 781              		.cfi_offset 3, -8
+ 782              		.cfi_offset 14, -4
+ 481:main.c        ****     UART_1_PutString("Set direction: forwards\r\n");
+ 783              		.loc 1 481 0
+ 784 0002 0348     		ldr	r0, .L60
+ 785 0004 FFF7FEFF 		bl	UART_1_PutString
+ 786              	.LVL87:
+ 482:main.c        ****     direction = FORWARD;
+ 787              		.loc 1 482 0
+ 788 0008 0022     		movs	r2, #0
+ 789 000a 024B     		ldr	r3, .L60+4
+ 790 000c 1A74     		strb	r2, [r3, #16]
+ 791 000e 08BD     		pop	{r3, pc}
+ 792              	.L61:
+ 793              		.align	2
+ 794              	.L60:
+ 795 0010 EC000000 		.word	.LC12
+ 796 0014 00000000 		.word	.LANCHOR0
+ 797              		.cfi_endproc
+ 798              	.LFE70:
+ 799              		.size	driveForwards, .-driveForwards
+ 800              		.section	.text.driveBackwards,"ax",%progbits
+ 801              		.align	2
+ 802              		.global	driveBackwards
+ 803              		.thumb
+ 804              		.thumb_func
+ 805              		.type	driveBackwards, %function
+ 806              	driveBackwards:
+ 807              	.LFB71:
+ 483:main.c        ****     
+ 484:main.c        **** }
+ 485:main.c        **** 
+ 486:main.c        **** void driveBackwards()
+ 487:main.c        **** {
+ 808              		.loc 1 487 0
+ 809              		.cfi_startproc
+ 810              		@ args = 0, pretend = 0, frame = 0
+ 811              		@ frame_needed = 0, uses_anonymous_args = 0
+ 812 0000 08B5     		push	{r3, lr}
+ 813              		.cfi_def_cfa_offset 8
+ 814              		.cfi_offset 3, -8
+ 815              		.cfi_offset 14, -4
+ 488:main.c        ****     UART_1_PutString("Set direction: backwards\r\n");
+ 816              		.loc 1 488 0
+ 817 0002 0348     		ldr	r0, .L64
+ 818 0004 FFF7FEFF 		bl	UART_1_PutString
+ 819              	.LVL88:
+ 489:main.c        ****     direction = BACKWARD;
+ 820              		.loc 1 489 0
+ 821 0008 0122     		movs	r2, #1
+ 822 000a 024B     		ldr	r3, .L64+4
+ 823 000c 1A74     		strb	r2, [r3, #16]
+ 824 000e 08BD     		pop	{r3, pc}
+ 825              	.L65:
+ 826              		.align	2
+ 827              	.L64:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 25
+
+
+ 828 0010 08010000 		.word	.LC13
+ 829 0014 00000000 		.word	.LANCHOR0
+ 830              		.cfi_endproc
+ 831              	.LFE71:
+ 832              		.size	driveBackwards, .-driveBackwards
+ 833              		.section	.text.stop,"ax",%progbits
+ 834              		.align	2
+ 835              		.global	stop
+ 836              		.thumb
+ 837              		.thumb_func
+ 838              		.type	stop, %function
+ 839              	stop:
+ 840              	.LFB72:
+ 490:main.c        **** }
+ 491:main.c        **** 
+ 492:main.c        **** void stop()
+ 493:main.c        **** {
+ 841              		.loc 1 493 0
+ 842              		.cfi_startproc
+ 843              		@ args = 0, pretend = 0, frame = 0
+ 844              		@ frame_needed = 0, uses_anonymous_args = 0
+ 845 0000 08B5     		push	{r3, lr}
+ 846              		.cfi_def_cfa_offset 8
+ 847              		.cfi_offset 3, -8
+ 848              		.cfi_offset 14, -4
+ 494:main.c        ****     UART_1_PutString("Stop\r\n");
+ 849              		.loc 1 494 0
+ 850 0002 0348     		ldr	r0, .L68
+ 851 0004 FFF7FEFF 		bl	UART_1_PutString
+ 852              	.LVL89:
+ 495:main.c        ****     turnOn=0;
+ 853              		.loc 1 495 0
+ 854 0008 0022     		movs	r2, #0
+ 855 000a 024B     		ldr	r3, .L68+4
+ 856 000c 1A60     		str	r2, [r3]
+ 857 000e 08BD     		pop	{r3, pc}
+ 858              	.L69:
+ 859              		.align	2
+ 860              	.L68:
+ 861 0010 24010000 		.word	.LC14
+ 862 0014 00000000 		.word	.LANCHOR1
+ 863              		.cfi_endproc
+ 864              	.LFE72:
+ 865              		.size	stop, .-stop
+ 866              		.section	.text.oneRotation,"ax",%progbits
+ 867              		.align	2
+ 868              		.global	oneRotation
+ 869              		.thumb
+ 870              		.thumb_func
+ 871              		.type	oneRotation, %function
+ 872              	oneRotation:
+ 873              	.LFB73:
+ 496:main.c        **** }
+ 497:main.c        **** 
+ 498:main.c        **** void oneRotation()
+ 499:main.c        **** {
+ 874              		.loc 1 499 0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 26
+
+
+ 875              		.cfi_startproc
+ 876              		@ args = 0, pretend = 0, frame = 0
+ 877              		@ frame_needed = 0, uses_anonymous_args = 0
+ 878 0000 08B5     		push	{r3, lr}
+ 879              		.cfi_def_cfa_offset 8
+ 880              		.cfi_offset 3, -8
+ 881              		.cfi_offset 14, -4
+ 500:main.c        ****     UART_1_PutString("Rotate one time\r\n");
+ 882              		.loc 1 500 0
+ 883 0002 0548     		ldr	r0, .L72
+ 884 0004 FFF7FEFF 		bl	UART_1_PutString
+ 885              	.LVL90:
+ 501:main.c        ****     turnOn=1;
+ 886              		.loc 1 501 0
+ 887 0008 0122     		movs	r2, #1
+ 888 000a 044B     		ldr	r3, .L72+4
+ 889 000c 1A60     		str	r2, [r3]
+ 502:main.c        ****     counter=0;
+ 890              		.loc 1 502 0
+ 891 000e 044B     		ldr	r3, .L72+8
+ 892 0010 0021     		movs	r1, #0
+ 893 0012 D960     		str	r1, [r3, #12]
+ 503:main.c        ****     rotate=1;
+ 894              		.loc 1 503 0
+ 895 0014 9A60     		str	r2, [r3, #8]
+ 896 0016 08BD     		pop	{r3, pc}
+ 897              	.L73:
+ 898              		.align	2
+ 899              	.L72:
+ 900 0018 2C010000 		.word	.LC15
+ 901 001c 00000000 		.word	.LANCHOR1
+ 902 0020 00000000 		.word	.LANCHOR0
+ 903              		.cfi_endproc
+ 904              	.LFE73:
+ 905              		.size	oneRotation, .-oneRotation
+ 906              		.section	.text.wave,"ax",%progbits
+ 907              		.align	2
+ 908              		.global	wave
+ 909              		.thumb
+ 910              		.thumb_func
+ 911              		.type	wave, %function
+ 912              	wave:
+ 913              	.LFB74:
+ 504:main.c        **** }
+ 505:main.c        **** 
+ 506:main.c        **** void wave(void) {
+ 914              		.loc 1 506 0
+ 915              		.cfi_startproc
+ 916              		@ args = 0, pretend = 0, frame = 0
+ 917              		@ frame_needed = 0, uses_anonymous_args = 0
+ 918 0000 08B5     		push	{r3, lr}
+ 919              		.cfi_def_cfa_offset 8
+ 920              		.cfi_offset 3, -8
+ 921              		.cfi_offset 14, -4
+ 507:main.c        ****     UART_1_PutString("Wave\r\n");
+ 922              		.loc 1 507 0
+ 923 0002 0448     		ldr	r0, .L76
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 27
+
+
+ 924 0004 FFF7FEFF 		bl	UART_1_PutString
+ 925              	.LVL91:
+ 508:main.c        ****     state = 0;
+ 926              		.loc 1 508 0
+ 927 0008 034B     		ldr	r3, .L76+4
+ 928 000a 0022     		movs	r2, #0
+ 929 000c 5A60     		str	r2, [r3, #4]
+ 509:main.c        ****     mode = WAVE;
+ 930              		.loc 1 509 0
+ 931 000e 1A70     		strb	r2, [r3]
+ 932 0010 08BD     		pop	{r3, pc}
+ 933              	.L77:
+ 934 0012 00BF     		.align	2
+ 935              	.L76:
+ 936 0014 40010000 		.word	.LC16
+ 937 0018 00000000 		.word	.LANCHOR0
+ 938              		.cfi_endproc
+ 939              	.LFE74:
+ 940              		.size	wave, .-wave
+ 941              		.section	.text.fullstep,"ax",%progbits
+ 942              		.align	2
+ 943              		.global	fullstep
+ 944              		.thumb
+ 945              		.thumb_func
+ 946              		.type	fullstep, %function
+ 947              	fullstep:
+ 948              	.LFB75:
+ 510:main.c        **** }
+ 511:main.c        **** void fullstep(void) {
+ 949              		.loc 1 511 0
+ 950              		.cfi_startproc
+ 951              		@ args = 0, pretend = 0, frame = 0
+ 952              		@ frame_needed = 0, uses_anonymous_args = 0
+ 953 0000 08B5     		push	{r3, lr}
+ 954              		.cfi_def_cfa_offset 8
+ 955              		.cfi_offset 3, -8
+ 956              		.cfi_offset 14, -4
+ 512:main.c        ****     UART_1_PutString("Fullstep\r\n");
+ 957              		.loc 1 512 0
+ 958 0002 0448     		ldr	r0, .L80
+ 959 0004 FFF7FEFF 		bl	UART_1_PutString
+ 960              	.LVL92:
+ 513:main.c        ****     state=1;
+ 961              		.loc 1 513 0
+ 962 0008 034B     		ldr	r3, .L80+4
+ 963 000a 0122     		movs	r2, #1
+ 964 000c 5A60     		str	r2, [r3, #4]
+ 514:main.c        ****     mode = FULL;
+ 965              		.loc 1 514 0
+ 966 000e 1A70     		strb	r2, [r3]
+ 967 0010 08BD     		pop	{r3, pc}
+ 968              	.L81:
+ 969 0012 00BF     		.align	2
+ 970              	.L80:
+ 971 0014 48010000 		.word	.LC17
+ 972 0018 00000000 		.word	.LANCHOR0
+ 973              		.cfi_endproc
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 28
+
+
+ 974              	.LFE75:
+ 975              		.size	fullstep, .-fullstep
+ 976              		.section	.text.halfstep,"ax",%progbits
+ 977              		.align	2
+ 978              		.global	halfstep
+ 979              		.thumb
+ 980              		.thumb_func
+ 981              		.type	halfstep, %function
+ 982              	halfstep:
+ 983              	.LFB76:
+ 515:main.c        **** }
+ 516:main.c        **** void halfstep(void) {
+ 984              		.loc 1 516 0
+ 985              		.cfi_startproc
+ 986              		@ args = 0, pretend = 0, frame = 0
+ 987              		@ frame_needed = 0, uses_anonymous_args = 0
+ 988 0000 08B5     		push	{r3, lr}
+ 989              		.cfi_def_cfa_offset 8
+ 990              		.cfi_offset 3, -8
+ 991              		.cfi_offset 14, -4
+ 517:main.c        ****     UART_1_PutString("Halfstep\r\n");
+ 992              		.loc 1 517 0
+ 993 0002 0448     		ldr	r0, .L84
+ 994 0004 FFF7FEFF 		bl	UART_1_PutString
+ 995              	.LVL93:
+ 518:main.c        ****     state=0;
+ 996              		.loc 1 518 0
+ 997 0008 034B     		ldr	r3, .L84+4
+ 998 000a 0022     		movs	r2, #0
+ 999 000c 5A60     		str	r2, [r3, #4]
+ 519:main.c        ****     mode = HALF;
+ 1000              		.loc 1 519 0
+ 1001 000e 0222     		movs	r2, #2
+ 1002 0010 1A70     		strb	r2, [r3]
+ 1003 0012 08BD     		pop	{r3, pc}
+ 1004              	.L85:
+ 1005              		.align	2
+ 1006              	.L84:
+ 1007 0014 54010000 		.word	.LC18
+ 1008 0018 00000000 		.word	.LANCHOR0
+ 1009              		.cfi_endproc
+ 1010              	.LFE76:
+ 1011              		.size	halfstep, .-halfstep
+ 1012              		.section	.text.handleByteReceived,"ax",%progbits
+ 1013              		.align	2
+ 1014              		.global	handleByteReceived
+ 1015              		.thumb
+ 1016              		.thumb_func
+ 1017              		.type	handleByteReceived, %function
+ 1018              	handleByteReceived:
+ 1019              	.LFB66:
+ 235:main.c        ****     switch(byteReceived)
+ 1020              		.loc 1 235 0
+ 1021              		.cfi_startproc
+ 1022              		@ args = 0, pretend = 0, frame = 0
+ 1023              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1024              	.LVL94:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 29
+
+
+ 1025 0000 08B5     		push	{r3, lr}
+ 1026              		.cfi_def_cfa_offset 8
+ 1027              		.cfi_offset 3, -8
+ 1028              		.cfi_offset 14, -4
+ 236:main.c        ****     {
+ 1029              		.loc 1 236 0
+ 1030 0002 3038     		subs	r0, r0, #48
+ 1031              	.LVL95:
+ 1032 0004 4728     		cmp	r0, #71
+ 1033 0006 3ED8     		bhi	.L86
+ 1034 0008 DFE800F0 		tbb	[pc, r0]
+ 1035              	.L89:
+ 1036 000c 30       		.byte	(.L88-.L89)/2
+ 1037 000d 2A       		.byte	(.L90-.L89)/2
+ 1038 000e 2D       		.byte	(.L91-.L89)/2
+ 1039 000f 3D       		.byte	(.L86-.L89)/2
+ 1040 0010 3D       		.byte	(.L86-.L89)/2
+ 1041 0011 3D       		.byte	(.L86-.L89)/2
+ 1042 0012 33       		.byte	(.L92-.L89)/2
+ 1043 0013 36       		.byte	(.L93-.L89)/2
+ 1044 0014 39       		.byte	(.L94-.L89)/2
+ 1045 0015 3D       		.byte	(.L86-.L89)/2
+ 1046 0016 3D       		.byte	(.L86-.L89)/2
+ 1047 0017 3D       		.byte	(.L86-.L89)/2
+ 1048 0018 3D       		.byte	(.L86-.L89)/2
+ 1049 0019 3D       		.byte	(.L86-.L89)/2
+ 1050 001a 3D       		.byte	(.L86-.L89)/2
+ 1051 001b 3D       		.byte	(.L86-.L89)/2
+ 1052 001c 3D       		.byte	(.L86-.L89)/2
+ 1053 001d 3D       		.byte	(.L86-.L89)/2
+ 1054 001e 3D       		.byte	(.L86-.L89)/2
+ 1055 001f 3D       		.byte	(.L86-.L89)/2
+ 1056 0020 3D       		.byte	(.L86-.L89)/2
+ 1057 0021 3D       		.byte	(.L86-.L89)/2
+ 1058 0022 3D       		.byte	(.L86-.L89)/2
+ 1059 0023 3D       		.byte	(.L86-.L89)/2
+ 1060 0024 3D       		.byte	(.L86-.L89)/2
+ 1061 0025 3D       		.byte	(.L86-.L89)/2
+ 1062 0026 3D       		.byte	(.L86-.L89)/2
+ 1063 0027 3D       		.byte	(.L86-.L89)/2
+ 1064 0028 3D       		.byte	(.L86-.L89)/2
+ 1065 0029 3D       		.byte	(.L86-.L89)/2
+ 1066 002a 3D       		.byte	(.L86-.L89)/2
+ 1067 002b 3D       		.byte	(.L86-.L89)/2
+ 1068 002c 3D       		.byte	(.L86-.L89)/2
+ 1069 002d 3D       		.byte	(.L86-.L89)/2
+ 1070 002e 3D       		.byte	(.L86-.L89)/2
+ 1071 002f 3D       		.byte	(.L86-.L89)/2
+ 1072 0030 3D       		.byte	(.L86-.L89)/2
+ 1073 0031 3D       		.byte	(.L86-.L89)/2
+ 1074 0032 3D       		.byte	(.L86-.L89)/2
+ 1075 0033 3D       		.byte	(.L86-.L89)/2
+ 1076 0034 3D       		.byte	(.L86-.L89)/2
+ 1077 0035 3D       		.byte	(.L86-.L89)/2
+ 1078 0036 3D       		.byte	(.L86-.L89)/2
+ 1079 0037 3D       		.byte	(.L86-.L89)/2
+ 1080 0038 3D       		.byte	(.L86-.L89)/2
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 30
+
+
+ 1081 0039 3D       		.byte	(.L86-.L89)/2
+ 1082 003a 3D       		.byte	(.L86-.L89)/2
+ 1083 003b 3D       		.byte	(.L86-.L89)/2
+ 1084 003c 3D       		.byte	(.L86-.L89)/2
+ 1085 003d 3D       		.byte	(.L86-.L89)/2
+ 1086 003e 3D       		.byte	(.L86-.L89)/2
+ 1087 003f 3D       		.byte	(.L86-.L89)/2
+ 1088 0040 3D       		.byte	(.L86-.L89)/2
+ 1089 0041 3D       		.byte	(.L86-.L89)/2
+ 1090 0042 3D       		.byte	(.L86-.L89)/2
+ 1091 0043 3D       		.byte	(.L86-.L89)/2
+ 1092 0044 3D       		.byte	(.L86-.L89)/2
+ 1093 0045 3D       		.byte	(.L86-.L89)/2
+ 1094 0046 3D       		.byte	(.L86-.L89)/2
+ 1095 0047 3D       		.byte	(.L86-.L89)/2
+ 1096 0048 3D       		.byte	(.L86-.L89)/2
+ 1097 0049 3D       		.byte	(.L86-.L89)/2
+ 1098 004a 3D       		.byte	(.L86-.L89)/2
+ 1099 004b 3D       		.byte	(.L86-.L89)/2
+ 1100 004c 3D       		.byte	(.L86-.L89)/2
+ 1101 004d 24       		.byte	(.L95-.L89)/2
+ 1102 004e 3B       		.byte	(.L96-.L89)/2
+ 1103 004f 3D       		.byte	(.L86-.L89)/2
+ 1104 0050 3D       		.byte	(.L86-.L89)/2
+ 1105 0051 3D       		.byte	(.L86-.L89)/2
+ 1106 0052 3D       		.byte	(.L86-.L89)/2
+ 1107 0053 27       		.byte	(.L97-.L89)/2
+ 1108              		.p2align 1
+ 1109              	.L95:
+ 240:main.c        ****         }
+ 1110              		.loc 1 240 0
+ 1111 0054 FFF7FEFF 		bl	decreaseSpeed
+ 1112              	.LVL96:
+ 242:main.c        ****         case 'w' :
+ 1113              		.loc 1 242 0
+ 1114 0058 08BD     		pop	{r3, pc}
+ 1115              	.L97:
+ 245:main.c        ****         }
+ 1116              		.loc 1 245 0
+ 1117 005a FFF7FEFF 		bl	increaseSpeed
+ 1118              	.LVL97:
+ 247:main.c        ****         case '1' :
+ 1119              		.loc 1 247 0
+ 1120 005e 08BD     		pop	{r3, pc}
+ 1121              	.L90:
+ 250:main.c        ****         }
+ 1122              		.loc 1 250 0
+ 1123 0060 FFF7FEFF 		bl	driveForwards
+ 1124              	.LVL98:
+ 252:main.c        ****         case '2' :
+ 1125              		.loc 1 252 0
+ 1126 0064 08BD     		pop	{r3, pc}
+ 1127              	.L91:
+ 255:main.c        ****         }
+ 1128              		.loc 1 255 0
+ 1129 0066 FFF7FEFF 		bl	driveBackwards
+ 1130              	.LVL99:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 31
+
+
+ 257:main.c        ****         case '0' :
+ 1131              		.loc 1 257 0
+ 1132 006a 08BD     		pop	{r3, pc}
+ 1133              	.L88:
+ 260:main.c        ****             
+ 1134              		.loc 1 260 0
+ 1135 006c FFF7FEFF 		bl	stop
+ 1136              	.LVL100:
+ 263:main.c        ****         
+ 1137              		.loc 1 263 0
+ 1138 0070 08BD     		pop	{r3, pc}
+ 1139              	.L92:
+ 267:main.c        ****             
+ 1140              		.loc 1 267 0
+ 1141 0072 FFF7FEFF 		bl	wave
+ 1142              	.LVL101:
+ 270:main.c        ****         
+ 1143              		.loc 1 270 0
+ 1144 0076 08BD     		pop	{r3, pc}
+ 1145              	.L93:
+ 274:main.c        ****             
+ 1146              		.loc 1 274 0
+ 1147 0078 FFF7FEFF 		bl	fullstep
+ 1148              	.LVL102:
+ 277:main.c        ****         
+ 1149              		.loc 1 277 0
+ 1150 007c 08BD     		pop	{r3, pc}
+ 1151              	.L94:
+ 281:main.c        ****             
+ 1152              		.loc 1 281 0
+ 1153 007e FFF7FEFF 		bl	halfstep
+ 1154              	.LVL103:
+ 1155              	.L96:
+ 286:main.c        ****             
+ 1156              		.loc 1 286 0
+ 1157 0082 FFF7FEFF 		bl	oneRotation
+ 1158              	.LVL104:
+ 1159              	.L86:
+ 1160 0086 08BD     		pop	{r3, pc}
+ 1161              		.cfi_endproc
+ 1162              	.LFE66:
+ 1163              		.size	handleByteReceived, .-handleByteReceived
+ 1164              		.section	.text.ISR_UART_rx_handler,"ax",%progbits
+ 1165              		.align	2
+ 1166              		.global	ISR_UART_rx_handler
+ 1167              		.thumb
+ 1168              		.thumb_func
+ 1169              		.type	ISR_UART_rx_handler, %function
+ 1170              	ISR_UART_rx_handler:
+ 1171              	.LFB65:
+ 221:main.c        ****     uint8_t bytesToRead = UART_1_GetRxBufferSize();
+ 1172              		.loc 1 221 0
+ 1173              		.cfi_startproc
+ 1174              		@ args = 0, pretend = 0, frame = 0
+ 1175              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1176 0000 38B5     		push	{r3, r4, r5, lr}
+ 1177              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 32
+
+
+ 1178              		.cfi_offset 3, -16
+ 1179              		.cfi_offset 4, -12
+ 1180              		.cfi_offset 5, -8
+ 1181              		.cfi_offset 14, -4
+ 222:main.c        ****     while (bytesToRead > 0)
+ 1182              		.loc 1 222 0
+ 1183 0002 FFF7FEFF 		bl	UART_1_GetRxBufferSize
+ 1184              	.LVL105:
+ 1185 0006 0446     		mov	r4, r0
+ 1186              	.LVL106:
+ 223:main.c        ****     {
+ 1187              		.loc 1 223 0
+ 1188 0008 09E0     		b	.L100
+ 1189              	.L101:
+ 1190              	.LBB2:
+ 225:main.c        ****         UART_1_WriteTxData(byteReceived); // echo back
+ 1191              		.loc 1 225 0
+ 1192 000a FFF7FEFF 		bl	UART_1_ReadRxData
+ 1193              	.LVL107:
+ 1194 000e 0546     		mov	r5, r0
+ 1195              	.LVL108:
+ 226:main.c        ****         
+ 1196              		.loc 1 226 0
+ 1197 0010 FFF7FEFF 		bl	UART_1_WriteTxData
+ 1198              	.LVL109:
+ 228:main.c        ****         
+ 1199              		.loc 1 228 0
+ 1200 0014 2846     		mov	r0, r5
+ 1201 0016 FFF7FEFF 		bl	handleByteReceived
+ 1202              	.LVL110:
+ 230:main.c        ****     }
+ 1203              		.loc 1 230 0
+ 1204 001a 013C     		subs	r4, r4, #1
+ 1205              	.LVL111:
+ 1206 001c E4B2     		uxtb	r4, r4
+ 1207              	.LVL112:
+ 1208              	.L100:
+ 1209              	.LBE2:
+ 223:main.c        ****     {
+ 1210              		.loc 1 223 0
+ 1211 001e 002C     		cmp	r4, #0
+ 1212 0020 F3D1     		bne	.L101
+ 232:main.c        **** 
+ 1213              		.loc 1 232 0
+ 1214 0022 38BD     		pop	{r3, r4, r5, pc}
+ 1215              		.cfi_endproc
+ 1216              	.LFE65:
+ 1217              		.size	ISR_UART_rx_handler, .-ISR_UART_rx_handler
+ 1218              		.data
+ 1219              		.align	2
+ 1220              		.set	.LANCHOR1,. + 0
+ 1221              		.type	turnOn, %object
+ 1222              		.size	turnOn, 4
+ 1223              	turnOn:
+ 1224 0000 01000000 		.word	1
+ 1225              		.type	speed, %object
+ 1226              		.size	speed, 4
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 33
+
+
+ 1227              	speed:
+ 1228 0004 01000000 		.word	1
+ 1229              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1230              		.align	2
+ 1231              	.LC0:
+ 1232 0000 44432D4D 		.ascii	"DC-Motor-PWM application started\015\012\000"
+ 1232      6F746F72 
+ 1232      2D50574D 
+ 1232      20617070 
+ 1232      6C696361 
+ 1233 0023 00       		.space	1
+ 1234              	.LC1:
+ 1235 0024 303A2053 		.ascii	"0: Stop\015\012\000"
+ 1235      746F700D 
+ 1235      0A00
+ 1236 002e 0000     		.space	2
+ 1237              	.LC2:
+ 1238 0030 313A2044 		.ascii	"1: Drive forwards\015\012\000"
+ 1238      72697665 
+ 1238      20666F72 
+ 1238      77617264 
+ 1238      730D0A00 
+ 1239              	.LC3:
+ 1240 0044 323A2044 		.ascii	"2: Drive backwards\015\012\000"
+ 1240      72697665 
+ 1240      20626163 
+ 1240      6B776172 
+ 1240      64730D0A 
+ 1241 0059 000000   		.space	3
+ 1242              	.LC4:
+ 1243 005c 713A2044 		.ascii	"q: Decrease speed\015\012\000"
+ 1243      65637265 
+ 1243      61736520 
+ 1243      73706565 
+ 1243      640D0A00 
+ 1244              	.LC5:
+ 1245 0070 773A2049 		.ascii	"w: Increase speed\015\012\000"
+ 1245      6E637265 
+ 1245      61736520 
+ 1245      73706565 
+ 1245      640D0A00 
+ 1246              	.LC6:
+ 1247 0084 363A2057 		.ascii	"6: Wave\015\012\000"
+ 1247      6176650D 
+ 1247      0A00
+ 1248 008e 0000     		.space	2
+ 1249              	.LC7:
+ 1250 0090 373A2066 		.ascii	"7: fullstep\015\012\000"
+ 1250      756C6C73 
+ 1250      7465700D 
+ 1250      0A00
+ 1251 009e 0000     		.space	2
+ 1252              	.LC8:
+ 1253 00a0 383A2068 		.ascii	"8: halfstep\015\012\000"
+ 1253      616C6673 
+ 1253      7465700D 
+ 1253      0A00
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 34
+
+
+ 1254 00ae 0000     		.space	2
+ 1255              	.LC9:
+ 1256 00b0 723A2052 		.ascii	"r: Rotate once\015\012\000"
+ 1256      6F746174 
+ 1256      65206F6E 
+ 1256      63650D0A 
+ 1256      00
+ 1257 00c1 000000   		.space	3
+ 1258              	.LC10:
+ 1259 00c4 496E6372 		.ascii	"Increasing speed\015\012\000"
+ 1259      65617369 
+ 1259      6E672073 
+ 1259      70656564 
+ 1259      0D0A00
+ 1260 00d7 00       		.space	1
+ 1261              	.LC11:
+ 1262 00d8 44656372 		.ascii	"Decreasing speed\015\012\000"
+ 1262      65617369 
+ 1262      6E672073 
+ 1262      70656564 
+ 1262      0D0A00
+ 1263 00eb 00       		.space	1
+ 1264              	.LC12:
+ 1265 00ec 53657420 		.ascii	"Set direction: forwards\015\012\000"
+ 1265      64697265 
+ 1265      6374696F 
+ 1265      6E3A2066 
+ 1265      6F727761 
+ 1266 0106 0000     		.space	2
+ 1267              	.LC13:
+ 1268 0108 53657420 		.ascii	"Set direction: backwards\015\012\000"
+ 1268      64697265 
+ 1268      6374696F 
+ 1268      6E3A2062 
+ 1268      61636B77 
+ 1269 0123 00       		.space	1
+ 1270              	.LC14:
+ 1271 0124 53746F70 		.ascii	"Stop\015\012\000"
+ 1271      0D0A00
+ 1272 012b 00       		.space	1
+ 1273              	.LC15:
+ 1274 012c 526F7461 		.ascii	"Rotate one time\015\012\000"
+ 1274      7465206F 
+ 1274      6E652074 
+ 1274      696D650D 
+ 1274      0A00
+ 1275 013e 0000     		.space	2
+ 1276              	.LC16:
+ 1277 0140 57617665 		.ascii	"Wave\015\012\000"
+ 1277      0D0A00
+ 1278 0147 00       		.space	1
+ 1279              	.LC17:
+ 1280 0148 46756C6C 		.ascii	"Fullstep\015\012\000"
+ 1280      73746570 
+ 1280      0D0A00
+ 1281 0153 00       		.space	1
+ 1282              	.LC18:
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 35
+
+
+ 1283 0154 48616C66 		.ascii	"Halfstep\015\012\000"
+ 1283      73746570 
+ 1283      0D0A00
+ 1284              		.bss
+ 1285              		.align	2
+ 1286              		.set	.LANCHOR0,. + 0
+ 1287              		.type	mode, %object
+ 1288              		.size	mode, 1
+ 1289              	mode:
+ 1290 0000 00       		.space	1
+ 1291 0001 000000   		.space	3
+ 1292              		.type	state, %object
+ 1293              		.size	state, 4
+ 1294              	state:
+ 1295 0004 00000000 		.space	4
+ 1296              		.type	rotate, %object
+ 1297              		.size	rotate, 4
+ 1298              	rotate:
+ 1299 0008 00000000 		.space	4
+ 1300              		.type	counter, %object
+ 1301              		.size	counter, 4
+ 1302              	counter:
+ 1303 000c 00000000 		.space	4
+ 1304              		.type	direction, %object
+ 1305              		.size	direction, 1
+ 1306              	direction:
+ 1307 0010 00       		.space	1
+ 1308              		.text
+ 1309              	.Letext0:
+ 1310              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1311              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1312              		.file 4 "Generated_Source\\PSoC5/Pin_1A.h"
+ 1313              		.file 5 "Generated_Source\\PSoC5/Pin_2A.h"
+ 1314              		.file 6 "Generated_Source\\PSoC5/Pin_1B.h"
+ 1315              		.file 7 "Generated_Source\\PSoC5/Pin_2B.h"
+ 1316              		.file 8 "Generated_Source\\PSoC5/isr_uart_rx.h"
+ 1317              		.file 9 "Generated_Source\\PSoC5/isr_timer.h"
+ 1318              		.file 10 "Generated_Source\\PSoC5/UART_1.h"
+ 1319              		.file 11 "Generated_Source\\PSoC5/PWM_1.h"
+ 1320              		.file 12 "Generated_Source\\PSoC5/Timer_1.h"
+ 1321              		.file 13 "Generated_Source\\PSoC5/CyLib.h"
+ 1322              		.file 14 "Generated_Source\\PSoC5/core_cm3.h"
+ 1323              		.section	.debug_info,"",%progbits
+ 1324              	.Ldebug_info0:
+ 1325 0000 460B0000 		.4byte	0xb46
+ 1326 0004 0400     		.2byte	0x4
+ 1327 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1328 000a 04       		.byte	0x4
+ 1329 000b 01       		.uleb128 0x1
+ 1330 000c 5A030000 		.4byte	.LASF69
+ 1331 0010 0C       		.byte	0xc
+ 1332 0011 A0020000 		.4byte	.LASF70
+ 1333 0015 63020000 		.4byte	.LASF71
+ 1334 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1335 001d 00000000 		.4byte	0
+ 1336 0021 00000000 		.4byte	.Ldebug_line0
+ 1337 0025 02       		.uleb128 0x2
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 36
+
+
+ 1338 0026 01       		.byte	0x1
+ 1339 0027 06       		.byte	0x6
+ 1340 0028 19000000 		.4byte	.LASF0
+ 1341 002c 03       		.uleb128 0x3
+ 1342 002d 2C010000 		.4byte	.LASF4
+ 1343 0031 02       		.byte	0x2
+ 1344 0032 1D       		.byte	0x1d
+ 1345 0033 37000000 		.4byte	0x37
+ 1346 0037 02       		.uleb128 0x2
+ 1347 0038 01       		.byte	0x1
+ 1348 0039 08       		.byte	0x8
+ 1349 003a 6E010000 		.4byte	.LASF1
+ 1350 003e 02       		.uleb128 0x2
+ 1351 003f 02       		.byte	0x2
+ 1352 0040 05       		.byte	0x5
+ 1353 0041 3F000000 		.4byte	.LASF2
+ 1354 0045 02       		.uleb128 0x2
+ 1355 0046 02       		.byte	0x2
+ 1356 0047 07       		.byte	0x7
+ 1357 0048 F8010000 		.4byte	.LASF3
+ 1358 004c 03       		.uleb128 0x3
+ 1359 004d 0E030000 		.4byte	.LASF5
+ 1360 0051 02       		.byte	0x2
+ 1361 0052 3F       		.byte	0x3f
+ 1362 0053 57000000 		.4byte	0x57
+ 1363 0057 02       		.uleb128 0x2
+ 1364 0058 04       		.byte	0x4
+ 1365 0059 05       		.byte	0x5
+ 1366 005a 28020000 		.4byte	.LASF6
+ 1367 005e 02       		.uleb128 0x2
+ 1368 005f 04       		.byte	0x4
+ 1369 0060 07       		.byte	0x7
+ 1370 0061 A7020000 		.4byte	.LASF7
+ 1371 0065 02       		.uleb128 0x2
+ 1372 0066 08       		.byte	0x8
+ 1373 0067 05       		.byte	0x5
+ 1374 0068 F4000000 		.4byte	.LASF8
+ 1375 006c 02       		.uleb128 0x2
+ 1376 006d 08       		.byte	0x8
+ 1377 006e 07       		.byte	0x7
+ 1378 006f 9C010000 		.4byte	.LASF9
+ 1379 0073 04       		.uleb128 0x4
+ 1380 0074 04       		.byte	0x4
+ 1381 0075 05       		.byte	0x5
+ 1382 0076 696E7400 		.ascii	"int\000"
+ 1383 007a 02       		.uleb128 0x2
+ 1384 007b 04       		.byte	0x4
+ 1385 007c 07       		.byte	0x7
+ 1386 007d B3010000 		.4byte	.LASF10
+ 1387 0081 03       		.uleb128 0x3
+ 1388 0082 A4000000 		.4byte	.LASF11
+ 1389 0086 03       		.byte	0x3
+ 1390 0087 18       		.byte	0x18
+ 1391 0088 2C000000 		.4byte	0x2c
+ 1392 008c 03       		.uleb128 0x3
+ 1393 008d 31020000 		.4byte	.LASF12
+ 1394 0091 03       		.byte	0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 37
+
+
+ 1395 0092 2C       		.byte	0x2c
+ 1396 0093 4C000000 		.4byte	0x4c
+ 1397 0097 02       		.uleb128 0x2
+ 1398 0098 04       		.byte	0x4
+ 1399 0099 04       		.byte	0x4
+ 1400 009a EE000000 		.4byte	.LASF13
+ 1401 009e 02       		.uleb128 0x2
+ 1402 009f 08       		.byte	0x8
+ 1403 00a0 04       		.byte	0x4
+ 1404 00a1 DC020000 		.4byte	.LASF14
+ 1405 00a5 02       		.uleb128 0x2
+ 1406 00a6 01       		.byte	0x1
+ 1407 00a7 08       		.byte	0x8
+ 1408 00a8 23020000 		.4byte	.LASF15
+ 1409 00ac 02       		.uleb128 0x2
+ 1410 00ad 08       		.byte	0x8
+ 1411 00ae 04       		.byte	0x4
+ 1412 00af 62010000 		.4byte	.LASF16
+ 1413 00b3 02       		.uleb128 0x2
+ 1414 00b4 04       		.byte	0x4
+ 1415 00b5 07       		.byte	0x7
+ 1416 00b6 49000000 		.4byte	.LASF17
+ 1417 00ba 05       		.uleb128 0x5
+ 1418 00bb 01       		.byte	0x1
+ 1419 00bc 37000000 		.4byte	0x37
+ 1420 00c0 01       		.byte	0x1
+ 1421 00c1 1E       		.byte	0x1e
+ 1422 00c2 F7000000 		.4byte	0xf7
+ 1423 00c6 06       		.uleb128 0x6
+ 1424 00c7 52000000 		.4byte	.LASF18
+ 1425 00cb 00       		.byte	0
+ 1426 00cc 06       		.uleb128 0x6
+ 1427 00cd 32030000 		.4byte	.LASF19
+ 1428 00d1 01       		.byte	0x1
+ 1429 00d2 06       		.uleb128 0x6
+ 1430 00d3 7C010000 		.4byte	.LASF20
+ 1431 00d7 02       		.byte	0x2
+ 1432 00d8 06       		.uleb128 0x6
+ 1433 00d9 36010000 		.4byte	.LASF21
+ 1434 00dd 03       		.byte	0x3
+ 1435 00de 06       		.uleb128 0x6
+ 1436 00df 4B020000 		.4byte	.LASF22
+ 1437 00e3 04       		.byte	0x4
+ 1438 00e4 06       		.uleb128 0x6
+ 1439 00e5 0E010000 		.4byte	.LASF23
+ 1440 00e9 05       		.byte	0x5
+ 1441 00ea 06       		.uleb128 0x6
+ 1442 00eb 19010000 		.4byte	.LASF24
+ 1443 00ef 06       		.byte	0x6
+ 1444 00f0 06       		.uleb128 0x6
+ 1445 00f1 95020000 		.4byte	.LASF25
+ 1446 00f5 07       		.byte	0x7
+ 1447 00f6 00       		.byte	0
+ 1448 00f7 03       		.uleb128 0x3
+ 1449 00f8 CB000000 		.4byte	.LASF26
+ 1450 00fc 01       		.byte	0x1
+ 1451 00fd 27       		.byte	0x27
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 38
+
+
+ 1452 00fe BA000000 		.4byte	0xba
+ 1453 0102 05       		.uleb128 0x5
+ 1454 0103 01       		.byte	0x1
+ 1455 0104 37000000 		.4byte	0x37
+ 1456 0108 01       		.byte	0x1
+ 1457 0109 2A       		.byte	0x2a
+ 1458 010a 1B010000 		.4byte	0x11b
+ 1459 010e 06       		.uleb128 0x6
+ 1460 010f 24010000 		.4byte	.LASF27
+ 1461 0113 00       		.byte	0
+ 1462 0114 06       		.uleb128 0x6
+ 1463 0115 6F000000 		.4byte	.LASF28
+ 1464 0119 01       		.byte	0x1
+ 1465 011a 00       		.byte	0
+ 1466 011b 03       		.uleb128 0x3
+ 1467 011c 0B020000 		.4byte	.LASF29
+ 1468 0120 01       		.byte	0x1
+ 1469 0121 2D       		.byte	0x2d
+ 1470 0122 02010000 		.4byte	0x102
+ 1471 0126 05       		.uleb128 0x5
+ 1472 0127 01       		.byte	0x1
+ 1473 0128 37000000 		.4byte	0x37
+ 1474 012c 01       		.byte	0x1
+ 1475 012d 30       		.byte	0x30
+ 1476 012e 45010000 		.4byte	0x145
+ 1477 0132 06       		.uleb128 0x6
+ 1478 0133 48030000 		.4byte	.LASF30
+ 1479 0137 00       		.byte	0
+ 1480 0138 06       		.uleb128 0x6
+ 1481 0139 D2010000 		.4byte	.LASF31
+ 1482 013d 01       		.byte	0x1
+ 1483 013e 06       		.uleb128 0x6
+ 1484 013f 09010000 		.4byte	.LASF32
+ 1485 0143 02       		.byte	0x2
+ 1486 0144 00       		.byte	0
+ 1487 0145 03       		.uleb128 0x3
+ 1488 0146 3C030000 		.4byte	.LASF33
+ 1489 014a 01       		.byte	0x1
+ 1490 014b 34       		.byte	0x34
+ 1491 014c 26010000 		.4byte	0x126
+ 1492 0150 07       		.uleb128 0x7
+ 1493 0151 B9000000 		.4byte	.LASF72
+ 1494 0155 01       		.byte	0x1
+ 1495 0156 D6       		.byte	0xd6
+ 1496 0157 00000000 		.4byte	.LFB64
+ 1497 015b 02000000 		.4byte	.LFE64-.LFB64
+ 1498 015f 01       		.uleb128 0x1
+ 1499 0160 9C       		.byte	0x9c
+ 1500 0161 08       		.uleb128 0x8
+ 1501 0162 07030000 		.4byte	.LASF34
+ 1502 0166 01       		.byte	0x1
+ 1503 0167 2A01     		.2byte	0x12a
+ 1504 0169 00000000 		.4byte	.LFB67
+ 1505 016d F0010000 		.4byte	.LFE67-.LFB67
+ 1506 0171 01       		.uleb128 0x1
+ 1507 0172 9C       		.byte	0x9c
+ 1508 0173 34060000 		.4byte	0x634
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 39
+
+
+ 1509 0177 09       		.uleb128 0x9
+ 1510 0178 24000000 		.4byte	.LVL0
+ 1511 017c AF0A0000 		.4byte	0xaaf
+ 1512 0180 8A010000 		.4byte	0x18a
+ 1513 0184 0A       		.uleb128 0xa
+ 1514 0185 01       		.uleb128 0x1
+ 1515 0186 50       		.byte	0x50
+ 1516 0187 01       		.uleb128 0x1
+ 1517 0188 31       		.byte	0x31
+ 1518 0189 00       		.byte	0
+ 1519 018a 09       		.uleb128 0x9
+ 1520 018b 2A000000 		.4byte	.LVL1
+ 1521 018f BA0A0000 		.4byte	0xaba
+ 1522 0193 9D010000 		.4byte	0x19d
+ 1523 0197 0A       		.uleb128 0xa
+ 1524 0198 01       		.uleb128 0x1
+ 1525 0199 50       		.byte	0x50
+ 1526 019a 01       		.uleb128 0x1
+ 1527 019b 30       		.byte	0x30
+ 1528 019c 00       		.byte	0
+ 1529 019d 09       		.uleb128 0x9
+ 1530 019e 30000000 		.4byte	.LVL2
+ 1531 01a2 C50A0000 		.4byte	0xac5
+ 1532 01a6 B0010000 		.4byte	0x1b0
+ 1533 01aa 0A       		.uleb128 0xa
+ 1534 01ab 01       		.uleb128 0x1
+ 1535 01ac 50       		.byte	0x50
+ 1536 01ad 01       		.uleb128 0x1
+ 1537 01ae 30       		.byte	0x30
+ 1538 01af 00       		.byte	0
+ 1539 01b0 09       		.uleb128 0x9
+ 1540 01b1 36000000 		.4byte	.LVL3
+ 1541 01b5 D00A0000 		.4byte	0xad0
+ 1542 01b9 C3010000 		.4byte	0x1c3
+ 1543 01bd 0A       		.uleb128 0xa
+ 1544 01be 01       		.uleb128 0x1
+ 1545 01bf 50       		.byte	0x50
+ 1546 01c0 01       		.uleb128 0x1
+ 1547 01c1 30       		.byte	0x30
+ 1548 01c2 00       		.byte	0
+ 1549 01c3 09       		.uleb128 0x9
+ 1550 01c4 3E000000 		.4byte	.LVL4
+ 1551 01c8 AF0A0000 		.4byte	0xaaf
+ 1552 01cc D6010000 		.4byte	0x1d6
+ 1553 01d0 0A       		.uleb128 0xa
+ 1554 01d1 01       		.uleb128 0x1
+ 1555 01d2 50       		.byte	0x50
+ 1556 01d3 01       		.uleb128 0x1
+ 1557 01d4 31       		.byte	0x31
+ 1558 01d5 00       		.byte	0
+ 1559 01d6 09       		.uleb128 0x9
+ 1560 01d7 44000000 		.4byte	.LVL5
+ 1561 01db BA0A0000 		.4byte	0xaba
+ 1562 01df E9010000 		.4byte	0x1e9
+ 1563 01e3 0A       		.uleb128 0xa
+ 1564 01e4 01       		.uleb128 0x1
+ 1565 01e5 50       		.byte	0x50
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 40
+
+
+ 1566 01e6 01       		.uleb128 0x1
+ 1567 01e7 31       		.byte	0x31
+ 1568 01e8 00       		.byte	0
+ 1569 01e9 09       		.uleb128 0x9
+ 1570 01ea 4A000000 		.4byte	.LVL6
+ 1571 01ee C50A0000 		.4byte	0xac5
+ 1572 01f2 FC010000 		.4byte	0x1fc
+ 1573 01f6 0A       		.uleb128 0xa
+ 1574 01f7 01       		.uleb128 0x1
+ 1575 01f8 50       		.byte	0x50
+ 1576 01f9 01       		.uleb128 0x1
+ 1577 01fa 30       		.byte	0x30
+ 1578 01fb 00       		.byte	0
+ 1579 01fc 09       		.uleb128 0x9
+ 1580 01fd 50000000 		.4byte	.LVL7
+ 1581 0201 D00A0000 		.4byte	0xad0
+ 1582 0205 0F020000 		.4byte	0x20f
+ 1583 0209 0A       		.uleb128 0xa
+ 1584 020a 01       		.uleb128 0x1
+ 1585 020b 50       		.byte	0x50
+ 1586 020c 01       		.uleb128 0x1
+ 1587 020d 30       		.byte	0x30
+ 1588 020e 00       		.byte	0
+ 1589 020f 09       		.uleb128 0x9
+ 1590 0210 58000000 		.4byte	.LVL8
+ 1591 0214 AF0A0000 		.4byte	0xaaf
+ 1592 0218 22020000 		.4byte	0x222
+ 1593 021c 0A       		.uleb128 0xa
+ 1594 021d 01       		.uleb128 0x1
+ 1595 021e 50       		.byte	0x50
+ 1596 021f 01       		.uleb128 0x1
+ 1597 0220 30       		.byte	0x30
+ 1598 0221 00       		.byte	0
+ 1599 0222 09       		.uleb128 0x9
+ 1600 0223 5E000000 		.4byte	.LVL9
+ 1601 0227 BA0A0000 		.4byte	0xaba
+ 1602 022b 35020000 		.4byte	0x235
+ 1603 022f 0A       		.uleb128 0xa
+ 1604 0230 01       		.uleb128 0x1
+ 1605 0231 50       		.byte	0x50
+ 1606 0232 01       		.uleb128 0x1
+ 1607 0233 31       		.byte	0x31
+ 1608 0234 00       		.byte	0
+ 1609 0235 09       		.uleb128 0x9
+ 1610 0236 64000000 		.4byte	.LVL10
+ 1611 023a C50A0000 		.4byte	0xac5
+ 1612 023e 48020000 		.4byte	0x248
+ 1613 0242 0A       		.uleb128 0xa
+ 1614 0243 01       		.uleb128 0x1
+ 1615 0244 50       		.byte	0x50
+ 1616 0245 01       		.uleb128 0x1
+ 1617 0246 30       		.byte	0x30
+ 1618 0247 00       		.byte	0
+ 1619 0248 09       		.uleb128 0x9
+ 1620 0249 6A000000 		.4byte	.LVL11
+ 1621 024d D00A0000 		.4byte	0xad0
+ 1622 0251 5B020000 		.4byte	0x25b
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 41
+
+
+ 1623 0255 0A       		.uleb128 0xa
+ 1624 0256 01       		.uleb128 0x1
+ 1625 0257 50       		.byte	0x50
+ 1626 0258 01       		.uleb128 0x1
+ 1627 0259 30       		.byte	0x30
+ 1628 025a 00       		.byte	0
+ 1629 025b 09       		.uleb128 0x9
+ 1630 025c 72000000 		.4byte	.LVL12
+ 1631 0260 AF0A0000 		.4byte	0xaaf
+ 1632 0264 6E020000 		.4byte	0x26e
+ 1633 0268 0A       		.uleb128 0xa
+ 1634 0269 01       		.uleb128 0x1
+ 1635 026a 50       		.byte	0x50
+ 1636 026b 01       		.uleb128 0x1
+ 1637 026c 30       		.byte	0x30
+ 1638 026d 00       		.byte	0
+ 1639 026e 09       		.uleb128 0x9
+ 1640 026f 78000000 		.4byte	.LVL13
+ 1641 0273 BA0A0000 		.4byte	0xaba
+ 1642 0277 81020000 		.4byte	0x281
+ 1643 027b 0A       		.uleb128 0xa
+ 1644 027c 01       		.uleb128 0x1
+ 1645 027d 50       		.byte	0x50
+ 1646 027e 01       		.uleb128 0x1
+ 1647 027f 31       		.byte	0x31
+ 1648 0280 00       		.byte	0
+ 1649 0281 09       		.uleb128 0x9
+ 1650 0282 7E000000 		.4byte	.LVL14
+ 1651 0286 C50A0000 		.4byte	0xac5
+ 1652 028a 94020000 		.4byte	0x294
+ 1653 028e 0A       		.uleb128 0xa
+ 1654 028f 01       		.uleb128 0x1
+ 1655 0290 50       		.byte	0x50
+ 1656 0291 01       		.uleb128 0x1
+ 1657 0292 31       		.byte	0x31
+ 1658 0293 00       		.byte	0
+ 1659 0294 09       		.uleb128 0x9
+ 1660 0295 84000000 		.4byte	.LVL15
+ 1661 0299 D00A0000 		.4byte	0xad0
+ 1662 029d A7020000 		.4byte	0x2a7
+ 1663 02a1 0A       		.uleb128 0xa
+ 1664 02a2 01       		.uleb128 0x1
+ 1665 02a3 50       		.byte	0x50
+ 1666 02a4 01       		.uleb128 0x1
+ 1667 02a5 30       		.byte	0x30
+ 1668 02a6 00       		.byte	0
+ 1669 02a7 09       		.uleb128 0x9
+ 1670 02a8 8C000000 		.4byte	.LVL16
+ 1671 02ac AF0A0000 		.4byte	0xaaf
+ 1672 02b0 BA020000 		.4byte	0x2ba
+ 1673 02b4 0A       		.uleb128 0xa
+ 1674 02b5 01       		.uleb128 0x1
+ 1675 02b6 50       		.byte	0x50
+ 1676 02b7 01       		.uleb128 0x1
+ 1677 02b8 30       		.byte	0x30
+ 1678 02b9 00       		.byte	0
+ 1679 02ba 09       		.uleb128 0x9
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 42
+
+
+ 1680 02bb 92000000 		.4byte	.LVL17
+ 1681 02bf BA0A0000 		.4byte	0xaba
+ 1682 02c3 CD020000 		.4byte	0x2cd
+ 1683 02c7 0A       		.uleb128 0xa
+ 1684 02c8 01       		.uleb128 0x1
+ 1685 02c9 50       		.byte	0x50
+ 1686 02ca 01       		.uleb128 0x1
+ 1687 02cb 30       		.byte	0x30
+ 1688 02cc 00       		.byte	0
+ 1689 02cd 09       		.uleb128 0x9
+ 1690 02ce 98000000 		.4byte	.LVL18
+ 1691 02d2 C50A0000 		.4byte	0xac5
+ 1692 02d6 E0020000 		.4byte	0x2e0
+ 1693 02da 0A       		.uleb128 0xa
+ 1694 02db 01       		.uleb128 0x1
+ 1695 02dc 50       		.byte	0x50
+ 1696 02dd 01       		.uleb128 0x1
+ 1697 02de 31       		.byte	0x31
+ 1698 02df 00       		.byte	0
+ 1699 02e0 09       		.uleb128 0x9
+ 1700 02e1 9E000000 		.4byte	.LVL19
+ 1701 02e5 D00A0000 		.4byte	0xad0
+ 1702 02e9 F3020000 		.4byte	0x2f3
+ 1703 02ed 0A       		.uleb128 0xa
+ 1704 02ee 01       		.uleb128 0x1
+ 1705 02ef 50       		.byte	0x50
+ 1706 02f0 01       		.uleb128 0x1
+ 1707 02f1 30       		.byte	0x30
+ 1708 02f2 00       		.byte	0
+ 1709 02f3 09       		.uleb128 0x9
+ 1710 02f4 A6000000 		.4byte	.LVL20
+ 1711 02f8 AF0A0000 		.4byte	0xaaf
+ 1712 02fc 06030000 		.4byte	0x306
+ 1713 0300 0A       		.uleb128 0xa
+ 1714 0301 01       		.uleb128 0x1
+ 1715 0302 50       		.byte	0x50
+ 1716 0303 01       		.uleb128 0x1
+ 1717 0304 30       		.byte	0x30
+ 1718 0305 00       		.byte	0
+ 1719 0306 09       		.uleb128 0x9
+ 1720 0307 AC000000 		.4byte	.LVL21
+ 1721 030b BA0A0000 		.4byte	0xaba
+ 1722 030f 19030000 		.4byte	0x319
+ 1723 0313 0A       		.uleb128 0xa
+ 1724 0314 01       		.uleb128 0x1
+ 1725 0315 50       		.byte	0x50
+ 1726 0316 01       		.uleb128 0x1
+ 1727 0317 30       		.byte	0x30
+ 1728 0318 00       		.byte	0
+ 1729 0319 09       		.uleb128 0x9
+ 1730 031a B2000000 		.4byte	.LVL22
+ 1731 031e C50A0000 		.4byte	0xac5
+ 1732 0322 2C030000 		.4byte	0x32c
+ 1733 0326 0A       		.uleb128 0xa
+ 1734 0327 01       		.uleb128 0x1
+ 1735 0328 50       		.byte	0x50
+ 1736 0329 01       		.uleb128 0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 43
+
+
+ 1737 032a 31       		.byte	0x31
+ 1738 032b 00       		.byte	0
+ 1739 032c 09       		.uleb128 0x9
+ 1740 032d B8000000 		.4byte	.LVL23
+ 1741 0331 D00A0000 		.4byte	0xad0
+ 1742 0335 3F030000 		.4byte	0x33f
+ 1743 0339 0A       		.uleb128 0xa
+ 1744 033a 01       		.uleb128 0x1
+ 1745 033b 50       		.byte	0x50
+ 1746 033c 01       		.uleb128 0x1
+ 1747 033d 31       		.byte	0x31
+ 1748 033e 00       		.byte	0
+ 1749 033f 09       		.uleb128 0x9
+ 1750 0340 C0000000 		.4byte	.LVL24
+ 1751 0344 AF0A0000 		.4byte	0xaaf
+ 1752 0348 52030000 		.4byte	0x352
+ 1753 034c 0A       		.uleb128 0xa
+ 1754 034d 01       		.uleb128 0x1
+ 1755 034e 50       		.byte	0x50
+ 1756 034f 01       		.uleb128 0x1
+ 1757 0350 30       		.byte	0x30
+ 1758 0351 00       		.byte	0
+ 1759 0352 09       		.uleb128 0x9
+ 1760 0353 C6000000 		.4byte	.LVL25
+ 1761 0357 BA0A0000 		.4byte	0xaba
+ 1762 035b 65030000 		.4byte	0x365
+ 1763 035f 0A       		.uleb128 0xa
+ 1764 0360 01       		.uleb128 0x1
+ 1765 0361 50       		.byte	0x50
+ 1766 0362 01       		.uleb128 0x1
+ 1767 0363 30       		.byte	0x30
+ 1768 0364 00       		.byte	0
+ 1769 0365 09       		.uleb128 0x9
+ 1770 0366 CC000000 		.4byte	.LVL26
+ 1771 036a C50A0000 		.4byte	0xac5
+ 1772 036e 78030000 		.4byte	0x378
+ 1773 0372 0A       		.uleb128 0xa
+ 1774 0373 01       		.uleb128 0x1
+ 1775 0374 50       		.byte	0x50
+ 1776 0375 01       		.uleb128 0x1
+ 1777 0376 30       		.byte	0x30
+ 1778 0377 00       		.byte	0
+ 1779 0378 09       		.uleb128 0x9
+ 1780 0379 D2000000 		.4byte	.LVL27
+ 1781 037d D00A0000 		.4byte	0xad0
+ 1782 0381 8B030000 		.4byte	0x38b
+ 1783 0385 0A       		.uleb128 0xa
+ 1784 0386 01       		.uleb128 0x1
+ 1785 0387 50       		.byte	0x50
+ 1786 0388 01       		.uleb128 0x1
+ 1787 0389 31       		.byte	0x31
+ 1788 038a 00       		.byte	0
+ 1789 038b 09       		.uleb128 0x9
+ 1790 038c DA000000 		.4byte	.LVL28
+ 1791 0390 AF0A0000 		.4byte	0xaaf
+ 1792 0394 9E030000 		.4byte	0x39e
+ 1793 0398 0A       		.uleb128 0xa
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 44
+
+
+ 1794 0399 01       		.uleb128 0x1
+ 1795 039a 50       		.byte	0x50
+ 1796 039b 01       		.uleb128 0x1
+ 1797 039c 31       		.byte	0x31
+ 1798 039d 00       		.byte	0
+ 1799 039e 09       		.uleb128 0x9
+ 1800 039f E0000000 		.4byte	.LVL29
+ 1801 03a3 BA0A0000 		.4byte	0xaba
+ 1802 03a7 B1030000 		.4byte	0x3b1
+ 1803 03ab 0A       		.uleb128 0xa
+ 1804 03ac 01       		.uleb128 0x1
+ 1805 03ad 50       		.byte	0x50
+ 1806 03ae 01       		.uleb128 0x1
+ 1807 03af 30       		.byte	0x30
+ 1808 03b0 00       		.byte	0
+ 1809 03b1 09       		.uleb128 0x9
+ 1810 03b2 E6000000 		.4byte	.LVL30
+ 1811 03b6 C50A0000 		.4byte	0xac5
+ 1812 03ba C4030000 		.4byte	0x3c4
+ 1813 03be 0A       		.uleb128 0xa
+ 1814 03bf 01       		.uleb128 0x1
+ 1815 03c0 50       		.byte	0x50
+ 1816 03c1 01       		.uleb128 0x1
+ 1817 03c2 30       		.byte	0x30
+ 1818 03c3 00       		.byte	0
+ 1819 03c4 09       		.uleb128 0x9
+ 1820 03c5 EC000000 		.4byte	.LVL31
+ 1821 03c9 D00A0000 		.4byte	0xad0
+ 1822 03cd D7030000 		.4byte	0x3d7
+ 1823 03d1 0A       		.uleb128 0xa
+ 1824 03d2 01       		.uleb128 0x1
+ 1825 03d3 50       		.byte	0x50
+ 1826 03d4 01       		.uleb128 0x1
+ 1827 03d5 31       		.byte	0x31
+ 1828 03d6 00       		.byte	0
+ 1829 03d7 09       		.uleb128 0x9
+ 1830 03d8 0A010000 		.4byte	.LVL32
+ 1831 03dc AF0A0000 		.4byte	0xaaf
+ 1832 03e0 EA030000 		.4byte	0x3ea
+ 1833 03e4 0A       		.uleb128 0xa
+ 1834 03e5 01       		.uleb128 0x1
+ 1835 03e6 50       		.byte	0x50
+ 1836 03e7 01       		.uleb128 0x1
+ 1837 03e8 31       		.byte	0x31
+ 1838 03e9 00       		.byte	0
+ 1839 03ea 09       		.uleb128 0x9
+ 1840 03eb 10010000 		.4byte	.LVL33
+ 1841 03ef BA0A0000 		.4byte	0xaba
+ 1842 03f3 FD030000 		.4byte	0x3fd
+ 1843 03f7 0A       		.uleb128 0xa
+ 1844 03f8 01       		.uleb128 0x1
+ 1845 03f9 50       		.byte	0x50
+ 1846 03fa 01       		.uleb128 0x1
+ 1847 03fb 30       		.byte	0x30
+ 1848 03fc 00       		.byte	0
+ 1849 03fd 09       		.uleb128 0x9
+ 1850 03fe 16010000 		.4byte	.LVL34
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 45
+
+
+ 1851 0402 C50A0000 		.4byte	0xac5
+ 1852 0406 10040000 		.4byte	0x410
+ 1853 040a 0A       		.uleb128 0xa
+ 1854 040b 01       		.uleb128 0x1
+ 1855 040c 50       		.byte	0x50
+ 1856 040d 01       		.uleb128 0x1
+ 1857 040e 30       		.byte	0x30
+ 1858 040f 00       		.byte	0
+ 1859 0410 09       		.uleb128 0x9
+ 1860 0411 1C010000 		.4byte	.LVL35
+ 1861 0415 D00A0000 		.4byte	0xad0
+ 1862 0419 23040000 		.4byte	0x423
+ 1863 041d 0A       		.uleb128 0xa
+ 1864 041e 01       		.uleb128 0x1
+ 1865 041f 50       		.byte	0x50
+ 1866 0420 01       		.uleb128 0x1
+ 1867 0421 30       		.byte	0x30
+ 1868 0422 00       		.byte	0
+ 1869 0423 09       		.uleb128 0x9
+ 1870 0424 24010000 		.4byte	.LVL36
+ 1871 0428 BA0A0000 		.4byte	0xaba
+ 1872 042c 36040000 		.4byte	0x436
+ 1873 0430 0A       		.uleb128 0xa
+ 1874 0431 01       		.uleb128 0x1
+ 1875 0432 50       		.byte	0x50
+ 1876 0433 01       		.uleb128 0x1
+ 1877 0434 31       		.byte	0x31
+ 1878 0435 00       		.byte	0
+ 1879 0436 09       		.uleb128 0x9
+ 1880 0437 2A010000 		.4byte	.LVL37
+ 1881 043b AF0A0000 		.4byte	0xaaf
+ 1882 043f 49040000 		.4byte	0x449
+ 1883 0443 0A       		.uleb128 0xa
+ 1884 0444 01       		.uleb128 0x1
+ 1885 0445 50       		.byte	0x50
+ 1886 0446 01       		.uleb128 0x1
+ 1887 0447 30       		.byte	0x30
+ 1888 0448 00       		.byte	0
+ 1889 0449 09       		.uleb128 0x9
+ 1890 044a 30010000 		.4byte	.LVL38
+ 1891 044e C50A0000 		.4byte	0xac5
+ 1892 0452 5C040000 		.4byte	0x45c
+ 1893 0456 0A       		.uleb128 0xa
+ 1894 0457 01       		.uleb128 0x1
+ 1895 0458 50       		.byte	0x50
+ 1896 0459 01       		.uleb128 0x1
+ 1897 045a 30       		.byte	0x30
+ 1898 045b 00       		.byte	0
+ 1899 045c 09       		.uleb128 0x9
+ 1900 045d 36010000 		.4byte	.LVL39
+ 1901 0461 D00A0000 		.4byte	0xad0
+ 1902 0465 6F040000 		.4byte	0x46f
+ 1903 0469 0A       		.uleb128 0xa
+ 1904 046a 01       		.uleb128 0x1
+ 1905 046b 50       		.byte	0x50
+ 1906 046c 01       		.uleb128 0x1
+ 1907 046d 30       		.byte	0x30
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 46
+
+
+ 1908 046e 00       		.byte	0
+ 1909 046f 09       		.uleb128 0x9
+ 1910 0470 3E010000 		.4byte	.LVL40
+ 1911 0474 C50A0000 		.4byte	0xac5
+ 1912 0478 82040000 		.4byte	0x482
+ 1913 047c 0A       		.uleb128 0xa
+ 1914 047d 01       		.uleb128 0x1
+ 1915 047e 50       		.byte	0x50
+ 1916 047f 01       		.uleb128 0x1
+ 1917 0480 31       		.byte	0x31
+ 1918 0481 00       		.byte	0
+ 1919 0482 09       		.uleb128 0x9
+ 1920 0483 44010000 		.4byte	.LVL41
+ 1921 0487 AF0A0000 		.4byte	0xaaf
+ 1922 048b 95040000 		.4byte	0x495
+ 1923 048f 0A       		.uleb128 0xa
+ 1924 0490 01       		.uleb128 0x1
+ 1925 0491 50       		.byte	0x50
+ 1926 0492 01       		.uleb128 0x1
+ 1927 0493 30       		.byte	0x30
+ 1928 0494 00       		.byte	0
+ 1929 0495 09       		.uleb128 0x9
+ 1930 0496 4A010000 		.4byte	.LVL42
+ 1931 049a BA0A0000 		.4byte	0xaba
+ 1932 049e A8040000 		.4byte	0x4a8
+ 1933 04a2 0A       		.uleb128 0xa
+ 1934 04a3 01       		.uleb128 0x1
+ 1935 04a4 50       		.byte	0x50
+ 1936 04a5 01       		.uleb128 0x1
+ 1937 04a6 30       		.byte	0x30
+ 1938 04a7 00       		.byte	0
+ 1939 04a8 09       		.uleb128 0x9
+ 1940 04a9 50010000 		.4byte	.LVL43
+ 1941 04ad D00A0000 		.4byte	0xad0
+ 1942 04b1 BB040000 		.4byte	0x4bb
+ 1943 04b5 0A       		.uleb128 0xa
+ 1944 04b6 01       		.uleb128 0x1
+ 1945 04b7 50       		.byte	0x50
+ 1946 04b8 01       		.uleb128 0x1
+ 1947 04b9 30       		.byte	0x30
+ 1948 04ba 00       		.byte	0
+ 1949 04bb 09       		.uleb128 0x9
+ 1950 04bc 58010000 		.4byte	.LVL44
+ 1951 04c0 D00A0000 		.4byte	0xad0
+ 1952 04c4 CE040000 		.4byte	0x4ce
+ 1953 04c8 0A       		.uleb128 0xa
+ 1954 04c9 01       		.uleb128 0x1
+ 1955 04ca 50       		.byte	0x50
+ 1956 04cb 01       		.uleb128 0x1
+ 1957 04cc 31       		.byte	0x31
+ 1958 04cd 00       		.byte	0
+ 1959 04ce 09       		.uleb128 0x9
+ 1960 04cf 5E010000 		.4byte	.LVL45
+ 1961 04d3 AF0A0000 		.4byte	0xaaf
+ 1962 04d7 E1040000 		.4byte	0x4e1
+ 1963 04db 0A       		.uleb128 0xa
+ 1964 04dc 01       		.uleb128 0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 47
+
+
+ 1965 04dd 50       		.byte	0x50
+ 1966 04de 01       		.uleb128 0x1
+ 1967 04df 30       		.byte	0x30
+ 1968 04e0 00       		.byte	0
+ 1969 04e1 09       		.uleb128 0x9
+ 1970 04e2 64010000 		.4byte	.LVL46
+ 1971 04e6 BA0A0000 		.4byte	0xaba
+ 1972 04ea F4040000 		.4byte	0x4f4
+ 1973 04ee 0A       		.uleb128 0xa
+ 1974 04ef 01       		.uleb128 0x1
+ 1975 04f0 50       		.byte	0x50
+ 1976 04f1 01       		.uleb128 0x1
+ 1977 04f2 30       		.byte	0x30
+ 1978 04f3 00       		.byte	0
+ 1979 04f4 09       		.uleb128 0x9
+ 1980 04f5 6A010000 		.4byte	.LVL47
+ 1981 04f9 C50A0000 		.4byte	0xac5
+ 1982 04fd 07050000 		.4byte	0x507
+ 1983 0501 0A       		.uleb128 0xa
+ 1984 0502 01       		.uleb128 0x1
+ 1985 0503 50       		.byte	0x50
+ 1986 0504 01       		.uleb128 0x1
+ 1987 0505 30       		.byte	0x30
+ 1988 0506 00       		.byte	0
+ 1989 0507 09       		.uleb128 0x9
+ 1990 0508 88010000 		.4byte	.LVL48
+ 1991 050c AF0A0000 		.4byte	0xaaf
+ 1992 0510 1A050000 		.4byte	0x51a
+ 1993 0514 0A       		.uleb128 0xa
+ 1994 0515 01       		.uleb128 0x1
+ 1995 0516 50       		.byte	0x50
+ 1996 0517 01       		.uleb128 0x1
+ 1997 0518 31       		.byte	0x31
+ 1998 0519 00       		.byte	0
+ 1999 051a 09       		.uleb128 0x9
+ 2000 051b 8E010000 		.4byte	.LVL49
+ 2001 051f BA0A0000 		.4byte	0xaba
+ 2002 0523 2D050000 		.4byte	0x52d
+ 2003 0527 0A       		.uleb128 0xa
+ 2004 0528 01       		.uleb128 0x1
+ 2005 0529 50       		.byte	0x50
+ 2006 052a 01       		.uleb128 0x1
+ 2007 052b 30       		.byte	0x30
+ 2008 052c 00       		.byte	0
+ 2009 052d 09       		.uleb128 0x9
+ 2010 052e 94010000 		.4byte	.LVL50
+ 2011 0532 C50A0000 		.4byte	0xac5
+ 2012 0536 40050000 		.4byte	0x540
+ 2013 053a 0A       		.uleb128 0xa
+ 2014 053b 01       		.uleb128 0x1
+ 2015 053c 50       		.byte	0x50
+ 2016 053d 01       		.uleb128 0x1
+ 2017 053e 30       		.byte	0x30
+ 2018 053f 00       		.byte	0
+ 2019 0540 09       		.uleb128 0x9
+ 2020 0541 9A010000 		.4byte	.LVL51
+ 2021 0545 D00A0000 		.4byte	0xad0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 48
+
+
+ 2022 0549 53050000 		.4byte	0x553
+ 2023 054d 0A       		.uleb128 0xa
+ 2024 054e 01       		.uleb128 0x1
+ 2025 054f 50       		.byte	0x50
+ 2026 0550 01       		.uleb128 0x1
+ 2027 0551 30       		.byte	0x30
+ 2028 0552 00       		.byte	0
+ 2029 0553 09       		.uleb128 0x9
+ 2030 0554 A2010000 		.4byte	.LVL52
+ 2031 0558 BA0A0000 		.4byte	0xaba
+ 2032 055c 66050000 		.4byte	0x566
+ 2033 0560 0A       		.uleb128 0xa
+ 2034 0561 01       		.uleb128 0x1
+ 2035 0562 50       		.byte	0x50
+ 2036 0563 01       		.uleb128 0x1
+ 2037 0564 31       		.byte	0x31
+ 2038 0565 00       		.byte	0
+ 2039 0566 09       		.uleb128 0x9
+ 2040 0567 A8010000 		.4byte	.LVL53
+ 2041 056b AF0A0000 		.4byte	0xaaf
+ 2042 056f 79050000 		.4byte	0x579
+ 2043 0573 0A       		.uleb128 0xa
+ 2044 0574 01       		.uleb128 0x1
+ 2045 0575 50       		.byte	0x50
+ 2046 0576 01       		.uleb128 0x1
+ 2047 0577 30       		.byte	0x30
+ 2048 0578 00       		.byte	0
+ 2049 0579 09       		.uleb128 0x9
+ 2050 057a AE010000 		.4byte	.LVL54
+ 2051 057e C50A0000 		.4byte	0xac5
+ 2052 0582 8C050000 		.4byte	0x58c
+ 2053 0586 0A       		.uleb128 0xa
+ 2054 0587 01       		.uleb128 0x1
+ 2055 0588 50       		.byte	0x50
+ 2056 0589 01       		.uleb128 0x1
+ 2057 058a 30       		.byte	0x30
+ 2058 058b 00       		.byte	0
+ 2059 058c 09       		.uleb128 0x9
+ 2060 058d B4010000 		.4byte	.LVL55
+ 2061 0591 D00A0000 		.4byte	0xad0
+ 2062 0595 9F050000 		.4byte	0x59f
+ 2063 0599 0A       		.uleb128 0xa
+ 2064 059a 01       		.uleb128 0x1
+ 2065 059b 50       		.byte	0x50
+ 2066 059c 01       		.uleb128 0x1
+ 2067 059d 30       		.byte	0x30
+ 2068 059e 00       		.byte	0
+ 2069 059f 09       		.uleb128 0x9
+ 2070 05a0 BC010000 		.4byte	.LVL56
+ 2071 05a4 C50A0000 		.4byte	0xac5
+ 2072 05a8 B2050000 		.4byte	0x5b2
+ 2073 05ac 0A       		.uleb128 0xa
+ 2074 05ad 01       		.uleb128 0x1
+ 2075 05ae 50       		.byte	0x50
+ 2076 05af 01       		.uleb128 0x1
+ 2077 05b0 31       		.byte	0x31
+ 2078 05b1 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 49
+
+
+ 2079 05b2 09       		.uleb128 0x9
+ 2080 05b3 C2010000 		.4byte	.LVL57
+ 2081 05b7 AF0A0000 		.4byte	0xaaf
+ 2082 05bb C5050000 		.4byte	0x5c5
+ 2083 05bf 0A       		.uleb128 0xa
+ 2084 05c0 01       		.uleb128 0x1
+ 2085 05c1 50       		.byte	0x50
+ 2086 05c2 01       		.uleb128 0x1
+ 2087 05c3 30       		.byte	0x30
+ 2088 05c4 00       		.byte	0
+ 2089 05c5 09       		.uleb128 0x9
+ 2090 05c6 C8010000 		.4byte	.LVL58
+ 2091 05ca BA0A0000 		.4byte	0xaba
+ 2092 05ce D8050000 		.4byte	0x5d8
+ 2093 05d2 0A       		.uleb128 0xa
+ 2094 05d3 01       		.uleb128 0x1
+ 2095 05d4 50       		.byte	0x50
+ 2096 05d5 01       		.uleb128 0x1
+ 2097 05d6 30       		.byte	0x30
+ 2098 05d7 00       		.byte	0
+ 2099 05d8 09       		.uleb128 0x9
+ 2100 05d9 CE010000 		.4byte	.LVL59
+ 2101 05dd D00A0000 		.4byte	0xad0
+ 2102 05e1 EB050000 		.4byte	0x5eb
+ 2103 05e5 0A       		.uleb128 0xa
+ 2104 05e6 01       		.uleb128 0x1
+ 2105 05e7 50       		.byte	0x50
+ 2106 05e8 01       		.uleb128 0x1
+ 2107 05e9 30       		.byte	0x30
+ 2108 05ea 00       		.byte	0
+ 2109 05eb 09       		.uleb128 0x9
+ 2110 05ec D6010000 		.4byte	.LVL60
+ 2111 05f0 D00A0000 		.4byte	0xad0
+ 2112 05f4 FE050000 		.4byte	0x5fe
+ 2113 05f8 0A       		.uleb128 0xa
+ 2114 05f9 01       		.uleb128 0x1
+ 2115 05fa 50       		.byte	0x50
+ 2116 05fb 01       		.uleb128 0x1
+ 2117 05fc 31       		.byte	0x31
+ 2118 05fd 00       		.byte	0
+ 2119 05fe 09       		.uleb128 0x9
+ 2120 05ff DC010000 		.4byte	.LVL61
+ 2121 0603 AF0A0000 		.4byte	0xaaf
+ 2122 0607 11060000 		.4byte	0x611
+ 2123 060b 0A       		.uleb128 0xa
+ 2124 060c 01       		.uleb128 0x1
+ 2125 060d 50       		.byte	0x50
+ 2126 060e 01       		.uleb128 0x1
+ 2127 060f 30       		.byte	0x30
+ 2128 0610 00       		.byte	0
+ 2129 0611 09       		.uleb128 0x9
+ 2130 0612 E2010000 		.4byte	.LVL62
+ 2131 0616 BA0A0000 		.4byte	0xaba
+ 2132 061a 24060000 		.4byte	0x624
+ 2133 061e 0A       		.uleb128 0xa
+ 2134 061f 01       		.uleb128 0x1
+ 2135 0620 50       		.byte	0x50
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 50
+
+
+ 2136 0621 01       		.uleb128 0x1
+ 2137 0622 30       		.byte	0x30
+ 2138 0623 00       		.byte	0
+ 2139 0624 0B       		.uleb128 0xb
+ 2140 0625 E8010000 		.4byte	.LVL63
+ 2141 0629 C50A0000 		.4byte	0xac5
+ 2142 062d 0A       		.uleb128 0xa
+ 2143 062e 01       		.uleb128 0x1
+ 2144 062f 50       		.byte	0x50
+ 2145 0630 01       		.uleb128 0x1
+ 2146 0631 30       		.byte	0x30
+ 2147 0632 00       		.byte	0
+ 2148 0633 00       		.byte	0
+ 2149 0634 0C       		.uleb128 0xc
+ 2150 0635 82000000 		.4byte	.LASF73
+ 2151 0639 01       		.byte	0x1
+ 2152 063a 3D       		.byte	0x3d
+ 2153 063b 73000000 		.4byte	0x73
+ 2154 063f 00000000 		.4byte	.LFB63
+ 2155 0643 84010000 		.4byte	.LFE63-.LFB63
+ 2156 0647 01       		.uleb128 0x1
+ 2157 0648 9C       		.byte	0x9c
+ 2158 0649 B3070000 		.4byte	0x7b3
+ 2159 064d 09       		.uleb128 0x9
+ 2160 064e 0A000000 		.4byte	.LVL64
+ 2161 0652 DB0A0000 		.4byte	0xadb
+ 2162 0656 64060000 		.4byte	0x664
+ 2163 065a 0A       		.uleb128 0xa
+ 2164 065b 01       		.uleb128 0x1
+ 2165 065c 50       		.byte	0x50
+ 2166 065d 05       		.uleb128 0x5
+ 2167 065e 03       		.byte	0x3
+ 2168 065f 00000000 		.4byte	ISR_UART_rx_handler
+ 2169 0663 00       		.byte	0
+ 2170 0664 09       		.uleb128 0x9
+ 2171 0665 10000000 		.4byte	.LVL65
+ 2172 0669 E60A0000 		.4byte	0xae6
+ 2173 066d 7B060000 		.4byte	0x67b
+ 2174 0671 0A       		.uleb128 0xa
+ 2175 0672 01       		.uleb128 0x1
+ 2176 0673 50       		.byte	0x50
+ 2177 0674 05       		.uleb128 0x5
+ 2178 0675 03       		.byte	0x3
+ 2179 0676 00000000 		.4byte	isr_timer_handler
+ 2180 067a 00       		.byte	0
+ 2181 067b 0D       		.uleb128 0xd
+ 2182 067c 14000000 		.4byte	.LVL66
+ 2183 0680 F10A0000 		.4byte	0xaf1
+ 2184 0684 0D       		.uleb128 0xd
+ 2185 0685 18000000 		.4byte	.LVL67
+ 2186 0689 FC0A0000 		.4byte	0xafc
+ 2187 068d 0D       		.uleb128 0xd
+ 2188 068e 1C000000 		.4byte	.LVL68
+ 2189 0692 070B0000 		.4byte	0xb07
+ 2190 0696 09       		.uleb128 0x9
+ 2191 0697 22000000 		.4byte	.LVL69
+ 2192 069b 120B0000 		.4byte	0xb12
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 51
+
+
+ 2193 069f AD060000 		.4byte	0x6ad
+ 2194 06a3 0A       		.uleb128 0xa
+ 2195 06a4 01       		.uleb128 0x1
+ 2196 06a5 50       		.byte	0x50
+ 2197 06a6 05       		.uleb128 0x5
+ 2198 06a7 03       		.byte	0x3
+ 2199 06a8 00000000 		.4byte	.LC0
+ 2200 06ac 00       		.byte	0
+ 2201 06ad 09       		.uleb128 0x9
+ 2202 06ae 28000000 		.4byte	.LVL70
+ 2203 06b2 120B0000 		.4byte	0xb12
+ 2204 06b6 C4060000 		.4byte	0x6c4
+ 2205 06ba 0A       		.uleb128 0xa
+ 2206 06bb 01       		.uleb128 0x1
+ 2207 06bc 50       		.byte	0x50
+ 2208 06bd 05       		.uleb128 0x5
+ 2209 06be 03       		.byte	0x3
+ 2210 06bf 24000000 		.4byte	.LC1
+ 2211 06c3 00       		.byte	0
+ 2212 06c4 09       		.uleb128 0x9
+ 2213 06c5 2E000000 		.4byte	.LVL71
+ 2214 06c9 120B0000 		.4byte	0xb12
+ 2215 06cd DB060000 		.4byte	0x6db
+ 2216 06d1 0A       		.uleb128 0xa
+ 2217 06d2 01       		.uleb128 0x1
+ 2218 06d3 50       		.byte	0x50
+ 2219 06d4 05       		.uleb128 0x5
+ 2220 06d5 03       		.byte	0x3
+ 2221 06d6 30000000 		.4byte	.LC2
+ 2222 06da 00       		.byte	0
+ 2223 06db 09       		.uleb128 0x9
+ 2224 06dc 34000000 		.4byte	.LVL72
+ 2225 06e0 120B0000 		.4byte	0xb12
+ 2226 06e4 F2060000 		.4byte	0x6f2
+ 2227 06e8 0A       		.uleb128 0xa
+ 2228 06e9 01       		.uleb128 0x1
+ 2229 06ea 50       		.byte	0x50
+ 2230 06eb 05       		.uleb128 0x5
+ 2231 06ec 03       		.byte	0x3
+ 2232 06ed 44000000 		.4byte	.LC3
+ 2233 06f1 00       		.byte	0
+ 2234 06f2 09       		.uleb128 0x9
+ 2235 06f3 3A000000 		.4byte	.LVL73
+ 2236 06f7 120B0000 		.4byte	0xb12
+ 2237 06fb 09070000 		.4byte	0x709
+ 2238 06ff 0A       		.uleb128 0xa
+ 2239 0700 01       		.uleb128 0x1
+ 2240 0701 50       		.byte	0x50
+ 2241 0702 05       		.uleb128 0x5
+ 2242 0703 03       		.byte	0x3
+ 2243 0704 5C000000 		.4byte	.LC4
+ 2244 0708 00       		.byte	0
+ 2245 0709 09       		.uleb128 0x9
+ 2246 070a 40000000 		.4byte	.LVL74
+ 2247 070e 120B0000 		.4byte	0xb12
+ 2248 0712 20070000 		.4byte	0x720
+ 2249 0716 0A       		.uleb128 0xa
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 52
+
+
+ 2250 0717 01       		.uleb128 0x1
+ 2251 0718 50       		.byte	0x50
+ 2252 0719 05       		.uleb128 0x5
+ 2253 071a 03       		.byte	0x3
+ 2254 071b 70000000 		.4byte	.LC5
+ 2255 071f 00       		.byte	0
+ 2256 0720 09       		.uleb128 0x9
+ 2257 0721 46000000 		.4byte	.LVL75
+ 2258 0725 120B0000 		.4byte	0xb12
+ 2259 0729 37070000 		.4byte	0x737
+ 2260 072d 0A       		.uleb128 0xa
+ 2261 072e 01       		.uleb128 0x1
+ 2262 072f 50       		.byte	0x50
+ 2263 0730 05       		.uleb128 0x5
+ 2264 0731 03       		.byte	0x3
+ 2265 0732 84000000 		.4byte	.LC6
+ 2266 0736 00       		.byte	0
+ 2267 0737 09       		.uleb128 0x9
+ 2268 0738 4C000000 		.4byte	.LVL76
+ 2269 073c 120B0000 		.4byte	0xb12
+ 2270 0740 4E070000 		.4byte	0x74e
+ 2271 0744 0A       		.uleb128 0xa
+ 2272 0745 01       		.uleb128 0x1
+ 2273 0746 50       		.byte	0x50
+ 2274 0747 05       		.uleb128 0x5
+ 2275 0748 03       		.byte	0x3
+ 2276 0749 90000000 		.4byte	.LC7
+ 2277 074d 00       		.byte	0
+ 2278 074e 09       		.uleb128 0x9
+ 2279 074f 52000000 		.4byte	.LVL77
+ 2280 0753 120B0000 		.4byte	0xb12
+ 2281 0757 65070000 		.4byte	0x765
+ 2282 075b 0A       		.uleb128 0xa
+ 2283 075c 01       		.uleb128 0x1
+ 2284 075d 50       		.byte	0x50
+ 2285 075e 05       		.uleb128 0x5
+ 2286 075f 03       		.byte	0x3
+ 2287 0760 A0000000 		.4byte	.LC8
+ 2288 0764 00       		.byte	0
+ 2289 0765 09       		.uleb128 0x9
+ 2290 0766 58000000 		.4byte	.LVL78
+ 2291 076a 120B0000 		.4byte	0xb12
+ 2292 076e 7C070000 		.4byte	0x77c
+ 2293 0772 0A       		.uleb128 0xa
+ 2294 0773 01       		.uleb128 0x1
+ 2295 0774 50       		.byte	0x50
+ 2296 0775 05       		.uleb128 0x5
+ 2297 0776 03       		.byte	0x3
+ 2298 0777 B0000000 		.4byte	.LC9
+ 2299 077b 00       		.byte	0
+ 2300 077c 0D       		.uleb128 0xd
+ 2301 077d C0000000 		.4byte	.LVL79
+ 2302 0781 61010000 		.4byte	0x161
+ 2303 0785 0D       		.uleb128 0xd
+ 2304 0786 C8000000 		.4byte	.LVL80
+ 2305 078a 1D0B0000 		.4byte	0xb1d
+ 2306 078e 0D       		.uleb128 0xd
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 53
+
+
+ 2307 078f 00010000 		.4byte	.LVL81
+ 2308 0793 61010000 		.4byte	0x161
+ 2309 0797 0D       		.uleb128 0xd
+ 2310 0798 08010000 		.4byte	.LVL82
+ 2311 079c 1D0B0000 		.4byte	0xb1d
+ 2312 07a0 0D       		.uleb128 0xd
+ 2313 07a1 40010000 		.4byte	.LVL83
+ 2314 07a5 61010000 		.4byte	0x161
+ 2315 07a9 0D       		.uleb128 0xd
+ 2316 07aa 48010000 		.4byte	.LVL84
+ 2317 07ae 1D0B0000 		.4byte	0xb1d
+ 2318 07b2 00       		.byte	0
+ 2319 07b3 08       		.uleb128 0x8
+ 2320 07b4 F0030000 		.4byte	.LASF35
+ 2321 07b8 01       		.byte	0x1
+ 2322 07b9 CA01     		.2byte	0x1ca
+ 2323 07bb 00000000 		.4byte	.LFB68
+ 2324 07bf 20000000 		.4byte	.LFE68-.LFB68
+ 2325 07c3 01       		.uleb128 0x1
+ 2326 07c4 9C       		.byte	0x9c
+ 2327 07c5 DD070000 		.4byte	0x7dd
+ 2328 07c9 0B       		.uleb128 0xb
+ 2329 07ca 08000000 		.4byte	.LVL85
+ 2330 07ce 120B0000 		.4byte	0xb12
+ 2331 07d2 0A       		.uleb128 0xa
+ 2332 07d3 01       		.uleb128 0x1
+ 2333 07d4 50       		.byte	0x50
+ 2334 07d5 05       		.uleb128 0x5
+ 2335 07d6 03       		.byte	0x3
+ 2336 07d7 C4000000 		.4byte	.LC10
+ 2337 07db 00       		.byte	0
+ 2338 07dc 00       		.byte	0
+ 2339 07dd 08       		.uleb128 0x8
+ 2340 07de EA010000 		.4byte	.LASF36
+ 2341 07e2 01       		.byte	0x1
+ 2342 07e3 D401     		.2byte	0x1d4
+ 2343 07e5 00000000 		.4byte	.LFB69
+ 2344 07e9 20000000 		.4byte	.LFE69-.LFB69
+ 2345 07ed 01       		.uleb128 0x1
+ 2346 07ee 9C       		.byte	0x9c
+ 2347 07ef 07080000 		.4byte	0x807
+ 2348 07f3 0B       		.uleb128 0xb
+ 2349 07f4 08000000 		.4byte	.LVL86
+ 2350 07f8 120B0000 		.4byte	0xb12
+ 2351 07fc 0A       		.uleb128 0xa
+ 2352 07fd 01       		.uleb128 0x1
+ 2353 07fe 50       		.byte	0x50
+ 2354 07ff 05       		.uleb128 0x5
+ 2355 0800 03       		.byte	0x3
+ 2356 0801 D8000000 		.4byte	.LC11
+ 2357 0805 00       		.byte	0
+ 2358 0806 00       		.byte	0
+ 2359 0807 08       		.uleb128 0x8
+ 2360 0808 54010000 		.4byte	.LASF37
+ 2361 080c 01       		.byte	0x1
+ 2362 080d DF01     		.2byte	0x1df
+ 2363 080f 00000000 		.4byte	.LFB70
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 54
+
+
+ 2364 0813 18000000 		.4byte	.LFE70-.LFB70
+ 2365 0817 01       		.uleb128 0x1
+ 2366 0818 9C       		.byte	0x9c
+ 2367 0819 31080000 		.4byte	0x831
+ 2368 081d 0B       		.uleb128 0xb
+ 2369 081e 08000000 		.4byte	.LVL87
+ 2370 0822 120B0000 		.4byte	0xb12
+ 2371 0826 0A       		.uleb128 0xa
+ 2372 0827 01       		.uleb128 0x1
+ 2373 0828 50       		.byte	0x50
+ 2374 0829 05       		.uleb128 0x5
+ 2375 082a 03       		.byte	0x3
+ 2376 082b EC000000 		.4byte	.LC12
+ 2377 082f 00       		.byte	0
+ 2378 0830 00       		.byte	0
+ 2379 0831 08       		.uleb128 0x8
+ 2380 0832 95000000 		.4byte	.LASF38
+ 2381 0836 01       		.byte	0x1
+ 2382 0837 E601     		.2byte	0x1e6
+ 2383 0839 00000000 		.4byte	.LFB71
+ 2384 083d 18000000 		.4byte	.LFE71-.LFB71
+ 2385 0841 01       		.uleb128 0x1
+ 2386 0842 9C       		.byte	0x9c
+ 2387 0843 5B080000 		.4byte	0x85b
+ 2388 0847 0B       		.uleb128 0xb
+ 2389 0848 08000000 		.4byte	.LVL88
+ 2390 084c 120B0000 		.4byte	0xb12
+ 2391 0850 0A       		.uleb128 0xa
+ 2392 0851 01       		.uleb128 0x1
+ 2393 0852 50       		.byte	0x50
+ 2394 0853 05       		.uleb128 0x5
+ 2395 0854 03       		.byte	0x3
+ 2396 0855 08010000 		.4byte	.LC13
+ 2397 0859 00       		.byte	0
+ 2398 085a 00       		.byte	0
+ 2399 085b 08       		.uleb128 0x8
+ 2400 085c 1E020000 		.4byte	.LASF39
+ 2401 0860 01       		.byte	0x1
+ 2402 0861 EC01     		.2byte	0x1ec
+ 2403 0863 00000000 		.4byte	.LFB72
+ 2404 0867 18000000 		.4byte	.LFE72-.LFB72
+ 2405 086b 01       		.uleb128 0x1
+ 2406 086c 9C       		.byte	0x9c
+ 2407 086d 85080000 		.4byte	0x885
+ 2408 0871 0B       		.uleb128 0xb
+ 2409 0872 08000000 		.4byte	.LVL89
+ 2410 0876 120B0000 		.4byte	0xb12
+ 2411 087a 0A       		.uleb128 0xa
+ 2412 087b 01       		.uleb128 0x1
+ 2413 087c 50       		.byte	0x50
+ 2414 087d 05       		.uleb128 0x5
+ 2415 087e 03       		.byte	0x3
+ 2416 087f 24010000 		.4byte	.LC14
+ 2417 0883 00       		.byte	0
+ 2418 0884 00       		.byte	0
+ 2419 0885 0E       		.uleb128 0xe
+ 2420 0886 18030000 		.4byte	.LASF74
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 55
+
+
+ 2421 088a 01       		.byte	0x1
+ 2422 088b F201     		.2byte	0x1f2
+ 2423 088d 00000000 		.4byte	.LFB73
+ 2424 0891 24000000 		.4byte	.LFE73-.LFB73
+ 2425 0895 01       		.uleb128 0x1
+ 2426 0896 9C       		.byte	0x9c
+ 2427 0897 AF080000 		.4byte	0x8af
+ 2428 089b 0B       		.uleb128 0xb
+ 2429 089c 08000000 		.4byte	.LVL90
+ 2430 08a0 120B0000 		.4byte	0xb12
+ 2431 08a4 0A       		.uleb128 0xa
+ 2432 08a5 01       		.uleb128 0x1
+ 2433 08a6 50       		.byte	0x50
+ 2434 08a7 05       		.uleb128 0x5
+ 2435 08a8 03       		.byte	0x3
+ 2436 08a9 2C010000 		.4byte	.LC15
+ 2437 08ad 00       		.byte	0
+ 2438 08ae 00       		.byte	0
+ 2439 08af 08       		.uleb128 0x8
+ 2440 08b0 24030000 		.4byte	.LASF40
+ 2441 08b4 01       		.byte	0x1
+ 2442 08b5 FA01     		.2byte	0x1fa
+ 2443 08b7 00000000 		.4byte	.LFB74
+ 2444 08bb 1C000000 		.4byte	.LFE74-.LFB74
+ 2445 08bf 01       		.uleb128 0x1
+ 2446 08c0 9C       		.byte	0x9c
+ 2447 08c1 D9080000 		.4byte	0x8d9
+ 2448 08c5 0B       		.uleb128 0xb
+ 2449 08c6 08000000 		.4byte	.LVL91
+ 2450 08ca 120B0000 		.4byte	0xb12
+ 2451 08ce 0A       		.uleb128 0xa
+ 2452 08cf 01       		.uleb128 0x1
+ 2453 08d0 50       		.byte	0x50
+ 2454 08d1 05       		.uleb128 0x5
+ 2455 08d2 03       		.byte	0x3
+ 2456 08d3 40010000 		.4byte	.LC16
+ 2457 08d7 00       		.byte	0
+ 2458 08d8 00       		.byte	0
+ 2459 08d9 08       		.uleb128 0x8
+ 2460 08da 15020000 		.4byte	.LASF41
+ 2461 08de 01       		.byte	0x1
+ 2462 08df FF01     		.2byte	0x1ff
+ 2463 08e1 00000000 		.4byte	.LFB75
+ 2464 08e5 1C000000 		.4byte	.LFE75-.LFB75
+ 2465 08e9 01       		.uleb128 0x1
+ 2466 08ea 9C       		.byte	0x9c
+ 2467 08eb 03090000 		.4byte	0x903
+ 2468 08ef 0B       		.uleb128 0xb
+ 2469 08f0 08000000 		.4byte	.LVL92
+ 2470 08f4 120B0000 		.4byte	0xb12
+ 2471 08f8 0A       		.uleb128 0xa
+ 2472 08f9 01       		.uleb128 0x1
+ 2473 08fa 50       		.byte	0x50
+ 2474 08fb 05       		.uleb128 0x5
+ 2475 08fc 03       		.byte	0x3
+ 2476 08fd 48010000 		.4byte	.LC17
+ 2477 0901 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 56
+
+
+ 2478 0902 00       		.byte	0
+ 2479 0903 08       		.uleb128 0x8
+ 2480 0904 29030000 		.4byte	.LASF42
+ 2481 0908 01       		.byte	0x1
+ 2482 0909 0402     		.2byte	0x204
+ 2483 090b 00000000 		.4byte	.LFB76
+ 2484 090f 1C000000 		.4byte	.LFE76-.LFB76
+ 2485 0913 01       		.uleb128 0x1
+ 2486 0914 9C       		.byte	0x9c
+ 2487 0915 2D090000 		.4byte	0x92d
+ 2488 0919 0B       		.uleb128 0xb
+ 2489 091a 08000000 		.4byte	.LVL93
+ 2490 091e 120B0000 		.4byte	0xb12
+ 2491 0922 0A       		.uleb128 0xa
+ 2492 0923 01       		.uleb128 0x1
+ 2493 0924 50       		.byte	0x50
+ 2494 0925 05       		.uleb128 0x5
+ 2495 0926 03       		.byte	0x3
+ 2496 0927 54010000 		.4byte	.LC18
+ 2497 092b 00       		.byte	0
+ 2498 092c 00       		.byte	0
+ 2499 092d 0F       		.uleb128 0xf
+ 2500 092e 41010000 		.4byte	.LASF43
+ 2501 0932 01       		.byte	0x1
+ 2502 0933 EA       		.byte	0xea
+ 2503 0934 00000000 		.4byte	.LFB66
+ 2504 0938 88000000 		.4byte	.LFE66-.LFB66
+ 2505 093c 01       		.uleb128 0x1
+ 2506 093d 9C       		.byte	0x9c
+ 2507 093e A3090000 		.4byte	0x9a3
+ 2508 0942 10       		.uleb128 0x10
+ 2509 0943 E1000000 		.4byte	.LASF46
+ 2510 0947 01       		.byte	0x1
+ 2511 0948 EA       		.byte	0xea
+ 2512 0949 81000000 		.4byte	0x81
+ 2513 094d 00000000 		.4byte	.LLST0
+ 2514 0951 0D       		.uleb128 0xd
+ 2515 0952 58000000 		.4byte	.LVL96
+ 2516 0956 B3070000 		.4byte	0x7b3
+ 2517 095a 0D       		.uleb128 0xd
+ 2518 095b 5E000000 		.4byte	.LVL97
+ 2519 095f DD070000 		.4byte	0x7dd
+ 2520 0963 0D       		.uleb128 0xd
+ 2521 0964 64000000 		.4byte	.LVL98
+ 2522 0968 07080000 		.4byte	0x807
+ 2523 096c 0D       		.uleb128 0xd
+ 2524 096d 6A000000 		.4byte	.LVL99
+ 2525 0971 31080000 		.4byte	0x831
+ 2526 0975 0D       		.uleb128 0xd
+ 2527 0976 70000000 		.4byte	.LVL100
+ 2528 097a 5B080000 		.4byte	0x85b
+ 2529 097e 0D       		.uleb128 0xd
+ 2530 097f 76000000 		.4byte	.LVL101
+ 2531 0983 AF080000 		.4byte	0x8af
+ 2532 0987 0D       		.uleb128 0xd
+ 2533 0988 7C000000 		.4byte	.LVL102
+ 2534 098c D9080000 		.4byte	0x8d9
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 57
+
+
+ 2535 0990 0D       		.uleb128 0xd
+ 2536 0991 82000000 		.4byte	.LVL103
+ 2537 0995 03090000 		.4byte	0x903
+ 2538 0999 0D       		.uleb128 0xd
+ 2539 099a 86000000 		.4byte	.LVL104
+ 2540 099e 85080000 		.4byte	0x885
+ 2541 09a2 00       		.byte	0
+ 2542 09a3 0F       		.uleb128 0xf
+ 2543 09a4 25000000 		.4byte	.LASF44
+ 2544 09a8 01       		.byte	0x1
+ 2545 09a9 DC       		.byte	0xdc
+ 2546 09aa 00000000 		.4byte	.LFB65
+ 2547 09ae 24000000 		.4byte	.LFE65-.LFB65
+ 2548 09b2 01       		.uleb128 0x1
+ 2549 09b3 9C       		.byte	0x9c
+ 2550 09b4 1B0A0000 		.4byte	0xa1b
+ 2551 09b8 11       		.uleb128 0x11
+ 2552 09b9 B9020000 		.4byte	.LASF45
+ 2553 09bd 01       		.byte	0x1
+ 2554 09be DE       		.byte	0xde
+ 2555 09bf 81000000 		.4byte	0x81
+ 2556 09c3 21000000 		.4byte	.LLST1
+ 2557 09c7 12       		.uleb128 0x12
+ 2558 09c8 0A000000 		.4byte	.LBB2
+ 2559 09cc 14000000 		.4byte	.LBE2-.LBB2
+ 2560 09d0 110A0000 		.4byte	0xa11
+ 2561 09d4 11       		.uleb128 0x11
+ 2562 09d5 E1000000 		.4byte	.LASF46
+ 2563 09d9 01       		.byte	0x1
+ 2564 09da E1       		.byte	0xe1
+ 2565 09db 81000000 		.4byte	0x81
+ 2566 09df 3F000000 		.4byte	.LLST2
+ 2567 09e3 0D       		.uleb128 0xd
+ 2568 09e4 0E000000 		.4byte	.LVL107
+ 2569 09e8 280B0000 		.4byte	0xb28
+ 2570 09ec 09       		.uleb128 0x9
+ 2571 09ed 14000000 		.4byte	.LVL109
+ 2572 09f1 330B0000 		.4byte	0xb33
+ 2573 09f5 000A0000 		.4byte	0xa00
+ 2574 09f9 0A       		.uleb128 0xa
+ 2575 09fa 01       		.uleb128 0x1
+ 2576 09fb 50       		.byte	0x50
+ 2577 09fc 02       		.uleb128 0x2
+ 2578 09fd 75       		.byte	0x75
+ 2579 09fe 00       		.sleb128 0
+ 2580 09ff 00       		.byte	0
+ 2581 0a00 0B       		.uleb128 0xb
+ 2582 0a01 1A000000 		.4byte	.LVL110
+ 2583 0a05 2D090000 		.4byte	0x92d
+ 2584 0a09 0A       		.uleb128 0xa
+ 2585 0a0a 01       		.uleb128 0x1
+ 2586 0a0b 50       		.byte	0x50
+ 2587 0a0c 02       		.uleb128 0x2
+ 2588 0a0d 75       		.byte	0x75
+ 2589 0a0e 00       		.sleb128 0
+ 2590 0a0f 00       		.byte	0
+ 2591 0a10 00       		.byte	0
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 58
+
+
+ 2592 0a11 0D       		.uleb128 0xd
+ 2593 0a12 06000000 		.4byte	.LVL105
+ 2594 0a16 3E0B0000 		.4byte	0xb3e
+ 2595 0a1a 00       		.byte	0
+ 2596 0a1b 13       		.uleb128 0x13
+ 2597 0a1c D7010000 		.4byte	.LASF47
+ 2598 0a20 01       		.byte	0x1
+ 2599 0a21 17       		.byte	0x17
+ 2600 0a22 73000000 		.4byte	0x73
+ 2601 0a26 05       		.uleb128 0x5
+ 2602 0a27 03       		.byte	0x3
+ 2603 0a28 04000000 		.4byte	speed
+ 2604 0a2c 13       		.uleb128 0x13
+ 2605 0a2d 39000000 		.4byte	.LASF48
+ 2606 0a31 01       		.byte	0x1
+ 2607 0a32 18       		.byte	0x18
+ 2608 0a33 73000000 		.4byte	0x73
+ 2609 0a37 05       		.uleb128 0x5
+ 2610 0a38 03       		.byte	0x3
+ 2611 0a39 04000000 		.4byte	state
+ 2612 0a3d 13       		.uleb128 0x13
+ 2613 0a3e 86010000 		.4byte	.LASF49
+ 2614 0a42 01       		.byte	0x1
+ 2615 0a43 36       		.byte	0x36
+ 2616 0a44 73000000 		.4byte	0x73
+ 2617 0a48 05       		.uleb128 0x5
+ 2618 0a49 03       		.byte	0x3
+ 2619 0a4a 0C000000 		.4byte	counter
+ 2620 0a4e 14       		.uleb128 0x14
+ 2621 0a4f 8C000000 		.4byte	.LASF50
+ 2622 0a53 01       		.byte	0x1
+ 2623 0a54 37       		.byte	0x37
+ 2624 0a55 F7000000 		.4byte	0xf7
+ 2625 0a59 00       		.byte	0
+ 2626 0a5a 13       		.uleb128 0x13
+ 2627 0a5b 78000000 		.4byte	.LASF51
+ 2628 0a5f 01       		.byte	0x1
+ 2629 0a60 38       		.byte	0x38
+ 2630 0a61 1B010000 		.4byte	0x11b
+ 2631 0a65 05       		.uleb128 0x5
+ 2632 0a66 03       		.byte	0x3
+ 2633 0a67 10000000 		.4byte	direction
+ 2634 0a6b 13       		.uleb128 0x13
+ 2635 0a6c 87000000 		.4byte	.LASF52
+ 2636 0a70 01       		.byte	0x1
+ 2637 0a71 39       		.byte	0x39
+ 2638 0a72 45010000 		.4byte	0x145
+ 2639 0a76 05       		.uleb128 0x5
+ 2640 0a77 03       		.byte	0x3
+ 2641 0a78 00000000 		.4byte	mode
+ 2642 0a7c 13       		.uleb128 0x13
+ 2643 0a7d 02010000 		.4byte	.LASF53
+ 2644 0a81 01       		.byte	0x1
+ 2645 0a82 3A       		.byte	0x3a
+ 2646 0a83 73000000 		.4byte	0x73
+ 2647 0a87 05       		.uleb128 0x5
+ 2648 0a88 03       		.byte	0x3
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 59
+
+
+ 2649 0a89 00000000 		.4byte	turnOn
+ 2650 0a8d 13       		.uleb128 0x13
+ 2651 0a8e 41030000 		.4byte	.LASF54
+ 2652 0a92 01       		.byte	0x1
+ 2653 0a93 3B       		.byte	0x3b
+ 2654 0a94 73000000 		.4byte	0x73
+ 2655 0a98 05       		.uleb128 0x5
+ 2656 0a99 03       		.byte	0x3
+ 2657 0a9a 08000000 		.4byte	rotate
+ 2658 0a9e 15       		.uleb128 0x15
+ 2659 0a9f 4D030000 		.4byte	.LASF75
+ 2660 0aa3 0E       		.byte	0xe
+ 2661 0aa4 9606     		.2byte	0x696
+ 2662 0aa6 AA0A0000 		.4byte	0xaaa
+ 2663 0aaa 16       		.uleb128 0x16
+ 2664 0aab 8C000000 		.4byte	0x8c
+ 2665 0aaf 17       		.uleb128 0x17
+ 2666 0ab0 56020000 		.4byte	.LASF55
+ 2667 0ab4 56020000 		.4byte	.LASF55
+ 2668 0ab8 04       		.byte	0x4
+ 2669 0ab9 26       		.byte	0x26
+ 2670 0aba 17       		.uleb128 0x17
+ 2671 0abb 00000000 		.4byte	.LASF56
+ 2672 0abf 00000000 		.4byte	.LASF56
+ 2673 0ac3 05       		.byte	0x5
+ 2674 0ac4 26       		.byte	0x26
+ 2675 0ac5 17       		.uleb128 0x17
+ 2676 0ac6 AC000000 		.4byte	.LASF57
+ 2677 0aca AC000000 		.4byte	.LASF57
+ 2678 0ace 06       		.byte	0x6
+ 2679 0acf 26       		.byte	0x26
+ 2680 0ad0 17       		.uleb128 0x17
+ 2681 0ad1 DD010000 		.4byte	.LASF58
+ 2682 0ad5 DD010000 		.4byte	.LASF58
+ 2683 0ad9 07       		.byte	0x7
+ 2684 0ada 26       		.byte	0x26
+ 2685 0adb 17       		.uleb128 0x17
+ 2686 0adc 5B000000 		.4byte	.LASF59
+ 2687 0ae0 5B000000 		.4byte	.LASF59
+ 2688 0ae4 08       		.byte	0x8
+ 2689 0ae5 18       		.byte	0x18
+ 2690 0ae6 17       		.uleb128 0x17
+ 2691 0ae7 C0010000 		.4byte	.LASF60
+ 2692 0aeb C0010000 		.4byte	.LASF60
+ 2693 0aef 09       		.byte	0x9
+ 2694 0af0 18       		.byte	0x18
+ 2695 0af1 17       		.uleb128 0x17
+ 2696 0af2 D4000000 		.4byte	.LASF61
+ 2697 0af6 D4000000 		.4byte	.LASF61
+ 2698 0afa 0A       		.byte	0xa
+ 2699 0afb 54       		.byte	0x54
+ 2700 0afc 17       		.uleb128 0x17
+ 2701 0afd 0D000000 		.4byte	.LASF62
+ 2702 0b01 0D000000 		.4byte	.LASF62
+ 2703 0b05 0B       		.byte	0xb
+ 2704 0b06 92       		.byte	0x92
+ 2705 0b07 17       		.uleb128 0x17
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 60
+
+
+ 2706 0b08 8E010000 		.4byte	.LASF63
+ 2707 0b0c 8E010000 		.4byte	.LASF63
+ 2708 0b10 0C       		.byte	0xc
+ 2709 0b11 5A       		.byte	0x5a
+ 2710 0b12 17       		.uleb128 0x17
+ 2711 0b13 E3020000 		.4byte	.LASF64
+ 2712 0b17 E3020000 		.4byte	.LASF64
+ 2713 0b1b 0A       		.byte	0xa
+ 2714 0b1c 8B       		.byte	0x8b
+ 2715 0b1d 17       		.uleb128 0x17
+ 2716 0b1e E8030000 		.4byte	.LASF65
+ 2717 0b22 E8030000 		.4byte	.LASF65
+ 2718 0b26 0D       		.byte	0xd
+ 2719 0b27 76       		.byte	0x76
+ 2720 0b28 17       		.uleb128 0x17
+ 2721 0b29 39020000 		.4byte	.LASF66
+ 2722 0b2d 39020000 		.4byte	.LASF66
+ 2723 0b31 0A       		.byte	0xa
+ 2724 0b32 6F       		.byte	0x6f
+ 2725 0b33 17       		.uleb128 0x17
+ 2726 0b34 F4020000 		.4byte	.LASF67
+ 2727 0b38 F4020000 		.4byte	.LASF67
+ 2728 0b3c 0A       		.byte	0xa
+ 2729 0b3d 88       		.byte	0x88
+ 2730 0b3e 17       		.uleb128 0x17
+ 2731 0b3f C5020000 		.4byte	.LASF68
+ 2732 0b43 C5020000 		.4byte	.LASF68
+ 2733 0b47 0A       		.byte	0xa
+ 2734 0b48 73       		.byte	0x73
+ 2735 0b49 00       		.byte	0
+ 2736              		.section	.debug_abbrev,"",%progbits
+ 2737              	.Ldebug_abbrev0:
+ 2738 0000 01       		.uleb128 0x1
+ 2739 0001 11       		.uleb128 0x11
+ 2740 0002 01       		.byte	0x1
+ 2741 0003 25       		.uleb128 0x25
+ 2742 0004 0E       		.uleb128 0xe
+ 2743 0005 13       		.uleb128 0x13
+ 2744 0006 0B       		.uleb128 0xb
+ 2745 0007 03       		.uleb128 0x3
+ 2746 0008 0E       		.uleb128 0xe
+ 2747 0009 1B       		.uleb128 0x1b
+ 2748 000a 0E       		.uleb128 0xe
+ 2749 000b 55       		.uleb128 0x55
+ 2750 000c 17       		.uleb128 0x17
+ 2751 000d 11       		.uleb128 0x11
+ 2752 000e 01       		.uleb128 0x1
+ 2753 000f 10       		.uleb128 0x10
+ 2754 0010 17       		.uleb128 0x17
+ 2755 0011 00       		.byte	0
+ 2756 0012 00       		.byte	0
+ 2757 0013 02       		.uleb128 0x2
+ 2758 0014 24       		.uleb128 0x24
+ 2759 0015 00       		.byte	0
+ 2760 0016 0B       		.uleb128 0xb
+ 2761 0017 0B       		.uleb128 0xb
+ 2762 0018 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 61
+
+
+ 2763 0019 0B       		.uleb128 0xb
+ 2764 001a 03       		.uleb128 0x3
+ 2765 001b 0E       		.uleb128 0xe
+ 2766 001c 00       		.byte	0
+ 2767 001d 00       		.byte	0
+ 2768 001e 03       		.uleb128 0x3
+ 2769 001f 16       		.uleb128 0x16
+ 2770 0020 00       		.byte	0
+ 2771 0021 03       		.uleb128 0x3
+ 2772 0022 0E       		.uleb128 0xe
+ 2773 0023 3A       		.uleb128 0x3a
+ 2774 0024 0B       		.uleb128 0xb
+ 2775 0025 3B       		.uleb128 0x3b
+ 2776 0026 0B       		.uleb128 0xb
+ 2777 0027 49       		.uleb128 0x49
+ 2778 0028 13       		.uleb128 0x13
+ 2779 0029 00       		.byte	0
+ 2780 002a 00       		.byte	0
+ 2781 002b 04       		.uleb128 0x4
+ 2782 002c 24       		.uleb128 0x24
+ 2783 002d 00       		.byte	0
+ 2784 002e 0B       		.uleb128 0xb
+ 2785 002f 0B       		.uleb128 0xb
+ 2786 0030 3E       		.uleb128 0x3e
+ 2787 0031 0B       		.uleb128 0xb
+ 2788 0032 03       		.uleb128 0x3
+ 2789 0033 08       		.uleb128 0x8
+ 2790 0034 00       		.byte	0
+ 2791 0035 00       		.byte	0
+ 2792 0036 05       		.uleb128 0x5
+ 2793 0037 04       		.uleb128 0x4
+ 2794 0038 01       		.byte	0x1
+ 2795 0039 0B       		.uleb128 0xb
+ 2796 003a 0B       		.uleb128 0xb
+ 2797 003b 49       		.uleb128 0x49
+ 2798 003c 13       		.uleb128 0x13
+ 2799 003d 3A       		.uleb128 0x3a
+ 2800 003e 0B       		.uleb128 0xb
+ 2801 003f 3B       		.uleb128 0x3b
+ 2802 0040 0B       		.uleb128 0xb
+ 2803 0041 01       		.uleb128 0x1
+ 2804 0042 13       		.uleb128 0x13
+ 2805 0043 00       		.byte	0
+ 2806 0044 00       		.byte	0
+ 2807 0045 06       		.uleb128 0x6
+ 2808 0046 28       		.uleb128 0x28
+ 2809 0047 00       		.byte	0
+ 2810 0048 03       		.uleb128 0x3
+ 2811 0049 0E       		.uleb128 0xe
+ 2812 004a 1C       		.uleb128 0x1c
+ 2813 004b 0B       		.uleb128 0xb
+ 2814 004c 00       		.byte	0
+ 2815 004d 00       		.byte	0
+ 2816 004e 07       		.uleb128 0x7
+ 2817 004f 2E       		.uleb128 0x2e
+ 2818 0050 00       		.byte	0
+ 2819 0051 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 62
+
+
+ 2820 0052 19       		.uleb128 0x19
+ 2821 0053 03       		.uleb128 0x3
+ 2822 0054 0E       		.uleb128 0xe
+ 2823 0055 3A       		.uleb128 0x3a
+ 2824 0056 0B       		.uleb128 0xb
+ 2825 0057 3B       		.uleb128 0x3b
+ 2826 0058 0B       		.uleb128 0xb
+ 2827 0059 27       		.uleb128 0x27
+ 2828 005a 19       		.uleb128 0x19
+ 2829 005b 11       		.uleb128 0x11
+ 2830 005c 01       		.uleb128 0x1
+ 2831 005d 12       		.uleb128 0x12
+ 2832 005e 06       		.uleb128 0x6
+ 2833 005f 40       		.uleb128 0x40
+ 2834 0060 18       		.uleb128 0x18
+ 2835 0061 9742     		.uleb128 0x2117
+ 2836 0063 19       		.uleb128 0x19
+ 2837 0064 00       		.byte	0
+ 2838 0065 00       		.byte	0
+ 2839 0066 08       		.uleb128 0x8
+ 2840 0067 2E       		.uleb128 0x2e
+ 2841 0068 01       		.byte	0x1
+ 2842 0069 3F       		.uleb128 0x3f
+ 2843 006a 19       		.uleb128 0x19
+ 2844 006b 03       		.uleb128 0x3
+ 2845 006c 0E       		.uleb128 0xe
+ 2846 006d 3A       		.uleb128 0x3a
+ 2847 006e 0B       		.uleb128 0xb
+ 2848 006f 3B       		.uleb128 0x3b
+ 2849 0070 05       		.uleb128 0x5
+ 2850 0071 27       		.uleb128 0x27
+ 2851 0072 19       		.uleb128 0x19
+ 2852 0073 11       		.uleb128 0x11
+ 2853 0074 01       		.uleb128 0x1
+ 2854 0075 12       		.uleb128 0x12
+ 2855 0076 06       		.uleb128 0x6
+ 2856 0077 40       		.uleb128 0x40
+ 2857 0078 18       		.uleb128 0x18
+ 2858 0079 9742     		.uleb128 0x2117
+ 2859 007b 19       		.uleb128 0x19
+ 2860 007c 01       		.uleb128 0x1
+ 2861 007d 13       		.uleb128 0x13
+ 2862 007e 00       		.byte	0
+ 2863 007f 00       		.byte	0
+ 2864 0080 09       		.uleb128 0x9
+ 2865 0081 898201   		.uleb128 0x4109
+ 2866 0084 01       		.byte	0x1
+ 2867 0085 11       		.uleb128 0x11
+ 2868 0086 01       		.uleb128 0x1
+ 2869 0087 31       		.uleb128 0x31
+ 2870 0088 13       		.uleb128 0x13
+ 2871 0089 01       		.uleb128 0x1
+ 2872 008a 13       		.uleb128 0x13
+ 2873 008b 00       		.byte	0
+ 2874 008c 00       		.byte	0
+ 2875 008d 0A       		.uleb128 0xa
+ 2876 008e 8A8201   		.uleb128 0x410a
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 63
+
+
+ 2877 0091 00       		.byte	0
+ 2878 0092 02       		.uleb128 0x2
+ 2879 0093 18       		.uleb128 0x18
+ 2880 0094 9142     		.uleb128 0x2111
+ 2881 0096 18       		.uleb128 0x18
+ 2882 0097 00       		.byte	0
+ 2883 0098 00       		.byte	0
+ 2884 0099 0B       		.uleb128 0xb
+ 2885 009a 898201   		.uleb128 0x4109
+ 2886 009d 01       		.byte	0x1
+ 2887 009e 11       		.uleb128 0x11
+ 2888 009f 01       		.uleb128 0x1
+ 2889 00a0 31       		.uleb128 0x31
+ 2890 00a1 13       		.uleb128 0x13
+ 2891 00a2 00       		.byte	0
+ 2892 00a3 00       		.byte	0
+ 2893 00a4 0C       		.uleb128 0xc
+ 2894 00a5 2E       		.uleb128 0x2e
+ 2895 00a6 01       		.byte	0x1
+ 2896 00a7 3F       		.uleb128 0x3f
+ 2897 00a8 19       		.uleb128 0x19
+ 2898 00a9 03       		.uleb128 0x3
+ 2899 00aa 0E       		.uleb128 0xe
+ 2900 00ab 3A       		.uleb128 0x3a
+ 2901 00ac 0B       		.uleb128 0xb
+ 2902 00ad 3B       		.uleb128 0x3b
+ 2903 00ae 0B       		.uleb128 0xb
+ 2904 00af 27       		.uleb128 0x27
+ 2905 00b0 19       		.uleb128 0x19
+ 2906 00b1 49       		.uleb128 0x49
+ 2907 00b2 13       		.uleb128 0x13
+ 2908 00b3 8701     		.uleb128 0x87
+ 2909 00b5 19       		.uleb128 0x19
+ 2910 00b6 11       		.uleb128 0x11
+ 2911 00b7 01       		.uleb128 0x1
+ 2912 00b8 12       		.uleb128 0x12
+ 2913 00b9 06       		.uleb128 0x6
+ 2914 00ba 40       		.uleb128 0x40
+ 2915 00bb 18       		.uleb128 0x18
+ 2916 00bc 9742     		.uleb128 0x2117
+ 2917 00be 19       		.uleb128 0x19
+ 2918 00bf 01       		.uleb128 0x1
+ 2919 00c0 13       		.uleb128 0x13
+ 2920 00c1 00       		.byte	0
+ 2921 00c2 00       		.byte	0
+ 2922 00c3 0D       		.uleb128 0xd
+ 2923 00c4 898201   		.uleb128 0x4109
+ 2924 00c7 00       		.byte	0
+ 2925 00c8 11       		.uleb128 0x11
+ 2926 00c9 01       		.uleb128 0x1
+ 2927 00ca 31       		.uleb128 0x31
+ 2928 00cb 13       		.uleb128 0x13
+ 2929 00cc 00       		.byte	0
+ 2930 00cd 00       		.byte	0
+ 2931 00ce 0E       		.uleb128 0xe
+ 2932 00cf 2E       		.uleb128 0x2e
+ 2933 00d0 01       		.byte	0x1
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 64
+
+
+ 2934 00d1 3F       		.uleb128 0x3f
+ 2935 00d2 19       		.uleb128 0x19
+ 2936 00d3 03       		.uleb128 0x3
+ 2937 00d4 0E       		.uleb128 0xe
+ 2938 00d5 3A       		.uleb128 0x3a
+ 2939 00d6 0B       		.uleb128 0xb
+ 2940 00d7 3B       		.uleb128 0x3b
+ 2941 00d8 05       		.uleb128 0x5
+ 2942 00d9 11       		.uleb128 0x11
+ 2943 00da 01       		.uleb128 0x1
+ 2944 00db 12       		.uleb128 0x12
+ 2945 00dc 06       		.uleb128 0x6
+ 2946 00dd 40       		.uleb128 0x40
+ 2947 00de 18       		.uleb128 0x18
+ 2948 00df 9742     		.uleb128 0x2117
+ 2949 00e1 19       		.uleb128 0x19
+ 2950 00e2 01       		.uleb128 0x1
+ 2951 00e3 13       		.uleb128 0x13
+ 2952 00e4 00       		.byte	0
+ 2953 00e5 00       		.byte	0
+ 2954 00e6 0F       		.uleb128 0xf
+ 2955 00e7 2E       		.uleb128 0x2e
+ 2956 00e8 01       		.byte	0x1
+ 2957 00e9 3F       		.uleb128 0x3f
+ 2958 00ea 19       		.uleb128 0x19
+ 2959 00eb 03       		.uleb128 0x3
+ 2960 00ec 0E       		.uleb128 0xe
+ 2961 00ed 3A       		.uleb128 0x3a
+ 2962 00ee 0B       		.uleb128 0xb
+ 2963 00ef 3B       		.uleb128 0x3b
+ 2964 00f0 0B       		.uleb128 0xb
+ 2965 00f1 27       		.uleb128 0x27
+ 2966 00f2 19       		.uleb128 0x19
+ 2967 00f3 11       		.uleb128 0x11
+ 2968 00f4 01       		.uleb128 0x1
+ 2969 00f5 12       		.uleb128 0x12
+ 2970 00f6 06       		.uleb128 0x6
+ 2971 00f7 40       		.uleb128 0x40
+ 2972 00f8 18       		.uleb128 0x18
+ 2973 00f9 9742     		.uleb128 0x2117
+ 2974 00fb 19       		.uleb128 0x19
+ 2975 00fc 01       		.uleb128 0x1
+ 2976 00fd 13       		.uleb128 0x13
+ 2977 00fe 00       		.byte	0
+ 2978 00ff 00       		.byte	0
+ 2979 0100 10       		.uleb128 0x10
+ 2980 0101 05       		.uleb128 0x5
+ 2981 0102 00       		.byte	0
+ 2982 0103 03       		.uleb128 0x3
+ 2983 0104 0E       		.uleb128 0xe
+ 2984 0105 3A       		.uleb128 0x3a
+ 2985 0106 0B       		.uleb128 0xb
+ 2986 0107 3B       		.uleb128 0x3b
+ 2987 0108 0B       		.uleb128 0xb
+ 2988 0109 49       		.uleb128 0x49
+ 2989 010a 13       		.uleb128 0x13
+ 2990 010b 02       		.uleb128 0x2
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 65
+
+
+ 2991 010c 17       		.uleb128 0x17
+ 2992 010d 00       		.byte	0
+ 2993 010e 00       		.byte	0
+ 2994 010f 11       		.uleb128 0x11
+ 2995 0110 34       		.uleb128 0x34
+ 2996 0111 00       		.byte	0
+ 2997 0112 03       		.uleb128 0x3
+ 2998 0113 0E       		.uleb128 0xe
+ 2999 0114 3A       		.uleb128 0x3a
+ 3000 0115 0B       		.uleb128 0xb
+ 3001 0116 3B       		.uleb128 0x3b
+ 3002 0117 0B       		.uleb128 0xb
+ 3003 0118 49       		.uleb128 0x49
+ 3004 0119 13       		.uleb128 0x13
+ 3005 011a 02       		.uleb128 0x2
+ 3006 011b 17       		.uleb128 0x17
+ 3007 011c 00       		.byte	0
+ 3008 011d 00       		.byte	0
+ 3009 011e 12       		.uleb128 0x12
+ 3010 011f 0B       		.uleb128 0xb
+ 3011 0120 01       		.byte	0x1
+ 3012 0121 11       		.uleb128 0x11
+ 3013 0122 01       		.uleb128 0x1
+ 3014 0123 12       		.uleb128 0x12
+ 3015 0124 06       		.uleb128 0x6
+ 3016 0125 01       		.uleb128 0x1
+ 3017 0126 13       		.uleb128 0x13
+ 3018 0127 00       		.byte	0
+ 3019 0128 00       		.byte	0
+ 3020 0129 13       		.uleb128 0x13
+ 3021 012a 34       		.uleb128 0x34
+ 3022 012b 00       		.byte	0
+ 3023 012c 03       		.uleb128 0x3
+ 3024 012d 0E       		.uleb128 0xe
+ 3025 012e 3A       		.uleb128 0x3a
+ 3026 012f 0B       		.uleb128 0xb
+ 3027 0130 3B       		.uleb128 0x3b
+ 3028 0131 0B       		.uleb128 0xb
+ 3029 0132 49       		.uleb128 0x49
+ 3030 0133 13       		.uleb128 0x13
+ 3031 0134 02       		.uleb128 0x2
+ 3032 0135 18       		.uleb128 0x18
+ 3033 0136 00       		.byte	0
+ 3034 0137 00       		.byte	0
+ 3035 0138 14       		.uleb128 0x14
+ 3036 0139 34       		.uleb128 0x34
+ 3037 013a 00       		.byte	0
+ 3038 013b 03       		.uleb128 0x3
+ 3039 013c 0E       		.uleb128 0xe
+ 3040 013d 3A       		.uleb128 0x3a
+ 3041 013e 0B       		.uleb128 0xb
+ 3042 013f 3B       		.uleb128 0x3b
+ 3043 0140 0B       		.uleb128 0xb
+ 3044 0141 49       		.uleb128 0x49
+ 3045 0142 13       		.uleb128 0x13
+ 3046 0143 1C       		.uleb128 0x1c
+ 3047 0144 0B       		.uleb128 0xb
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 66
+
+
+ 3048 0145 00       		.byte	0
+ 3049 0146 00       		.byte	0
+ 3050 0147 15       		.uleb128 0x15
+ 3051 0148 34       		.uleb128 0x34
+ 3052 0149 00       		.byte	0
+ 3053 014a 03       		.uleb128 0x3
+ 3054 014b 0E       		.uleb128 0xe
+ 3055 014c 3A       		.uleb128 0x3a
+ 3056 014d 0B       		.uleb128 0xb
+ 3057 014e 3B       		.uleb128 0x3b
+ 3058 014f 05       		.uleb128 0x5
+ 3059 0150 49       		.uleb128 0x49
+ 3060 0151 13       		.uleb128 0x13
+ 3061 0152 3F       		.uleb128 0x3f
+ 3062 0153 19       		.uleb128 0x19
+ 3063 0154 3C       		.uleb128 0x3c
+ 3064 0155 19       		.uleb128 0x19
+ 3065 0156 00       		.byte	0
+ 3066 0157 00       		.byte	0
+ 3067 0158 16       		.uleb128 0x16
+ 3068 0159 35       		.uleb128 0x35
+ 3069 015a 00       		.byte	0
+ 3070 015b 49       		.uleb128 0x49
+ 3071 015c 13       		.uleb128 0x13
+ 3072 015d 00       		.byte	0
+ 3073 015e 00       		.byte	0
+ 3074 015f 17       		.uleb128 0x17
+ 3075 0160 2E       		.uleb128 0x2e
+ 3076 0161 00       		.byte	0
+ 3077 0162 3F       		.uleb128 0x3f
+ 3078 0163 19       		.uleb128 0x19
+ 3079 0164 3C       		.uleb128 0x3c
+ 3080 0165 19       		.uleb128 0x19
+ 3081 0166 6E       		.uleb128 0x6e
+ 3082 0167 0E       		.uleb128 0xe
+ 3083 0168 03       		.uleb128 0x3
+ 3084 0169 0E       		.uleb128 0xe
+ 3085 016a 3A       		.uleb128 0x3a
+ 3086 016b 0B       		.uleb128 0xb
+ 3087 016c 3B       		.uleb128 0x3b
+ 3088 016d 0B       		.uleb128 0xb
+ 3089 016e 00       		.byte	0
+ 3090 016f 00       		.byte	0
+ 3091 0170 00       		.byte	0
+ 3092              		.section	.debug_loc,"",%progbits
+ 3093              	.Ldebug_loc0:
+ 3094              	.LLST0:
+ 3095 0000 00000000 		.4byte	.LVL94
+ 3096 0004 04000000 		.4byte	.LVL95
+ 3097 0008 0100     		.2byte	0x1
+ 3098 000a 50       		.byte	0x50
+ 3099 000b 04000000 		.4byte	.LVL95
+ 3100 000f 88000000 		.4byte	.LFE66
+ 3101 0013 0400     		.2byte	0x4
+ 3102 0015 F3       		.byte	0xf3
+ 3103 0016 01       		.uleb128 0x1
+ 3104 0017 50       		.byte	0x50
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 67
+
+
+ 3105 0018 9F       		.byte	0x9f
+ 3106 0019 00000000 		.4byte	0
+ 3107 001d 00000000 		.4byte	0
+ 3108              	.LLST1:
+ 3109 0021 08000000 		.4byte	.LVL106
+ 3110 0025 1C000000 		.4byte	.LVL111
+ 3111 0029 0100     		.2byte	0x1
+ 3112 002b 54       		.byte	0x54
+ 3113 002c 1E000000 		.4byte	.LVL112
+ 3114 0030 24000000 		.4byte	.LFE65
+ 3115 0034 0100     		.2byte	0x1
+ 3116 0036 54       		.byte	0x54
+ 3117 0037 00000000 		.4byte	0
+ 3118 003b 00000000 		.4byte	0
+ 3119              	.LLST2:
+ 3120 003f 10000000 		.4byte	.LVL108
+ 3121 0043 1E000000 		.4byte	.LVL112
+ 3122 0047 0100     		.2byte	0x1
+ 3123 0049 55       		.byte	0x55
+ 3124 004a 00000000 		.4byte	0
+ 3125 004e 00000000 		.4byte	0
+ 3126              		.section	.debug_aranges,"",%progbits
+ 3127 0000 84000000 		.4byte	0x84
+ 3128 0004 0200     		.2byte	0x2
+ 3129 0006 00000000 		.4byte	.Ldebug_info0
+ 3130 000a 04       		.byte	0x4
+ 3131 000b 00       		.byte	0
+ 3132 000c 0000     		.2byte	0
+ 3133 000e 0000     		.2byte	0
+ 3134 0010 00000000 		.4byte	.LFB64
+ 3135 0014 02000000 		.4byte	.LFE64-.LFB64
+ 3136 0018 00000000 		.4byte	.LFB67
+ 3137 001c F0010000 		.4byte	.LFE67-.LFB67
+ 3138 0020 00000000 		.4byte	.LFB63
+ 3139 0024 84010000 		.4byte	.LFE63-.LFB63
+ 3140 0028 00000000 		.4byte	.LFB68
+ 3141 002c 20000000 		.4byte	.LFE68-.LFB68
+ 3142 0030 00000000 		.4byte	.LFB69
+ 3143 0034 20000000 		.4byte	.LFE69-.LFB69
+ 3144 0038 00000000 		.4byte	.LFB70
+ 3145 003c 18000000 		.4byte	.LFE70-.LFB70
+ 3146 0040 00000000 		.4byte	.LFB71
+ 3147 0044 18000000 		.4byte	.LFE71-.LFB71
+ 3148 0048 00000000 		.4byte	.LFB72
+ 3149 004c 18000000 		.4byte	.LFE72-.LFB72
+ 3150 0050 00000000 		.4byte	.LFB73
+ 3151 0054 24000000 		.4byte	.LFE73-.LFB73
+ 3152 0058 00000000 		.4byte	.LFB74
+ 3153 005c 1C000000 		.4byte	.LFE74-.LFB74
+ 3154 0060 00000000 		.4byte	.LFB75
+ 3155 0064 1C000000 		.4byte	.LFE75-.LFB75
+ 3156 0068 00000000 		.4byte	.LFB76
+ 3157 006c 1C000000 		.4byte	.LFE76-.LFB76
+ 3158 0070 00000000 		.4byte	.LFB66
+ 3159 0074 88000000 		.4byte	.LFE66-.LFB66
+ 3160 0078 00000000 		.4byte	.LFB65
+ 3161 007c 24000000 		.4byte	.LFE65-.LFB65
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 68
+
+
+ 3162 0080 00000000 		.4byte	0
+ 3163 0084 00000000 		.4byte	0
+ 3164              		.section	.debug_ranges,"",%progbits
+ 3165              	.Ldebug_ranges0:
+ 3166 0000 00000000 		.4byte	.LFB64
+ 3167 0004 02000000 		.4byte	.LFE64
+ 3168 0008 00000000 		.4byte	.LFB67
+ 3169 000c F0010000 		.4byte	.LFE67
+ 3170 0010 00000000 		.4byte	.LFB63
+ 3171 0014 84010000 		.4byte	.LFE63
+ 3172 0018 00000000 		.4byte	.LFB68
+ 3173 001c 20000000 		.4byte	.LFE68
+ 3174 0020 00000000 		.4byte	.LFB69
+ 3175 0024 20000000 		.4byte	.LFE69
+ 3176 0028 00000000 		.4byte	.LFB70
+ 3177 002c 18000000 		.4byte	.LFE70
+ 3178 0030 00000000 		.4byte	.LFB71
+ 3179 0034 18000000 		.4byte	.LFE71
+ 3180 0038 00000000 		.4byte	.LFB72
+ 3181 003c 18000000 		.4byte	.LFE72
+ 3182 0040 00000000 		.4byte	.LFB73
+ 3183 0044 24000000 		.4byte	.LFE73
+ 3184 0048 00000000 		.4byte	.LFB74
+ 3185 004c 1C000000 		.4byte	.LFE74
+ 3186 0050 00000000 		.4byte	.LFB75
+ 3187 0054 1C000000 		.4byte	.LFE75
+ 3188 0058 00000000 		.4byte	.LFB76
+ 3189 005c 1C000000 		.4byte	.LFE76
+ 3190 0060 00000000 		.4byte	.LFB66
+ 3191 0064 88000000 		.4byte	.LFE66
+ 3192 0068 00000000 		.4byte	.LFB65
+ 3193 006c 24000000 		.4byte	.LFE65
+ 3194 0070 00000000 		.4byte	0
+ 3195 0074 00000000 		.4byte	0
+ 3196              		.section	.debug_line,"",%progbits
+ 3197              	.Ldebug_line0:
+ 3198 0000 6E030000 		.section	.debug_str,"MS",%progbits,1
+ 3198      0200BE01 
+ 3198      00000201 
+ 3198      FB0E0D00 
+ 3198      01010101 
+ 3199              	.LASF56:
+ 3200 0000 50696E5F 		.ascii	"Pin_2A_Write\000"
+ 3200      32415F57 
+ 3200      72697465 
+ 3200      00
+ 3201              	.LASF62:
+ 3202 000d 50574D5F 		.ascii	"PWM_1_Start\000"
+ 3202      315F5374 
+ 3202      61727400 
+ 3203              	.LASF0:
+ 3204 0019 7369676E 		.ascii	"signed char\000"
+ 3204      65642063 
+ 3204      68617200 
+ 3205              	.LASF44:
+ 3206 0025 4953525F 		.ascii	"ISR_UART_rx_handler\000"
+ 3206      55415254 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 69
+
+
+ 3206      5F72785F 
+ 3206      68616E64 
+ 3206      6C657200 
+ 3207              	.LASF48:
+ 3208 0039 73746174 		.ascii	"state\000"
+ 3208      6500
+ 3209              	.LASF2:
+ 3210 003f 73686F72 		.ascii	"short int\000"
+ 3210      7420696E 
+ 3210      7400
+ 3211              	.LASF17:
+ 3212 0049 73697A65 		.ascii	"sizetype\000"
+ 3212      74797065 
+ 3212      00
+ 3213              	.LASF18:
+ 3214 0052 5F306772 		.ascii	"_0grader\000"
+ 3214      61646572 
+ 3214      00
+ 3215              	.LASF59:
+ 3216 005b 6973725F 		.ascii	"isr_uart_rx_StartEx\000"
+ 3216      75617274 
+ 3216      5F72785F 
+ 3216      53746172 
+ 3216      74457800 
+ 3217              	.LASF28:
+ 3218 006f 4241434B 		.ascii	"BACKWARD\000"
+ 3218      57415244 
+ 3218      00
+ 3219              	.LASF51:
+ 3220 0078 64697265 		.ascii	"direction\000"
+ 3220      6374696F 
+ 3220      6E00
+ 3221              	.LASF73:
+ 3222 0082 6D61696E 		.ascii	"main\000"
+ 3222      00
+ 3223              	.LASF52:
+ 3224 0087 6D6F6465 		.ascii	"mode\000"
+ 3224      00
+ 3225              	.LASF50:
+ 3226 008c 706F7369 		.ascii	"position\000"
+ 3226      74696F6E 
+ 3226      00
+ 3227              	.LASF38:
+ 3228 0095 64726976 		.ascii	"driveBackwards\000"
+ 3228      65426163 
+ 3228      6B776172 
+ 3228      647300
+ 3229              	.LASF11:
+ 3230 00a4 75696E74 		.ascii	"uint8_t\000"
+ 3230      385F7400 
+ 3231              	.LASF57:
+ 3232 00ac 50696E5F 		.ascii	"Pin_1B_Write\000"
+ 3232      31425F57 
+ 3232      72697465 
+ 3232      00
+ 3233              	.LASF72:
+ 3234 00b9 6973725F 		.ascii	"isr_timer_handler\000"
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 70
+
+
+ 3234      74696D65 
+ 3234      725F6861 
+ 3234      6E646C65 
+ 3234      7200
+ 3235              	.LASF26:
+ 3236 00cb 504F5349 		.ascii	"POSITION\000"
+ 3236      54494F4E 
+ 3236      00
+ 3237              	.LASF61:
+ 3238 00d4 55415254 		.ascii	"UART_1_Start\000"
+ 3238      5F315F53 
+ 3238      74617274 
+ 3238      00
+ 3239              	.LASF46:
+ 3240 00e1 62797465 		.ascii	"byteReceived\000"
+ 3240      52656365 
+ 3240      69766564 
+ 3240      00
+ 3241              	.LASF13:
+ 3242 00ee 666C6F61 		.ascii	"float\000"
+ 3242      7400
+ 3243              	.LASF8:
+ 3244 00f4 6C6F6E67 		.ascii	"long long int\000"
+ 3244      206C6F6E 
+ 3244      6720696E 
+ 3244      7400
+ 3245              	.LASF53:
+ 3246 0102 7475726E 		.ascii	"turnOn\000"
+ 3246      4F6E00
+ 3247              	.LASF32:
+ 3248 0109 48414C46 		.ascii	"HALF\000"
+ 3248      00
+ 3249              	.LASF23:
+ 3250 010e 5F323235 		.ascii	"_225grader\000"
+ 3250      67726164 
+ 3250      657200
+ 3251              	.LASF24:
+ 3252 0119 5F323730 		.ascii	"_270grader\000"
+ 3252      67726164 
+ 3252      657200
+ 3253              	.LASF27:
+ 3254 0124 464F5257 		.ascii	"FORWARD\000"
+ 3254      41524400 
+ 3255              	.LASF4:
+ 3256 012c 5F5F7569 		.ascii	"__uint8_t\000"
+ 3256      6E74385F 
+ 3256      7400
+ 3257              	.LASF21:
+ 3258 0136 5F313335 		.ascii	"_135grader\000"
+ 3258      67726164 
+ 3258      657200
+ 3259              	.LASF43:
+ 3260 0141 68616E64 		.ascii	"handleByteReceived\000"
+ 3260      6C654279 
+ 3260      74655265 
+ 3260      63656976 
+ 3260      656400
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 71
+
+
+ 3261              	.LASF37:
+ 3262 0154 64726976 		.ascii	"driveForwards\000"
+ 3262      65466F72 
+ 3262      77617264 
+ 3262      7300
+ 3263              	.LASF16:
+ 3264 0162 6C6F6E67 		.ascii	"long double\000"
+ 3264      20646F75 
+ 3264      626C6500 
+ 3265              	.LASF1:
+ 3266 016e 756E7369 		.ascii	"unsigned char\000"
+ 3266      676E6564 
+ 3266      20636861 
+ 3266      7200
+ 3267              	.LASF20:
+ 3268 017c 5F393067 		.ascii	"_90grader\000"
+ 3268      72616465 
+ 3268      7200
+ 3269              	.LASF49:
+ 3270 0186 636F756E 		.ascii	"counter\000"
+ 3270      74657200 
+ 3271              	.LASF63:
+ 3272 018e 54696D65 		.ascii	"Timer_1_Start\000"
+ 3272      725F315F 
+ 3272      53746172 
+ 3272      7400
+ 3273              	.LASF9:
+ 3274 019c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3274      206C6F6E 
+ 3274      6720756E 
+ 3274      7369676E 
+ 3274      65642069 
+ 3275              	.LASF10:
+ 3276 01b3 756E7369 		.ascii	"unsigned int\000"
+ 3276      676E6564 
+ 3276      20696E74 
+ 3276      00
+ 3277              	.LASF60:
+ 3278 01c0 6973725F 		.ascii	"isr_timer_StartEx\000"
+ 3278      74696D65 
+ 3278      725F5374 
+ 3278      61727445 
+ 3278      7800
+ 3279              	.LASF31:
+ 3280 01d2 46554C4C 		.ascii	"FULL\000"
+ 3280      00
+ 3281              	.LASF47:
+ 3282 01d7 73706565 		.ascii	"speed\000"
+ 3282      6400
+ 3283              	.LASF58:
+ 3284 01dd 50696E5F 		.ascii	"Pin_2B_Write\000"
+ 3284      32425F57 
+ 3284      72697465 
+ 3284      00
+ 3285              	.LASF36:
+ 3286 01ea 696E6372 		.ascii	"increaseSpeed\000"
+ 3286      65617365 
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 72
+
+
+ 3286      53706565 
+ 3286      6400
+ 3287              	.LASF3:
+ 3288 01f8 73686F72 		.ascii	"short unsigned int\000"
+ 3288      7420756E 
+ 3288      7369676E 
+ 3288      65642069 
+ 3288      6E7400
+ 3289              	.LASF29:
+ 3290 020b 44495245 		.ascii	"DIRECTION\000"
+ 3290      4354494F 
+ 3290      4E00
+ 3291              	.LASF41:
+ 3292 0215 66756C6C 		.ascii	"fullstep\000"
+ 3292      73746570 
+ 3292      00
+ 3293              	.LASF39:
+ 3294 021e 73746F70 		.ascii	"stop\000"
+ 3294      00
+ 3295              	.LASF15:
+ 3296 0223 63686172 		.ascii	"char\000"
+ 3296      00
+ 3297              	.LASF6:
+ 3298 0228 6C6F6E67 		.ascii	"long int\000"
+ 3298      20696E74 
+ 3298      00
+ 3299              	.LASF12:
+ 3300 0231 696E7433 		.ascii	"int32_t\000"
+ 3300      325F7400 
+ 3301              	.LASF66:
+ 3302 0239 55415254 		.ascii	"UART_1_ReadRxData\000"
+ 3302      5F315F52 
+ 3302      65616452 
+ 3302      78446174 
+ 3302      6100
+ 3303              	.LASF22:
+ 3304 024b 5F313830 		.ascii	"_180grader\000"
+ 3304      67726164 
+ 3304      657200
+ 3305              	.LASF55:
+ 3306 0256 50696E5F 		.ascii	"Pin_1A_Write\000"
+ 3306      31415F57 
+ 3306      72697465 
+ 3306      00
+ 3307              	.LASF71:
+ 3308 0263 433A5C33 		.ascii	"C:\\3. semester\\GFV\\kode\\LAB1-3\\DC-Motor-PWM.cy"
+ 3308      2E207365 
+ 3308      6D657374 
+ 3308      65725C47 
+ 3308      46565C6B 
+ 3309 0291 64736E00 		.ascii	"dsn\000"
+ 3310              	.LASF25:
+ 3311 0295 5F333135 		.ascii	"_315grader\000"
+ 3311      67726164 
+ 3311      657200
+ 3312              	.LASF70:
+ 3313 02a0 6D61696E 		.ascii	"main.c\000"
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 73
+
+
+ 3313      2E6300
+ 3314              	.LASF7:
+ 3315 02a7 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3315      20756E73 
+ 3315      69676E65 
+ 3315      6420696E 
+ 3315      7400
+ 3316              	.LASF45:
+ 3317 02b9 62797465 		.ascii	"bytesToRead\000"
+ 3317      73546F52 
+ 3317      65616400 
+ 3318              	.LASF68:
+ 3319 02c5 55415254 		.ascii	"UART_1_GetRxBufferSize\000"
+ 3319      5F315F47 
+ 3319      65745278 
+ 3319      42756666 
+ 3319      65725369 
+ 3320              	.LASF14:
+ 3321 02dc 646F7562 		.ascii	"double\000"
+ 3321      6C6500
+ 3322              	.LASF64:
+ 3323 02e3 55415254 		.ascii	"UART_1_PutString\000"
+ 3323      5F315F50 
+ 3323      75745374 
+ 3323      72696E67 
+ 3323      00
+ 3324              	.LASF67:
+ 3325 02f4 55415254 		.ascii	"UART_1_WriteTxData\000"
+ 3325      5F315F57 
+ 3325      72697465 
+ 3325      54784461 
+ 3325      746100
+ 3326              	.LASF34:
+ 3327 0307 6368616E 		.ascii	"change\000"
+ 3327      676500
+ 3328              	.LASF5:
+ 3329 030e 5F5F696E 		.ascii	"__int32_t\000"
+ 3329      7433325F 
+ 3329      7400
+ 3330              	.LASF74:
+ 3331 0318 6F6E6552 		.ascii	"oneRotation\000"
+ 3331      6F746174 
+ 3331      696F6E00 
+ 3332              	.LASF40:
+ 3333 0324 77617665 		.ascii	"wave\000"
+ 3333      00
+ 3334              	.LASF42:
+ 3335 0329 68616C66 		.ascii	"halfstep\000"
+ 3335      73746570 
+ 3335      00
+ 3336              	.LASF19:
+ 3337 0332 5F343567 		.ascii	"_45grader\000"
+ 3337      72616465 
+ 3337      7200
+ 3338              	.LASF33:
+ 3339 033c 4D4F4445 		.ascii	"MODE\000"
+ 3339      00
+ARM GAS  C:\Users\marti\AppData\Local\Temp\ccSjfyJc.s 			page 74
+
+
+ 3340              	.LASF54:
+ 3341 0341 726F7461 		.ascii	"rotate\000"
+ 3341      746500
+ 3342              	.LASF30:
+ 3343 0348 57415645 		.ascii	"WAVE\000"
+ 3343      00
+ 3344              	.LASF75:
+ 3345 034d 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3345      52784275 
+ 3345      66666572 
+ 3345      00
+ 3346              	.LASF69:
+ 3347 035a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3347      43313120 
+ 3347      352E342E 
+ 3347      31203230 
+ 3347      31363036 
+ 3348 038d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3348      20726576 
+ 3348      6973696F 
+ 3348      6E203233 
+ 3348      37373135 
+ 3349 03c0 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3349      66756E63 
+ 3349      74696F6E 
+ 3349      2D736563 
+ 3349      74696F6E 
+ 3350              	.LASF65:
+ 3351 03e8 43794465 		.ascii	"CyDelay\000"
+ 3351      6C617900 
+ 3352              	.LASF35:
+ 3353 03f0 64656372 		.ascii	"decreaseSpeed\000"
+ 3353      65617365 
+ 3353      53706565 
+ 3353      6400
+ 3354              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
